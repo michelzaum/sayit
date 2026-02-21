@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
+import { Header } from "./components/header";
 
 const GET_LOCATIONS = gql`
   query GetLocations {
@@ -33,6 +34,7 @@ function DisplayLocations() {
 function App() {
   return (
     <div>
+      <Header />
       <h1>Sayit</h1>
       <DisplayLocations />
     </div>
