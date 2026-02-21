@@ -1,21 +1,26 @@
 import { CreatePost } from "../create-post";
 import { Post } from "../post";
+import { mockPosts } from "./mock";
 
 export function Feed() {
+  const posts = mockPosts;
+
   return (
     <div className="flex flex-col gap-12 mt-10 px-6">
       <CreatePost authorName="Michel" />
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 py-3">
         <span className="text-base font-medium">Posts recentes</span>
-        <Post
-          authorImage="👨️"
-          authorName="John Doe"
-          createdAt={new Date()}
-          postContent="Um Post bem legal feito pelo John doe a 1 hora atras."
-          likesCount={8}
-          commentsCount={2}
-        />
+        {posts.map((post) => (
+          <Post
+            authorImage={post.authorImage}
+            authorName={post.authorName}
+            createdAt={post.createdAt}
+            postContent={post.postContent}
+            likesCount={post.likesCount}
+            commentsCount={post.commentsCount}
+          />
+        ))}
       </div>
     </div>
   );
