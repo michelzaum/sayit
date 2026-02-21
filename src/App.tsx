@@ -5,7 +5,7 @@ function App() {
   return (
     <div>
       <Header />
-      <CreatePost />
+      <CreatePost authorName="Michel" />
     </div>
   );
 }
