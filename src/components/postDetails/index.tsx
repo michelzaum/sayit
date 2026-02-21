@@ -27,6 +27,21 @@ export function PostDetails() {
           likesCount={post.likesCount}
           commentsCount={post.commentsCount}
         />
+
+        <form className="flex flex-col items-end gap-3">
+          <textarea
+            name="comment"
+            id="comment"
+            placeholder="Escreva um comentario"
+            className="border border-gray-300 text-xs rounded-lg p-3 w-full resize-none"
+          ></textarea>
+          <button
+            type="button"
+            className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg"
+          >
+            Comentar
+          </button>
+        </form>
       </div>
 
       <div className="flex flex-col gap-4">
