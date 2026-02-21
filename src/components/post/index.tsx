@@ -1,18 +1,25 @@
-export function Post() {
+import { PostProps } from "./types";
+
+export function Post({
+  authorName,
+  authorImage,
+  createdAt,
+  commentsCount,
+  likesCount,
+  postContent,
+}: PostProps) {
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div>👨️</div>
-          <span className="text-xs font-medium">John Doe</span>
+          <div>{authorImage}</div>
+          <span className="text-xs font-medium">{authorName}</span>
         </div>
         <span>👍️</span>
       </div>
-      <span className="text-[10px] text-gray-500">1 horas atras</span>
+      <span className="text-[10px] text-gray-500">{createdAt.toString()}</span>
       <div className="py-4">
-        <span className="text-xs font-medium">
-          Um Post bem legal feito pelo John doe a 1 hora atras.
-        </span>
+        <span className="text-xs font-medium">{postContent}</span>
       </div>
 
       <div className="h-px w-full bg-gray-300"></div>
@@ -20,11 +27,11 @@ export function Post() {
       <div className="flex items-center gap-2 py-4">
         <div className="flex items-center gap-1">
           <span>👍️</span>
-          <span>8</span>
+          <span>{likesCount}</span>
         </div>
         <div className="flex items-center gap-1">
           <span>💬️</span>
-          <span>8</span>
+          <span>{commentsCount}</span>
         </div>
       </div>
 

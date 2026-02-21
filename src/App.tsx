@@ -7,7 +7,14 @@ function App() {
     <div>
       <Header />
       <CreatePost authorName="Michel" />
-      <Post />
+      <Post
+        authorImage="👨️"
+        authorName="John Doe"
+        createdAt={new Date()}
+        postContent="Um Post bem legal feito pelo John doe a 1 hora atras."
+        likesCount={8}
+        commentsCount={2}
+      />
     </div>
   );
 }
