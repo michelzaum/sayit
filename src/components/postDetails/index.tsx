@@ -1,15 +1,15 @@
 import { PostItem } from "../postItem";
+import { PostProps } from "./types";
 
-export function PostDetails() {
-  const post = {
-    authorImage: "👨️",
-    authorName: "John Doe",
-    createdAt: new Date(),
-    postContent: "Um Post bem legal feito pelo John doe a 1 hora atras.",
-    likesCount: 10,
-    commentsCount: 2,
-  };
-
+export function PostDetails({
+  authorImage,
+  authorName,
+  postContent,
+  createdAt,
+  commentsCount,
+  likesCount,
+  comments,
+}: PostProps) {
   return (
     <div className="flex flex-col p-6 gap-10">
       <div>
@@ -20,12 +20,12 @@ export function PostDetails() {
       <div className="flex flex-col gap-4">
         <span className="text-2xl">Postagem de John Doe</span>
         <PostItem
-          authorImage={post.authorImage}
-          authorName={post.authorName}
-          createdAt={post.createdAt}
-          postContent={post.postContent}
-          likesCount={post.likesCount}
-          commentsCount={post.commentsCount}
+          authorImage={authorImage}
+          authorName={authorName}
+          createdAt={createdAt}
+          postContent={postContent}
+          likesCount={likesCount}
+          commentsCount={commentsCount}
         />
 
         <form className="flex flex-col items-end gap-3">
@@ -47,18 +47,22 @@ export function PostDetails() {
       <div className="flex flex-col gap-4">
         <span>Comentarios</span>
         <div className="flex flex-col gap-4">
-          <div className="border border-gray-300 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1">
-                <span>👨️</span>
-                <span className="text-xs font-medium">John Doe</span>
+          {comments.map((comment) => (
+            <div className="border border-gray-300 p-4 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  <span>{comment.authorImage}</span>
+                  <span className="text-xs font-medium">{comment.author}</span>
+                </div>
+                <span className="text-xs text-gray-500">
+                  {comment.createdAt.toString()}
+                </span>
               </div>
-              <span className="text-xs text-gray-500">1 hora atras</span>
+              <div className="py-4">
+                <span className="text-xs font-medium">{comment.content}</span>
+              </div>
             </div>
-            <div>
-              <span className="text-xs font-medium">Que post legal!</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
