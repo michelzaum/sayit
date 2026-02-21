@@ -1,6 +1,6 @@
 import { PostProps } from "./types";
 
-export function Post({
+export function PostItem({
   authorName,
   authorImage,
   createdAt,

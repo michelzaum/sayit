@@ -1,5 +1,5 @@
 import { CreatePost } from "../create-post";
-import { Post } from "../post";
+import { PostItem } from "../postItem";
 import { mockPosts } from "./mock";
 
 export function Feed() {
@@ -12,7 +12,7 @@ export function Feed() {
       <div className="flex flex-col gap-4 py-3">
         <span className="text-base font-medium">Posts recentes</span>
         {posts.map((post) => (
-          <Post
+          <PostItem
             authorImage={post.authorImage}
             authorName={post.authorName}
             createdAt={post.createdAt}
