@@ -18,7 +18,7 @@ export function CreatePost({ authorName }: CreatePostProps) {
         ></textarea>
         <button
           type="button"
-          className="bg-blue-950 text-gray-50 font-medium py-4 rounded-lg"
+          className="bg-blue-950 text-gray-50 font-medium py-4 rounded-lg hover:bg-blue-900 transition-colors cursor-pointer"
         >
           Postar
         </button>
