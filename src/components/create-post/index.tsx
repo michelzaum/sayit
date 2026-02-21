@@ -9,15 +9,20 @@ export function CreatePost({ authorName }: CreatePostProps) {
           O que gostaria de compartilhar hoje?
         </span>
       </div>
-      <textarea
-        name="postContent"
-        id="postContent"
-        rows={4}
-        className="border border-gray-300 rounded-lg resize-none p-3"
-      ></textarea>
-      <button className="bg-blue-950 text-gray-50 font-medium py-4 mt-2 rounded-lg">
-        Postar
-      </button>
+      <form className="flex flex-col gap-6">
+        <textarea
+          name="postContent"
+          id="postContent"
+          rows={4}
+          className="border border-gray-300 rounded-lg resize-none p-3"
+        ></textarea>
+        <button
+          type="button"
+          className="bg-blue-950 text-gray-50 font-medium py-4 rounded-lg"
+        >
+          Postar
+        </button>
+      </form>
     </div>
   );
 }
