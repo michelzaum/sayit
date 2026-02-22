@@ -1,5 +1,5 @@
-import { CreatePost } from "../create-post";
-import { PostItem } from "../postItem";
+import { CreatePost } from "../../components/create-post";
+import { PostItem } from "../../components/postItem";
 import { mockPosts } from "./mock";
 
 export function Feed() {

@@ -1,4 +1,4 @@
-import { PostItem } from "../postItem";
+import { PostItem } from "../../components/postItem";
 import { PostProps } from "./types";
 
 export function PostDetails({
