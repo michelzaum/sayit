@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { PostProps } from "./types";
 
 export function PostItem({
@@ -9,7 +10,7 @@ export function PostItem({
   postContent,
 }: PostProps) {
   return (
-    <div className="p-4 border border-gray-300 rounded-lg">
+    <Link to="/postDetails" className="p-4 border border-gray-300 rounded-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div>{authorImage}</div>
@@ -34,6 +35,6 @@ export function PostItem({
           <span>{commentsCount}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
