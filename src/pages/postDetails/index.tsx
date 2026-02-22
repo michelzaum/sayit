@@ -1,31 +1,46 @@
-import { PostItem } from "../postItem";
-import { PostProps } from "./types";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import { PostItem } from "../../components/postItem";
+import { Link } from "react-router";
 
-export function PostDetails({
-  authorImage,
-  authorName,
-  postContent,
-  createdAt,
-  commentsCount,
-  likesCount,
-  comments,
-}: PostProps) {
+const post = {
+  id: "1",
+  authorImage: "👨️",
+  authorName: "John Doe",
+  createdAt: new Date(),
+  postContent: "Um Post bem legal feito pelo John doe a 1 hora atras.",
+  likesCount: 10,
+  commentsCount: 2,
+  comments: [
+    {
+      id: 1,
+      author: "John Doe 3",
+      authorImage: "👨️",
+      content: "Que post legal!",
+      createdAt: new Date(),
+    },
+  ],
+};
+
+export function PostDetails() {
+  const postInfo = post;
+
   return (
     <div className="flex flex-col p-6 gap-10">
-      <div>
-        <span>back</span>
+      <Link to="/" className="flex items-center gap-2">
+        <ArrowLeftIcon />
         <span>voltar</span>
-      </div>
+      </Link>
 
       <div className="flex flex-col gap-4">
         <span className="text-2xl">Postagem de John Doe</span>
         <PostItem
-          authorImage={authorImage}
-          authorName={authorName}
-          createdAt={createdAt}
-          postContent={postContent}
-          likesCount={likesCount}
-          commentsCount={commentsCount}
+          id={postInfo.id}
+          authorImage={postInfo.authorImage}
+          authorName={postInfo.authorName}
+          createdAt={postInfo.createdAt}
+          postContent={postInfo.postContent}
+          likesCount={postInfo.likesCount}
+          commentsCount={postInfo.commentsCount}
         />
 
         <form className="flex flex-col items-end gap-3">
@@ -47,8 +62,11 @@ export function PostDetails({
       <div className="flex flex-col gap-4">
         <span>Comentarios</span>
         <div className="flex flex-col gap-4">
-          {comments.map((comment) => (
-            <div className="border border-gray-300 p-4 rounded-lg">
+          {post.comments.map((comment) => (
+            <div
+              key={comment.id}
+              className="border border-gray-300 p-4 rounded-lg"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <span>{comment.authorImage}</span>

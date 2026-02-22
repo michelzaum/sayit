@@ -1,5 +1,6 @@
 export const mockPosts = [
   {
+    id: "1",
     authorImage: "👨️",
     authorName: "John Doe",
     createdAt: new Date(),
@@ -8,6 +9,7 @@ export const mockPosts = [
     commentsCount: 2,
   },
   {
+    id: "2",
     authorImage: "👨️",
     authorName: "John Doe 2",
     createdAt: new Date(),

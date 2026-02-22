@@ -1,4 +1,5 @@
 export type PostProps = {
+  id: string;
   authorName: string;
   authorImage: string;
   createdAt: Date;

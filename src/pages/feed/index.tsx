@@ -1,5 +1,5 @@
-import { CreatePost } from "../create-post";
-import { PostItem } from "../postItem";
+import { CreatePost } from "../../components/create-post";
+import { PostItem } from "../../components/postItem";
 import { mockPosts } from "./mock";
 
 export function Feed() {
@@ -13,6 +13,7 @@ export function Feed() {
         <span className="text-base font-medium">Posts recentes</span>
         {posts.map((post) => (
           <PostItem
+            id={post.id}
             authorImage={post.authorImage}
             authorName={post.authorName}
             createdAt={post.createdAt}
