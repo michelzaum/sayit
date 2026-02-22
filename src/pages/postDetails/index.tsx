@@ -3,6 +3,7 @@ import { PostItem } from "../../components/postItem";
 import { Link } from "react-router";
 
 const post = {
+  id: "1",
   authorImage: "👨️",
   authorName: "John Doe",
   createdAt: new Date(),
@@ -11,6 +12,7 @@ const post = {
   commentsCount: 2,
   comments: [
     {
+      id: 1,
       author: "John Doe 3",
       authorImage: "👨️",
       content: "Que post legal!",
@@ -32,6 +34,7 @@ export function PostDetails() {
       <div className="flex flex-col gap-4">
         <span className="text-2xl">Postagem de John Doe</span>
         <PostItem
+          id={postInfo.id}
           authorImage={postInfo.authorImage}
           authorName={postInfo.authorName}
           createdAt={postInfo.createdAt}
@@ -60,7 +63,10 @@ export function PostDetails() {
         <span>Comentarios</span>
         <div className="flex flex-col gap-4">
           {post.comments.map((comment) => (
-            <div className="border border-gray-300 p-4 rounded-lg">
+            <div
+              key={comment.id}
+              className="border border-gray-300 p-4 rounded-lg"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <span>{comment.authorImage}</span>
