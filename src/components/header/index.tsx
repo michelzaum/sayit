@@ -6,7 +6,9 @@ export function Header() {
       <Link to="/" className="text-gray-50 font-medium">
         Home
       </Link>
-      <span className="text-gray-50 font-medium">Logout</span>
+      <Link to="/sign-in" className="text-gray-50 font-medium">
+        Logout
+      </Link>
     </header>
   );
 }
