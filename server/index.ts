@@ -33,6 +33,37 @@ const typeDefs = `#graphql
     getPosts: [Post!]
     getPost: Post
   }
+
+  input UserInput {
+    userName: String
+    email: String
+    password: String
+  }
+
+  input PostInput {
+    content: String
+    author: String
+  }
+
+  interface IResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+  }
+
+  type MutationResponse implements IResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    user: User
+  }
+
+  type Mutation {
+    createUser(body: UserInput!): MutationResponse
+    updateUser(id: String, body: UserInput): MutationResponse
+    createPost(body: PostInput!): Post
+    updatePost(id: String, body: PostInput): Post
+  }
 `;
 
 const resolvers = {
