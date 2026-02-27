@@ -1,5 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { UserRepository } from "./src/modules/user/repositories/UserRepository";
+import { CreateuserUseCase } from "./src/modules/user/useCases/createUser/CreateUserUseCase";
 const typeDefs = `#graphql
   type User {
     name: String
@@ -77,7 +79,9 @@ const resolvers = {
     },
     Mutation: {
         createUser: async (_, args) => {
-            console.log(args.body);
+            const userRepository = new UserRepository();
+            const createUserUseCase = new CreateuserUseCase(userRepository);
+            return createUserUseCase.execute(args.body);
         },
     },
 };

@@ -1,6 +1,9 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 
+import { UserRepository } from "./src/modules/user/repositories/UserRepository";
+import { CreateuserUseCase } from "./src/modules/user/useCases/createUser/CreateUserUseCase";
+
 interface CreateUserArgs {
   body: {
     email: string;
@@ -87,7 +90,10 @@ const resolvers = {
   },
   Mutation: {
     createUser: async (_, args: CreateUserArgs) => {
-      console.log(args.body);
+      const userRepository = new UserRepository();
+      const createUserUseCase = new CreateuserUseCase(userRepository);
+
+      return createUserUseCase.execute(args.body);
     },
   },
 };
