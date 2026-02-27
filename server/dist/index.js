@@ -2,7 +2,7 @@ import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 const typeDefs = `#graphql
   type User {
-    userName: String
+    name: String
     email: String
     password: String
     createdAt: String
@@ -17,13 +17,13 @@ const typeDefs = `#graphql
   }
 
   type Like {
-    userName: String
+    authorId: String
     createdAt: String
   }
 
   type Comment {
     body: String
-    userName: String
+    authorId: String
     createdAt: String
   }
 
@@ -34,7 +34,7 @@ const typeDefs = `#graphql
   }
 
   input UserInput {
-    userName: String
+    name: String
     email: String
     password: String
   }
@@ -67,7 +67,7 @@ const typeDefs = `#graphql
 const resolvers = {
     Query: {
         getUser: async () => ({
-            userName: "michelzaum",
+            name: "michelzaum",
             email: "michel@gmail.com",
             password: "1234",
             createdAt: "2026/02/23",
