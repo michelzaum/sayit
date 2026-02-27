@@ -75,6 +75,11 @@ const resolvers = {
         getPosts: () => [],
         getPost: () => { },
     },
+    Mutation: {
+        createUser: async (_, args) => {
+            console.log(args.body);
+        },
+    },
 };
 const server = new ApolloServer({
     typeDefs,

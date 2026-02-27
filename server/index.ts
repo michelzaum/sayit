@@ -1,6 +1,14 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 
+interface CreateUserArgs {
+  body: {
+    email: string;
+    password: string;
+    username: string;
+  };
+}
+
 const typeDefs = `#graphql
   type User {
     userName: String
@@ -76,6 +84,11 @@ const resolvers = {
     }),
     getPosts: () => [],
     getPost: () => {},
+  },
+  Mutation: {
+    createUser: async (_, args: CreateUserArgs) => {
+      console.log(args.body);
+    },
   },
 };
 
