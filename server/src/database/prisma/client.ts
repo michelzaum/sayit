@@ -1,9 +1,5 @@
-import { PrismaClient } from "../../generated/prisma/client";
-import {
-  PrismaClientOptions,
-  Subset,
-} from "../../generated/prisma/internal/prismaNamespace";
+import "dotenv/config";
 
-export const prismaClient = new PrismaClient(
-  {} as Subset<PrismaClientOptions, PrismaClientOptions>,
-);
+import { PrismaClient } from "../../generated/client";
+
+export const prismaClient = new PrismaClient();
