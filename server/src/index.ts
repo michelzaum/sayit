@@ -1,6 +1,3 @@
-import { UserRepository } from "./modules/user/repositories/UserRepository";
-import { CreateuserUseCase } from "./modules/user/useCases/createUser/CreateUserUseCase";
-
 interface CreateUserArgs {
   body: {
     email: string;
@@ -84,10 +81,7 @@ export const resolvers = {
     getPost: () => {},
   },
   Mutation: {
-    createUser: async (_, args: CreateUserArgs) => {
-      const userRepository = new UserRepository();
-      const createUserUseCase = new CreateuserUseCase(userRepository);
-
+    createUser: async (_, args: CreateUserArgs, { createUserUseCase }) => {
       return await createUserUseCase.execute(args.body);
     },
   },
