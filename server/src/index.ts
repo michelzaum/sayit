@@ -40,7 +40,7 @@ const typeDefs = `#graphql
   }
 
   type Query {
-    getUser: User
+    getUser(id: String): User
     getPosts: [Post!]
     getPost: Post
   }
