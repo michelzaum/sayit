@@ -3,7 +3,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 
 import { UserRepository } from "./modules/user/repositories/UserRepository";
 import { CreateuserUseCase } from "./modules/user/useCases/createUser/CreateUserUseCase";
-import { GetUserUseCase } from "./modules/user/useCases/getUser/GetUserUseCase";
+import { container } from "./main/container";
 
 interface CreateUserArgs {
   body: {
@@ -80,11 +80,8 @@ const typeDefs = `#graphql
 
 const resolvers = {
   Query: {
-    getUser: async (_, args) => {
+    getUser: async (_, args, { getUserUseCase }) => {
       const userId = args.id;
-      const userRepository = new UserRepository();
-      const getUserUseCase = new GetUserUseCase(userRepository);
-
       return await getUserUseCase.execute(userId);
     },
     getPosts: () => [],
@@ -109,6 +106,10 @@ const { url } = await startStandaloneServer(server, {
   listen: {
     port: 4000,
   },
+  context: async () => ({
+    createUserUseCase: container.createUserUseCase,
+    getUserUseCase: container.getUserUseCase,
+  }),
 });
 
 console.log(`Server ready at: ${url}`);
