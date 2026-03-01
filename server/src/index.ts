@@ -1,9 +1,5 @@
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
-
 import { UserRepository } from "./modules/user/repositories/UserRepository";
 import { CreateuserUseCase } from "./modules/user/useCases/createUser/CreateUserUseCase";
-import { container } from "./main/container";
 
 interface CreateUserArgs {
   body: {
@@ -13,7 +9,7 @@ interface CreateUserArgs {
   };
 }
 
-const typeDefs = `#graphql
+export const typeDefs = `#graphql
   type User {
     name: String
     email: String
@@ -78,7 +74,7 @@ const typeDefs = `#graphql
   }
 `;
 
-const resolvers = {
+export const resolvers = {
   Query: {
     getUser: async (_, args, { getUserUseCase }) => {
       const userId = args.id;
@@ -96,20 +92,3 @@ const resolvers = {
     },
   },
 };
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
-
-const { url } = await startStandaloneServer(server, {
-  listen: {
-    port: 4000,
-  },
-  context: async () => ({
-    createUserUseCase: container.createUserUseCase,
-    getUserUseCase: container.getUserUseCase,
-  }),
-});
-
-console.log(`Server ready at: ${url}`);
