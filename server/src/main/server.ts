@@ -1,16 +1,10 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { container } from "./container";
-
-interface IApolloServerContext {
-  // TODO: revisit this to not return any
-  createUserUseCase: any;
-  getUserUseCase: any;
-}
-
 import { typeDefs, resolvers } from "../index";
+import { IContainer } from "./model";
 
-const server = new ApolloServer<IApolloServerContext>({
+const server = new ApolloServer<IContainer>({
   typeDefs,
   resolvers,
 });
