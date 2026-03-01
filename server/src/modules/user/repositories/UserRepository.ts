@@ -8,4 +8,10 @@ export class UserRepository implements IUserRepository {
       data,
     });
   }
+
+  async getById(id: string): Promise<User> {
+    return await prismaClient.user.findUnique({
+      where: { id },
+    });
+  }
 }
