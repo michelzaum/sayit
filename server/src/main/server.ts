@@ -1,7 +1,8 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { container } from "./container";
-import { typeDefs, resolvers } from "../index";
+import { typeDefs } from "../interface/graphql/schema";
+import { resolvers } from "../interface/graphql/resolvers";
 import { IContainer } from "./model";
 
 const server = new ApolloServer<IContainer>({

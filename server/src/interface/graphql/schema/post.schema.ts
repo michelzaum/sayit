@@ -12,12 +12,12 @@ export const postTypeDefs = `#graphql
     author: String
   }
 
-  extend type Query {
+  type Query {
     getPosts: [Post!]
     getPost: Post
   }
 
-  extend type Mutation {
+  type Mutation {
     createPost(body: PostInput!): Post
     updatePost(id: String, body: PostInput): Post
   }
