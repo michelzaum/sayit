@@ -1,8 +1,8 @@
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
-import { IUserRepository } from "../../../user/repositories/IUserRepository";
-import { env } from "../../../../config/env";
+import { env } from "@/config/env";
+import { IUserRepository } from "@/modules/user/repositories/IUserRepository";
 
 interface SignInUseCaseInput {
   email: string;
