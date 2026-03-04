@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsx watch src/index.ts"
+    "start": "tsx watch src/main/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "@apollo/server": "^5.4.0",
+    "@graphql-tools/merge": "^9.1.7",
     "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^6.19.2",
     "graphql": "^16.12.0",
