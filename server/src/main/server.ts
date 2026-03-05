@@ -18,7 +18,6 @@ const { url } = await startStandaloneServer(server, {
   context: async () => ({
     createUserUseCase: container.createUserUseCase,
     getUserUseCase: container.getUserUseCase,
-    getUserByEmailUseCase: container.getUserByEmailUseCase,
     signInUseCase: container.signInUseCase,
   }),
 });
