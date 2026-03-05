@@ -1,5 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+
 import { container } from "./container";
 import { typeDefs } from "../interface/graphql/schema";
 import { resolvers } from "../interface/graphql/resolvers";
@@ -17,6 +18,7 @@ const { url } = await startStandaloneServer(server, {
   context: async () => ({
     createUserUseCase: container.createUserUseCase,
     getUserUseCase: container.getUserUseCase,
+    signInUseCase: container.signInUseCase,
   }),
 });
 
