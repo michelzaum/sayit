@@ -1,5 +1,5 @@
 import { compare } from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import { env } from "@/config/env";
 import { IUserRepository } from "@/modules/user/repositories/IUserRepository";
@@ -27,7 +27,7 @@ export class SignInUseCase {
       throw new Error("Invalid credentials");
     }
 
-    const accessToken = sign({ sub: user.email }, env.jwtSecret, {
+    const accessToken = jwt.sign({ sub: user.email }, env.jwtSecret, {
       expiresIn: "1d",
     });
 
