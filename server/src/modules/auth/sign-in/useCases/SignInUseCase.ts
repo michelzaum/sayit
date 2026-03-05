@@ -3,11 +3,7 @@ import jwt from "jsonwebtoken";
 
 import { env } from "@/config/env";
 import { IUserRepository } from "@/modules/user/repositories/IUserRepository";
-
-interface SignInUseCaseInput {
-  email: string;
-  password: string;
-}
+import { SignInUseCaseInput } from "./model";
 
 export class SignInUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
