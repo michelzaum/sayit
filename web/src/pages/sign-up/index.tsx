@@ -12,7 +12,7 @@ export function SignUp() {
 
       <form className="flex flex-col gap-8">
         <div className="flex flex-col gap-3">
-          <label htmlFor="name">Primeiro nome</label>
+          <label htmlFor="name">Nome</label>
           <input
             className="border border-gray-300 rounded-lg h-14 p-3"
             name="name"
