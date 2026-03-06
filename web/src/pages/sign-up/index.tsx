@@ -1,6 +1,9 @@
 import { Link } from "react-router";
+import { useSignUp } from "./useSignUp";
 
 export function SignUp() {
+  const { nameRef, emailRef, passwordRef } = useSignUp();
+
   return (
     <div className="flex flex-col p-6 gap-10 mt-10">
       <div className="flex flex-col gap-2">
@@ -17,6 +20,7 @@ export function SignUp() {
             className="border border-gray-300 rounded-lg h-14 p-3"
             name="name"
             id="name"
+            ref={nameRef}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -26,6 +30,7 @@ export function SignUp() {
             type="email"
             name="email"
             id="email"
+            ref={emailRef}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -35,6 +40,7 @@ export function SignUp() {
             type="password"
             name="password"
             id="password"
+            ref={passwordRef}
           />
         </div>
 
