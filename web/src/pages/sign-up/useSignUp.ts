@@ -21,20 +21,24 @@ export function useSignUp() {
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
 
-    await createUser({
-      variables: {
-        body: {
-          name: nameValue,
-          email: emailValue,
-          password: passwordValue,
+    try {
+      await createUser({
+        variables: {
+          body: {
+            name: nameValue,
+            email: emailValue,
+            password: passwordValue,
+          },
         },
-      },
-    });
+      });
 
-    navigate("/sign-in");
-    toast.success("Usuario criado com sucesso!", {
-      dismissible: true,
-    });
+      navigate("/sign-in");
+      toast.success("Usúario criado com sucesso! Faça login", {
+        dismissible: true,
+      });
+    } catch {
+      toast.error("Ocorreu um erro ao criar usúario. Tente novamente");
+    }
   }
 
   return {
