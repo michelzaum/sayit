@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { useSignUp } from "./useSignUp";
 
 export function SignUp() {
-  const { nameRef, emailRef, passwordRef } = useSignUp();
+  const { nameRef, emailRef, passwordRef, onRegisterSubmit } = useSignUp();
 
   return (
     <div className="flex flex-col p-6 gap-10 mt-10">
@@ -13,7 +13,7 @@ export function SignUp() {
         </span>
       </div>
 
-      <form className="flex flex-col gap-8">
+      <form className="flex flex-col gap-8" onSubmit={onRegisterSubmit}>
         <div className="flex flex-col gap-3">
           <label htmlFor="name">Nome</label>
           <input
@@ -45,7 +45,7 @@ export function SignUp() {
         </div>
 
         <button
-          type="button"
+          type="submit"
           className="h-14 rounded-lg bg-blue-950 text-gray-50 hover:bg-blue-900 transition-colors cursor-pointer w-full"
         >
           Cadastrar
