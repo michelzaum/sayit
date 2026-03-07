@@ -8,7 +8,7 @@ export function useSignUp() {
   const nameRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const emailRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
-  const [createUser] = useMutation(CREATE_USER);
+  const [createUser, { loading }] = useMutation(CREATE_USER);
   const navigate = useNavigate();
 
   async function onRegisterSubmit(
@@ -37,6 +37,7 @@ export function useSignUp() {
     nameRef,
     emailRef,
     passwordRef,
+    loading,
     onRegisterSubmit,
   };
 }

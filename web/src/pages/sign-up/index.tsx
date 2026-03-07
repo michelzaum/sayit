@@ -1,8 +1,11 @@
 import { Link } from "react-router";
+import { Loader } from "lucide-react";
+
 import { useSignUp } from "./useSignUp";
 
 export function SignUp() {
-  const { nameRef, emailRef, passwordRef, onRegisterSubmit } = useSignUp();
+  const { nameRef, emailRef, passwordRef, loading, onRegisterSubmit } =
+    useSignUp();
 
   return (
     <div className="flex flex-col p-6 gap-10 mt-10">
@@ -46,9 +49,14 @@ export function SignUp() {
 
         <button
           type="submit"
-          className="h-14 rounded-lg bg-blue-950 text-gray-50 hover:bg-blue-900 transition-colors cursor-pointer w-full"
+          className="h-14 rounded-lg w-full bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center gap-4 hover:bg-blue-900 transition-colors cursor-pointer"
+          disabled={loading}
         >
-          Cadastrar
+          {!loading ? (
+            <span>Cadastrar</span>
+          ) : (
+            <Loader size={24} className="animate-spin" />
+          )}
         </button>
       </form>
 
