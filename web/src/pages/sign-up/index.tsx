@@ -1,6 +1,12 @@
 import { Link } from "react-router";
+import { Loader } from "lucide-react";
+
+import { useSignUp } from "./useSignUp";
 
 export function SignUp() {
+  const { nameRef, emailRef, passwordRef, loading, onRegisterSubmit } =
+    useSignUp();
+
   return (
     <div className="flex flex-col p-6 gap-10 mt-10">
       <div className="flex flex-col gap-2">
@@ -10,13 +16,14 @@ export function SignUp() {
         </span>
       </div>
 
-      <form className="flex flex-col gap-8">
+      <form className="flex flex-col gap-8" onSubmit={onRegisterSubmit}>
         <div className="flex flex-col gap-3">
-          <label htmlFor="name">Primeiro nome</label>
+          <label htmlFor="name">Nome</label>
           <input
             className="border border-gray-300 rounded-lg h-14 p-3"
             name="name"
             id="name"
+            ref={nameRef}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -26,6 +33,7 @@ export function SignUp() {
             type="email"
             name="email"
             id="email"
+            ref={emailRef}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -35,14 +43,20 @@ export function SignUp() {
             type="password"
             name="password"
             id="password"
+            ref={passwordRef}
           />
         </div>
 
         <button
-          type="button"
-          className="h-14 rounded-lg bg-blue-950 text-gray-50 hover:bg-blue-900 transition-colors cursor-pointer w-full"
+          type="submit"
+          className="h-14 rounded-lg w-full bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center gap-4 hover:bg-blue-900 transition-colors cursor-pointer"
+          disabled={loading}
         >
-          Cadastrar
+          {!loading ? (
+            <span>Cadastrar</span>
+          ) : (
+            <Loader size={24} className="animate-spin" />
+          )}
         </button>
       </form>
 
