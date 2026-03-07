@@ -1,6 +1,9 @@
 import { Link } from "react-router";
+import { useSign } from "./useSignIn";
 
 export function SignIn() {
+  const { emailRef, passwordRef } = useSign();
+
   return (
     <div className="flex flex-col p-6 gap-10 mt-10">
       <div className="flex flex-col gap-2">
@@ -18,6 +21,7 @@ export function SignIn() {
             type="email"
             name="email"
             id="email"
+            ref={emailRef}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -27,6 +31,7 @@ export function SignIn() {
             type="password"
             name="password"
             id="password"
+            ref={passwordRef}
           />
         </div>
 
