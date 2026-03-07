@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client/react";
 import { useNavigate } from "react-router";
 
 import { CREATE_USER } from "./mutation";
+import { toast } from "sonner";
 
 export function useSignUp() {
   const nameRef = useRef<HTMLInputElement>({} as HTMLInputElement);
@@ -31,6 +32,9 @@ export function useSignUp() {
     });
 
     navigate("/sign-in");
+    toast.success("Usuario criado com sucesso!", {
+      dismissible: true,
+    });
   }
 
   return {
