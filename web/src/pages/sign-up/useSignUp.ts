@@ -1,5 +1,6 @@
 import { FormEvent, useRef } from "react";
 import { useMutation } from "@apollo/client/react";
+import { useNavigate } from "react-router";
 
 import { CREATE_USER } from "./mutation";
 
@@ -8,6 +9,7 @@ export function useSignUp() {
   const emailRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const [createUser] = useMutation(CREATE_USER);
+  const navigate = useNavigate();
 
   async function onRegisterSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -27,6 +29,8 @@ export function useSignUp() {
         },
       },
     });
+
+    navigate("/sign-in");
   }
 
   return {
