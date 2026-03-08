@@ -1,6 +1,7 @@
 import { FormEvent, useRef } from "react";
 import { useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 import { SIGN_IN } from "./mutation";
 
@@ -8,6 +9,7 @@ export function useSign() {
   const emailRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const [signIn, { loading }] = useMutation(SIGN_IN);
+  const navigate = useNavigate();
 
   async function onSignInSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -27,7 +29,7 @@ export function useSign() {
         },
       });
 
-      toast.success("Login realizado com sucesso!");
+      navigate("/", { replace: true });
     } catch {
       toast.error("Erro ao fazer login. Tente novamente");
     }
