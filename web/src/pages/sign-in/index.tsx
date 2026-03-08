@@ -1,6 +1,10 @@
 import { Link } from "react-router";
 
+import { useSign } from "./useSignIn";
+
 export function SignIn() {
+  const { emailRef, passwordRef, onSignInSubmit } = useSign();
+
   return (
     <div className="flex flex-col p-6 gap-10 mt-10">
       <div className="flex flex-col gap-2">
@@ -10,7 +14,7 @@ export function SignIn() {
         </span>
       </div>
 
-      <form className="flex flex-col gap-8">
+      <form className="flex flex-col gap-8" onSubmit={onSignInSubmit}>
         <div className="flex flex-col gap-3">
           <label htmlFor="email">E-mail</label>
           <input
@@ -18,6 +22,7 @@ export function SignIn() {
             type="email"
             name="email"
             id="email"
+            ref={emailRef}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -27,11 +32,12 @@ export function SignIn() {
             type="password"
             name="password"
             id="password"
+            ref={passwordRef}
           />
         </div>
 
         <button
-          type="button"
+          type="submit"
           className="h-14 rounded-lg bg-blue-950 text-gray-50 hover:bg-blue-900 transition-colors cursor-pointer w-full"
         >
           Entrar
