@@ -10,6 +10,6 @@ export const signInMutation = {
       `accesToken=${accessToken}; HttpOnly; Path=/; SameSite=Strict`,
     );
 
-    return { accessToken };
+    return { success: true };
   },
 };
