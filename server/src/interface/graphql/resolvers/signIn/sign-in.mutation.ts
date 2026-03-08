@@ -1,8 +1,15 @@
+import { IContainer } from "@/main/model";
 import { SignInMutationArgs } from "./sign-in.model";
 
 export const signInMutation = {
-  signIn: async (_, { body }: SignInMutationArgs, { signInUseCase }) => {
-    const accessToken = await signInUseCase.execute(body);
+  signIn: async (_, { body }: SignInMutationArgs, context: IContainer) => {
+    const accessToken = await context.signInUseCase.execute(body);
+
+    context.http.res.setHeader(
+      "Set-Cookie",
+      `accesToken=${accessToken}; HttpOnly; Path=/; SameSite=Strict`,
+    );
+
     return { accessToken };
   },
 };

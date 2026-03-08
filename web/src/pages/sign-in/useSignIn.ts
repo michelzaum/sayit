@@ -4,16 +4,10 @@ import { toast } from "sonner";
 
 import { SIGN_IN } from "./mutation";
 
-interface SignInResponse {
-  signIn: {
-    accessToken: string;
-  };
-}
-
 export function useSign() {
   const emailRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
-  const [signIn, { loading }] = useMutation<SignInResponse>(SIGN_IN);
+  const [signIn, { loading }] = useMutation(SIGN_IN);
 
   async function onSignInSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -24,7 +18,7 @@ export function useSign() {
     const passwordValue = passwordRef.current.value;
 
     try {
-      const { data } = await signIn({
+      await signIn({
         variables: {
           body: {
             email: emailValue,
@@ -33,7 +27,7 @@ export function useSign() {
         },
       });
 
-      console.log(data.signIn.accessToken);
+      toast.success("Login realizado com sucesso!");
     } catch {
       toast.error("Erro ao fazer login. Tente novamente");
     }
