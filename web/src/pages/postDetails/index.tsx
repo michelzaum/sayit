@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon } from "lucide-react";
 import { PostItem } from "../../components/postItem";
 import { Link } from "react-router";
 

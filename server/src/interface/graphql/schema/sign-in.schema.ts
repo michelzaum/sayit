@@ -5,7 +5,7 @@ export const signInTypeDefs = `#graphql
   }
 
   type SignInResponse {
-    accessToken: String
+    success: Boolean
   }
 
   type Mutation {
