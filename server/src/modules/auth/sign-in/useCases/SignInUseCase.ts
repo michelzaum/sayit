@@ -23,7 +23,7 @@ export class SignInUseCase {
       throw new Error("Invalid credentials");
     }
 
-    const accessToken = jwt.sign({ sub: user.email }, env.jwtSecret, {
+    const accessToken = jwt.sign({ sub: user.id }, env.jwtSecret, {
       expiresIn: "1d",
     });
 
