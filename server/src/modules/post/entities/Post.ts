@@ -4,8 +4,6 @@ import { User } from "@/modules/user/entities/User";
 
 export type Post = {
   content: string;
-  author: User;
-  likes: Like[];
-  comments: Comment[];
-  createdAt: string;
+  authorId: string;
+  likesCount: number;
 };
