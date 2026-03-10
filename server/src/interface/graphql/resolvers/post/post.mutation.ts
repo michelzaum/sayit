@@ -9,8 +9,8 @@ interface CreatePostBody {
 
 export const postMutation = {
   createPost: async (_, { body }: CreatePostBody, context: IContainer) => {
-    const cookie = context.http.req.headers.cookie;
+    const request = context.http.req;
 
-    return await context.createPostUseCase.execute(body, cookie);
+    return await context.createPostUseCase.execute(body, request);
   },
 };

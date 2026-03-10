@@ -1,3 +1,4 @@
+import { IncomingMessage } from "http";
 import jwt from "jsonwebtoken";
 
 import { Post } from "../../entities/Post";
@@ -7,7 +8,13 @@ import { env } from "@/config/env";
 export class CreatePostUseCase {
   constructor(private readonly postRepository: IPostRepository) {}
 
-  async execute(post: Post, cookie: string) {
+  async execute(post: Post, request: IncomingMessage): Promise<Post> {
+    const cookie = request.headers.cookie;
+
+    if (!cookie) {
+      throw new Error("No cookies found");
+    }
+
     if (!cookie.includes("accessToken")) {
       throw new Error("access token not found");
     }
