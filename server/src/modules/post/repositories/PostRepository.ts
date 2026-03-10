@@ -7,10 +7,7 @@ export class PostRepository implements IPostRepository {
     return await prismaClient.post.create({
       data: {
         content: post.content,
-        likesCount: post.likesCount ?? 0, // TODO: revisit this
-        author: {
-          connect: { id: authorId },
-        },
+        authorId,
       },
     });
   }

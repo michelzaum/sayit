@@ -5,5 +5,4 @@ import { User } from "@/modules/user/entities/User";
 export type Post = {
   content: string;
   authorId: string;
-  likesCount: number;
 };
