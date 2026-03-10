@@ -7,7 +7,7 @@ export const signInMutation = {
 
     context.http.res.setHeader(
       "Set-Cookie",
-      `accesToken=${accessToken}; HttpOnly; Path=/; SameSite=Strict`,
+      `accessToken=${accessToken}; HttpOnly; Path=/; SameSite=Strict`,
     );
 
     return { success: true };

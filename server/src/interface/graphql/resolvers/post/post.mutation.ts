@@ -1,3 +1,15 @@
+import { IContainer } from "@/main/model";
+
+interface CreatePostBody {
+  body: {
+    content: string;
+  };
+}
+
 export const postMutation = {
-  createPost: () => {},
+  createPost: async (_, { body }: CreatePostBody, context: IContainer) => {
+    const request = context.http.req;
+
+    return await context.createPostUseCase.execute(body, request);
+  },
 };
