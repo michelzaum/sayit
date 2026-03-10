@@ -3,7 +3,6 @@ import { IContainer } from "@/main/model";
 interface CreatePostBody {
   body: {
     content: string;
-    authorId: string;
   };
 }
 
