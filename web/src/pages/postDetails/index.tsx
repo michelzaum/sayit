@@ -68,7 +68,7 @@ export function PostDetails() {
                 key={comment.id}
                 className="border border-gray-300 p-4 rounded-lg"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center">
                   <div className="flex items-center gap-1">
                     <span>{comment.authorImage}</span>
                     <span className="text-xs font-medium">
