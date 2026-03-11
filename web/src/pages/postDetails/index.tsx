@@ -25,62 +25,66 @@ export function PostDetails() {
   const postInfo = post;
 
   return (
-    <div className="flex flex-col p-6 gap-10">
-      <Link to="/" className="flex items-center gap-2">
-        <ArrowLeftIcon />
-        <span>voltar</span>
-      </Link>
+    <div className="flex justify-center p-6">
+      <div className="w-full sm:max-w-xl flex flex-col gap-10">
+        <Link to="/" className="flex items-center gap-2">
+          <ArrowLeftIcon />
+          <span>voltar</span>
+        </Link>
 
-      <div className="flex flex-col gap-4">
-        <span className="text-2xl">Postagem de John Doe</span>
-        <PostItem
-          id={postInfo.id}
-          authorImage={postInfo.authorImage}
-          authorName={postInfo.authorName}
-          createdAt={postInfo.createdAt}
-          postContent={postInfo.postContent}
-          likesCount={postInfo.likesCount}
-          commentsCount={postInfo.commentsCount}
-        />
-
-        <form className="flex flex-col items-end gap-3">
-          <textarea
-            name="comment"
-            id="comment"
-            placeholder="Escreva um comentario"
-            className="border border-gray-300 text-xs rounded-lg p-3 w-full resize-none"
-          ></textarea>
-          <button
-            type="button"
-            className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg"
-          >
-            Comentar
-          </button>
-        </form>
-      </div>
-
-      <div className="flex flex-col gap-4">
-        <span>Comentarios</span>
         <div className="flex flex-col gap-4">
-          {post.comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="border border-gray-300 p-4 rounded-lg"
+          <span className="text-2xl">Postagem de John Doe</span>
+          <PostItem
+            id={postInfo.id}
+            authorImage={postInfo.authorImage}
+            authorName={postInfo.authorName}
+            createdAt={postInfo.createdAt}
+            postContent={postInfo.postContent}
+            likesCount={postInfo.likesCount}
+            commentsCount={postInfo.commentsCount}
+          />
+
+          <form className="flex flex-col items-end gap-3">
+            <textarea
+              name="comment"
+              id="comment"
+              placeholder="Escreva um comentario"
+              className="border border-gray-300 text-xs rounded-lg p-3 w-full resize-none"
+            ></textarea>
+            <button
+              type="button"
+              className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <span>{comment.authorImage}</span>
-                  <span className="text-xs font-medium">{comment.author}</span>
+              Comentar
+            </button>
+          </form>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <span>Comentarios</span>
+          <div className="flex flex-col gap-4">
+            {post.comments.map((comment) => (
+              <div
+                key={comment.id}
+                className="border border-gray-300 p-4 rounded-lg"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <span>{comment.authorImage}</span>
+                    <span className="text-xs font-medium">
+                      {comment.author}
+                    </span>
+                  </div>
+                  <span className="text-xs text-gray-500">
+                    {comment.createdAt.toString()}
+                  </span>
                 </div>
-                <span className="text-xs text-gray-500">
-                  {comment.createdAt.toString()}
-                </span>
+                <div className="py-4">
+                  <span className="text-xs font-medium">{comment.content}</span>
+                </div>
               </div>
-              <div className="py-4">
-                <span className="text-xs font-medium">{comment.content}</span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
