@@ -6,7 +6,7 @@ export function Feed() {
   const posts = mockPosts;
 
   return (
-    <div className="flex justify-center gap-12 mt-10 px-6">
+    <div className="flex justify-center mt-10 px-6">
       <div className="w-full sm:max-w-xl flex flex-col gap-12">
         <CreatePost authorName="Michel" />
 
