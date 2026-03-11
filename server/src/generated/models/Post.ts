@@ -274,7 +274,7 @@ export type PostCreateInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
@@ -284,7 +284,7 @@ export type PostUncheckedCreateInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   authorId: string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -314,7 +314,7 @@ export type PostCreateManyInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   authorId: string
 }
 
@@ -462,7 +462,7 @@ export type PostCreateWithoutAuthorInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
 }
@@ -471,7 +471,7 @@ export type PostUncheckedCreateWithoutAuthorInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
 }
@@ -517,7 +517,7 @@ export type PostCreateWithoutLikesInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
 }
@@ -526,7 +526,7 @@ export type PostUncheckedCreateWithoutLikesInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   authorId: string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
 }
@@ -569,7 +569,7 @@ export type PostCreateWithoutCommentsInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   likes?: Prisma.LikeCreateNestedManyWithoutPostInput
 }
@@ -578,7 +578,7 @@ export type PostUncheckedCreateWithoutCommentsInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
   authorId: string
   likes?: Prisma.LikeUncheckedCreateNestedManyWithoutPostInput
 }
@@ -621,7 +621,7 @@ export type PostCreateManyAuthorInput = {
   id?: string
   content: string
   createdAt?: Date | string
-  likesCount: number
+  likesCount?: number
 }
 
 export type PostUpdateWithoutAuthorInput = {

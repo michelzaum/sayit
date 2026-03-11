@@ -9,7 +9,6 @@ export const postTypeDefs = `#graphql
 
   input PostInput {
     content: String
-    author: String
   }
 
   type Query {
