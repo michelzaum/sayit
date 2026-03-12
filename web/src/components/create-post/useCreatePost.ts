@@ -13,6 +13,11 @@ export function useCreatePost() {
 
     const postContentValue = postContentRef.current.value;
 
+    // TODO: this should also be validated on the server side.
+    if (!postContentValue) {
+      return;
+    }
+
     try {
       await createPost({
         variables: {
