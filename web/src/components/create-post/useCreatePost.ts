@@ -25,6 +25,8 @@ export function useCreatePost() {
       toast.success("Post criado com sucesso!", {
         dismissible: true,
       });
+
+      postContentRef.current.value = "";
     } catch {
       toast.error("Erro ao criar o post. Tente novamente", {
         dismissible: true,
