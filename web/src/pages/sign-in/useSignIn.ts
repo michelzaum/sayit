@@ -30,6 +30,7 @@ export function useSign() {
       });
 
       navigate("/", { replace: true });
+      toast.success("Bem vindo de volta!");
     } catch {
       toast.error("Erro ao fazer login. Tente novamente");
     }
