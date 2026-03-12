@@ -5,7 +5,7 @@ import { CREATE_POST } from "./mutation";
 
 export function useCreatePost() {
   const postContentRef = useRef<HTMLTextAreaElement>({} as HTMLTextAreaElement);
-  const [createPost] = useMutation(CREATE_POST);
+  const [createPost, { loading }] = useMutation(CREATE_POST);
 
   async function onCreatePostSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,6 +23,7 @@ export function useCreatePost() {
 
   return {
     postContentRef,
+    loading,
     onCreatePostSubmit,
   };
 }
