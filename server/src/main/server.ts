@@ -25,6 +25,7 @@ const { url } = await startStandaloneServer(server, {
       getUserUseCase: container.getUserUseCase,
       signInUseCase: container.signInUseCase,
       createPostUseCase: container.createPostUseCase,
+      listPostsUseCase: container.listPostsUseCase,
     };
   },
 });
