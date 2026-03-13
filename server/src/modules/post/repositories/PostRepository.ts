@@ -11,4 +11,8 @@ export class PostRepository implements IPostRepository {
       },
     });
   }
+
+  async getAll(): Promise<Post[]> {
+    return prismaClient.post.findMany();
+  }
 }
