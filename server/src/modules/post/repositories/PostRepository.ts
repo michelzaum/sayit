@@ -16,6 +16,7 @@ export class PostRepository implements IPostRepository {
   async getAll(): Promise<PostCard[]> {
     return prismaClient.post.findMany({
       select: {
+        id: true,
         content: true,
         createdAt: true,
         author: true,
