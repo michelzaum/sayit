@@ -1,9 +1,14 @@
 import { CreatePost } from "../../components/create-post";
 import { PostItem } from "../../components/postItem";
-import { mockPosts } from "./mock";
+
+import { useFeed } from "./useFeed";
 
 export function Feed() {
-  const posts = mockPosts;
+  const { data } = useFeed();
+
+  if (!data) {
+    return;
+  }
 
   return (
     <div className="flex justify-center mt-10 px-6">
@@ -12,15 +17,15 @@ export function Feed() {
 
         <div className="flex flex-col gap-4 py-3">
           <span className="text-base font-medium">Posts recentes</span>
-          {posts.map((post) => (
+          {data.getPosts?.map((post) => (
             <PostItem
               id={post.id}
-              authorImage={post.authorImage}
-              authorName={post.authorName}
+              authorImage={"👨️"}
+              authorName={post.author.name}
               createdAt={post.createdAt}
-              postContent={post.postContent}
-              likesCount={post.likesCount}
-              commentsCount={post.commentsCount}
+              postContent={post.content}
+              likesCount={post.likes.length}
+              commentsCount={post.comments.length}
             />
           ))}
         </div>
