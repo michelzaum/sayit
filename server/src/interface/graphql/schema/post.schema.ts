@@ -1,5 +1,6 @@
 export const postTypeDefs = `#graphql
   type Post {
+    id: String
     content: String
     author: User
     likes: [Like!]
