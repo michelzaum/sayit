@@ -9,13 +9,14 @@ type GetPosts = {
 };
 
 export function useFeed() {
-  const { error, data } = useQuery<GetPosts>(GET_POSTS);
+  const { error, loading, data } = useQuery<GetPosts>(GET_POSTS);
 
   if (error) {
     toast.error("Erro ao carregar posts. Tente novamente");
   }
 
   return {
+    loading,
     data,
   };
 }
