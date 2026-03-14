@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { Heart, MessageSquare, User2 } from "lucide-react";
 
@@ -11,6 +12,12 @@ export function PostItem({
   likesCount,
   postContent,
 }: PostProps) {
+  const [isPostLiked, setIsPostLiked] = useState(false);
+
+  function toggleLike(): void {
+    setIsPostLiked((prevState) => !prevState);
+  }
+
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
       <div className="flex items-center justify-between">
@@ -24,8 +31,10 @@ export function PostItem({
           </div>
           <span className="text-xs font-medium">{authorName}</span>
         </div>
-        <button>
-          <Heart className="text-gray-400" />
+        <button className="hover:cursor-pointer" onClick={toggleLike}>
+          <Heart
+            className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent"}`}
+          />
         </button>
       </div>
       <span className="text-[10px] text-gray-500">{createdAt.toString()}</span>
