@@ -12,7 +12,7 @@ export function PostItem({
   postContent,
 }: PostProps) {
   return (
-    <Link to="/postDetails" className="p-4 border border-gray-300 rounded-lg">
+    <div className="p-4 border border-gray-300 rounded-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="rounded-full p-1 border border-gray-400">
@@ -29,9 +29,9 @@ export function PostItem({
         </button>
       </div>
       <span className="text-[10px] text-gray-500">{createdAt.toString()}</span>
-      <div className="py-4">
+      <Link to="/postDetails" className="py-4 block">
         <span className="text-xs font-medium">{postContent}</span>
-      </div>
+      </Link>
 
       <div className="h-px w-full bg-gray-300"></div>
 
@@ -45,6 +45,6 @@ export function PostItem({
           <span>{commentsCount}</span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
