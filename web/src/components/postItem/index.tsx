@@ -33,7 +33,9 @@ export function PostItem({
         </div>
         <button className="hover:cursor-pointer" onClick={toggleLike}>
           <Heart
-            className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent"}`}
+            height={32}
+            width={32}
+            className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
           />
         </button>
       </div>
