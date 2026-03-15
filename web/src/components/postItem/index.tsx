@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { Heart, MessageSquare, User2 } from "lucide-react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 import { PostProps } from "./types";
 
@@ -16,6 +19,10 @@ export function PostItem({
 
   function toggleLike(): void {
     setIsPostLiked((prevState) => !prevState);
+  }
+
+  function formatPostDate(dateInNumber: string): string {
+    return dayjs().to(dayjs(Number(dateInNumber)));
   }
 
   return (
@@ -39,7 +46,9 @@ export function PostItem({
           />
         </button>
       </div>
-      <span className="text-[10px] text-gray-500">{createdAt.toString()}</span>
+      <span className="text-[10px] text-gray-500">
+        {formatPostDate(createdAt.toString())}
+      </span>
       <Link to="/postDetails" className="py-4 block">
         <span className="text-xs font-medium">{postContent}</span>
       </Link>
