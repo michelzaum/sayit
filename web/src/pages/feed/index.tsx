@@ -20,7 +20,7 @@ export function Feed() {
               <PostItem
                 key={post.id}
                 id={post.id}
-                authorImage={"👨️"}
+                authorImage={""}
                 authorName={post.author.name}
                 createdAt={post.createdAt}
                 postContent={post.content}

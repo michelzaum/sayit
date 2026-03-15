@@ -9,7 +9,7 @@ export function CreatePost({ authorName }: CreatePostProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <span className="text-2xl">Ola, {authorName}.</span>
+        <span className="text-2xl">Olá, {authorName}.</span>
         <span className="text-base text-gray-500">
           O que gostaria de compartilhar hoje?
         </span>
