@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { Link } from "react-router";
 import { Heart, MessageSquare, User2 } from "lucide-react";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
 
 import { PostProps } from "./types";
+import { usePostItem } from "./usePostItem";
 
 export function PostItem({
   authorName,
@@ -15,15 +12,7 @@ export function PostItem({
   likesCount,
   postContent,
 }: PostProps) {
-  const [isPostLiked, setIsPostLiked] = useState(false);
-
-  function toggleLike(): void {
-    setIsPostLiked((prevState) => !prevState);
-  }
-
-  function formatPostDate(dateInNumber: string): string {
-    return dayjs().to(dayjs(Number(dateInNumber)));
-  }
+  const { isPostLiked, formatPostDate, toggleLike } = usePostItem();
 
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
