@@ -1,22 +1,44 @@
 import http from "http";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { WebSocketServer } from "ws";
+import { useServer } from "graphql-ws/use/ws";
 import { expressMiddleware } from "@as-integrations/express5";
 import express from "express";
 import cors from "cors";
-
-const app = express();
-const httpServer = http.createServer(app);
 
 import { typeDefs } from "../interface/graphql/schema";
 import { resolvers } from "../interface/graphql/resolvers";
 import { container } from "./container";
 import { IContainer } from "./model";
 
+const app = express();
+const httpServer = http.createServer(app);
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: "/graphql",
+});
+
+const serverCleanup = useServer({ schema }, wsServer);
+
 const server = new ApolloServer<IContainer>({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  schema,
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+  ],
 });
 
 await server.start();
