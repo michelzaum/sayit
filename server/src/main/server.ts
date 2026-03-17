@@ -20,7 +20,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const wsServer = new WebSocketServer({
   server: httpServer,
-  path: "/graphql",
+  path: "",
 });
 
 const serverCleanup = useServer({ schema }, wsServer);
@@ -44,7 +44,7 @@ const server = new ApolloServer<IContainer>({
 await server.start();
 
 app.use(
-  "graphql",
+  "",
   cors<cors.CorsRequest>(),
   express.json(),
   expressMiddleware(server, {
