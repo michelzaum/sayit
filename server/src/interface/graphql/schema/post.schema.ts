@@ -21,4 +21,8 @@ export const postTypeDefs = `#graphql
     createPost(body: PostInput!): Post
     updatePost(id: String, body: PostInput): Post
   }
+
+  type Subscription {
+    postCreated: Post
+  }
 `;

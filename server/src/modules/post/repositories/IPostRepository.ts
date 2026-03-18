@@ -1,6 +1,7 @@
+import { User } from "@/modules/user/entities/User";
 import { Post } from "../entities/Post";
 
 export interface IPostRepository {
-  create(post: Post, authorId: string): Promise<Post>;
+  create(post: Post, authorId: string): Promise<Post & Partial<User>>;
   getAll(): Promise<Post[]>;
 }
