@@ -1,4 +1,5 @@
 import { IContainer } from "@/main/model";
+import { pubsub } from "./post.subscription";
 
 interface CreatePostBody {
   body: {
@@ -10,6 +11,9 @@ export const postMutation = {
   createPost: async (_, { body }: CreatePostBody, context: IContainer) => {
     const request = context.http.req;
 
-    return await context.createPostUseCase.execute(body, request);
+    const result = await context.createPostUseCase.execute(body, request);
+
+    pubsub.publish("POST_CREATED", { postCreated: result });
+    return result;
   },
 };
