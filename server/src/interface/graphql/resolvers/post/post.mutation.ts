@@ -1,14 +1,11 @@
-import { PubSub } from "graphql-subscriptions";
-
 import { IContainer } from "@/main/model";
+import { pubsub } from "./post.subscription";
 
 interface CreatePostBody {
   body: {
     content: string;
   };
 }
-
-const pubsub = new PubSub();
 
 export const postMutation = {
   createPost: async (_, { body }: CreatePostBody, context: IContainer) => {
