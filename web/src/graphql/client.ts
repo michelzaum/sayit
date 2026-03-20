@@ -10,11 +10,13 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000/",
+  credentials: "include",
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
     url: "ws://localhost:4000/",
+    webSocketImpl: WebSocket,
   }),
 );
 
