@@ -10,6 +10,7 @@ export const GET_POSTS = gql`
         authorId
       }
       comments {
+        authorId
         postId
       }
       author {
