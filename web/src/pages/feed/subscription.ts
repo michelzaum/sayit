@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const GET_POSTS = gql`
-  query GetPosts {
-    getPosts {
+export const POST_CREATED_SUBSCRIPTION = gql`
+  subscription PostCreated {
+    postCreated {
       id
       content
       createdAt
@@ -14,8 +14,8 @@ export const GET_POSTS = gql`
         postId
       }
       author {
-        email
         name
+        email
       }
     }
   }
