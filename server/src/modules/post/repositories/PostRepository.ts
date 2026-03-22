@@ -18,10 +18,13 @@ export class PostRepository implements IPostRepository {
         id: true,
         content: true,
         createdAt: true,
+        likes: true,
+        comments: true,
         author: {
           select: {
             id: true,
             name: true,
+            email: true,
           },
         },
       },

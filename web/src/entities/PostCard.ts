@@ -6,7 +6,7 @@ export type PostCard = {
   id: string;
   content: string;
   createdAt: Date;
-  author: User;
-  comments: Comment[];
-  likes: Like[];
+  author: Partial<User>;
+  comments: Partial<Comment>[];
+  likes: Partial<Like>[];
 };
