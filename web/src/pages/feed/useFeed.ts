@@ -21,7 +21,7 @@ export function useFeed() {
         updateQuery: (prev: any, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
 
-          const newPost = subscriptionData.data.postCreated as any;
+          const newPost = subscriptionData.data.postCreated;
 
           const exists = prev.getPosts.some(
             (post: any) => post.id === newPost.id,
