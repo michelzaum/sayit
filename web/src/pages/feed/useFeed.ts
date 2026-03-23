@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useQuery } from "@apollo/client/react";
 import { toast } from "sonner";
 
+import { PostCard } from "../../entities/PostCard";
+
 import { GET_POSTS } from "./query";
 import { POST_CREATED_SUBSCRIPTION } from "./subscription";
 import { GetPosts, PostCreatedSubscription } from "./types";
@@ -23,11 +25,11 @@ export function useFeed() {
 
           const newPost = subscriptionData.data.postCreated;
 
-          const exists = prev.getPosts.some(
-            (post: any) => post.id === newPost.id,
+          const postExists = prev.getPosts.some(
+            (post: PostCard) => post.id === newPost.id,
           );
 
-          if (exists) return prev;
+          if (postExists) return prev;
 
           return {
             ...prev,
