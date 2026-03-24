@@ -7,6 +7,10 @@ interface CreatePostBody {
   };
 }
 
+interface DeletePostArgs {
+  id: string;
+}
+
 export const postMutation = {
   createPost: async (_, { body }: CreatePostBody, context: IContainer) => {
     const request = context.http.req;
@@ -15,5 +19,8 @@ export const postMutation = {
 
     pubsub.publish("POST_CREATED", { postCreated: result });
     return result;
+  },
+  deletePost: async (_, { id }: DeletePostArgs, context: IContainer) => {
+    return await context.deletePostUseCase.execute(id);
   },
 };
