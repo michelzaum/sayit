@@ -59,6 +59,7 @@ app.use(
         signInUseCase: container.signInUseCase,
         createPostUseCase: container.createPostUseCase,
         listPostsUseCase: container.listPostsUseCase,
+        deletePostUseCase: container.deletePostUseCase,
       };
     },
   }),
