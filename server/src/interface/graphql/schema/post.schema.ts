@@ -20,6 +20,7 @@ export const postTypeDefs = `#graphql
   type Mutation {
     createPost(body: PostInput!): Post
     updatePost(id: String, body: PostInput): Post
+    deletePost(id: String): Boolean
   }
 
   type Subscription {
