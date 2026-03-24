@@ -8,6 +8,7 @@ import { SignInUseCase } from "../modules/auth/sign-in/useCases/SignInUseCase";
 import { PostRepository } from "@/modules/post/repositories/PostRepository";
 import { CreatePostUseCase } from "@/modules/post/useCases/createPost/CreatePostUseCase";
 import { ListPostsUseCase } from "@/modules/post/useCases/listPosts/ListPostsUseCase";
+import { DeletePostUseCase } from "@/modules/post/useCases/deletePost/DeletePostUseCase";
 
 import { IContainer } from "./model";
 
@@ -24,4 +25,5 @@ export const container: IContainer = {
   signInUseCase: new SignInUseCase(userRepository),
   createPostUseCase: new CreatePostUseCase(postRepository),
   listPostsUseCase: new ListPostsUseCase(postRepository),
+  deletePostUseCase: new DeletePostUseCase(postRepository),
 };

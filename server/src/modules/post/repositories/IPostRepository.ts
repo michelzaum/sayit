@@ -4,4 +4,5 @@ import { Post } from "../entities/Post";
 export interface IPostRepository {
   create(post: Post, authorId: string): Promise<Post & Partial<User>>;
   getAll(): Promise<Post[]>;
+  delete(postId: string): Promise<void>;
 }

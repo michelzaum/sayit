@@ -2,29 +2,11 @@ import { useEffect } from "react";
 import { useQuery } from "@apollo/client/react";
 import { toast } from "sonner";
 
-import { GET_POSTS } from "./query";
 import { PostCard } from "../../entities/PostCard";
+
+import { GET_POSTS } from "./query";
 import { POST_CREATED_SUBSCRIPTION } from "./subscription";
-
-type GetPosts = {
-  getPosts: PostCard[];
-};
-
-type Post = {
-  id: string;
-  content: string;
-  createdAt: string;
-  likes: { authorId: string }[];
-  comments: { authorId: string }[];
-  author: {
-    name: string;
-    email: string;
-  };
-};
-
-type PostCreatedSubscription = {
-  postCreated: Post;
-};
+import { GetPosts, PostCreatedSubscription } from "./types";
 
 export function useFeed() {
   const { error, loading, data, subscribeToMore } =
@@ -41,13 +23,13 @@ export function useFeed() {
         updateQuery: (prev: any, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
 
-          const newPost = subscriptionData.data.postCreated as any;
+          const newPost = subscriptionData.data.postCreated;
 
-          const exists = prev.getPosts.some(
-            (post: any) => post.id === newPost.id,
+          const postExists = prev.getPosts.some(
+            (post: PostCard) => post.id === newPost.id,
           );
 
-          if (exists) return prev;
+          if (postExists) return prev;
 
           return {
             ...prev,
