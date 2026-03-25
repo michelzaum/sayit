@@ -1,8 +1,10 @@
 import { Link } from "react-router";
-import { Heart, MessageSquare, User2 } from "lucide-react";
+import { Heart, MessageSquare, User2, MoreHorizontal } from "lucide-react";
 
 import { PostProps } from "./types";
 import { usePostItem } from "./usePostItem";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
 
 export function PostItem({
   authorName,
@@ -13,6 +15,8 @@ export function PostItem({
   postContent,
 }: PostProps) {
   const { isPostLiked, formatPostDate, toggleLike } = usePostItem();
+
+  const isPostOwner = true; // temporary
 
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
@@ -27,13 +31,32 @@ export function PostItem({
           </div>
           <span className="text-xs font-medium">{authorName}</span>
         </div>
-        <button className="hover:cursor-pointer" onClick={toggleLike}>
-          <Heart
-            height={32}
-            width={32}
-            className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
-          />
-        </button>
+        <div className="flex items-center gap-4">
+          <button className="hover:cursor-pointer" onClick={toggleLike}>
+            <Heart
+              height={32}
+              width={32}
+              className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
+            />
+          </button>
+          {isPostOwner && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="hover:cursor-pointer border-gray-400"
+                >
+                  <MoreHorizontal />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="max-w-32 p-0" align="start">
+                <button className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer">
+                  <span>Excluir</span>
+                </button>
+              </PopoverContent>
+            </Popover>
+          )}
+        </div>
       </div>
       <span className="text-[10px] text-gray-500">
         {formatPostDate(createdAt.toString())}
