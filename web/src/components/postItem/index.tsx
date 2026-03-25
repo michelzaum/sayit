@@ -1,10 +1,27 @@
 import { Link } from "react-router";
-import { Heart, MessageSquare, User2 } from "lucide-react";
+import {
+  Heart,
+  MessageSquare,
+  User2,
+  MoreHorizontal,
+  Loader,
+} from "lucide-react";
 
 import { PostProps } from "./types";
 import { usePostItem } from "./usePostItem";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 export function PostItem({
+  id,
   authorName,
   authorImage,
   createdAt,
@@ -12,7 +29,18 @@ export function PostItem({
   likesCount,
   postContent,
 }: PostProps) {
-  const { isPostLiked, formatPostDate, toggleLike } = usePostItem();
+  const {
+    isPostLiked,
+    isDeletePostModalOpen,
+    loading,
+    formatPostDate,
+    toggleLike,
+    openDeletePostModal,
+    closeDeletePostModal,
+    handleDeletePost,
+  } = usePostItem();
+
+  const isPostOwner = true; // temporary
 
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
@@ -27,13 +55,35 @@ export function PostItem({
           </div>
           <span className="text-xs font-medium">{authorName}</span>
         </div>
-        <button className="hover:cursor-pointer" onClick={toggleLike}>
-          <Heart
-            height={32}
-            width={32}
-            className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
-          />
-        </button>
+        <div className="flex items-center gap-4">
+          <button className="hover:cursor-pointer" onClick={toggleLike}>
+            <Heart
+              height={32}
+              width={32}
+              className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
+            />
+          </button>
+          {isPostOwner && (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="hover:cursor-pointer border-gray-400"
+                >
+                  <MoreHorizontal />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="max-w-32 p-0" align="start">
+                <button
+                  className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                  onClick={openDeletePostModal}
+                >
+                  <span>Excluir</span>
+                </button>
+              </PopoverContent>
+            </Popover>
+          )}
+        </div>
       </div>
       <span className="text-[10px] text-gray-500">
         {formatPostDate(createdAt.toString())}
@@ -54,6 +104,40 @@ export function PostItem({
           <span>{commentsCount}</span>
         </div>
       </div>
+
+      <Dialog open={isDeletePostModalOpen}>
+        <DialogContent className="sm:max-w-sm" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Excluir post?</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja exluir este post?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              className="hover:cursor-pointer"
+              variant="outline"
+              onClick={closeDeletePostModal}
+              disabled={loading}
+            >
+              Cancelar
+            </Button>
+            <Button
+              className="hover:cursor-pointer"
+              variant="destructive"
+              type="button"
+              onClick={() => handleDeletePost(id)}
+              disabled={loading}
+            >
+              {loading ? (
+                <Loader className="animate-spin" />
+              ) : (
+                <span>Excluir</span>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
