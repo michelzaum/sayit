@@ -1,5 +1,11 @@
 import { Link } from "react-router";
-import { Heart, MessageSquare, User2, MoreHorizontal } from "lucide-react";
+import {
+  Heart,
+  MessageSquare,
+  User2,
+  MoreHorizontal,
+  Loader,
+} from "lucide-react";
 
 import { PostProps } from "./types";
 import { usePostItem } from "./usePostItem";
@@ -26,6 +32,7 @@ export function PostItem({
   const {
     isPostLiked,
     isDeletePostModalOpen,
+    loading,
     formatPostDate,
     toggleLike,
     openDeletePostModal,
@@ -111,6 +118,7 @@ export function PostItem({
               className="hover:cursor-pointer"
               variant="outline"
               onClick={closeDeletePostModal}
+              disabled={loading}
             >
               Cancelar
             </Button>
@@ -119,8 +127,13 @@ export function PostItem({
               variant="destructive"
               type="button"
               onClick={() => handleDeletePost(id)}
+              disabled={loading}
             >
-              Excluir
+              {loading ? (
+                <Loader className="animate-spin" />
+              ) : (
+                <span>Excluir</span>
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
