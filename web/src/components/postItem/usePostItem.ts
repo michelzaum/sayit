@@ -34,10 +34,13 @@ export function usePostItem() {
           deletePostId: postId,
         },
       });
+
       toast.success("Post excluído com sucesso!");
     } catch {
       toast.error("Erro ao excluir post. Tente novamente");
     }
+
+    closeDeletePostModal();
   }
 
   return {
