@@ -7,13 +7,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
 
 export function PostItem({
@@ -25,8 +23,15 @@ export function PostItem({
   likesCount,
   postContent,
 }: PostProps) {
-  const { isPostLiked, formatPostDate, toggleLike, handleDeletePost } =
-    usePostItem();
+  const {
+    isPostLiked,
+    isDeletePostModalOpen,
+    formatPostDate,
+    toggleLike,
+    openDeletePostModal,
+    closeDeletePostModal,
+    handleDeletePost,
+  } = usePostItem();
 
   const isPostOwner = true; // temporary
 
@@ -62,33 +67,12 @@ export function PostItem({
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="max-w-32 p-0" align="start">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <button className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer">
-                      <span>Excluir</span>
-                    </button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-sm">
-                    <DialogHeader>
-                      <DialogTitle>Excluir post?</DialogTitle>
-                      <DialogDescription>
-                        Tem certeza que deseja exluir este post?
-                      </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                      <DialogClose asChild>
-                        <Button variant="outline">Cancel</Button>
-                      </DialogClose>
-                      <Button
-                        variant="destructive"
-                        type="button"
-                        onClick={() => handleDeletePost(id)}
-                      >
-                        Excluir
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <button
+                  className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                  onClick={openDeletePostModal}
+                >
+                  <span>Excluir</span>
+                </button>
               </PopoverContent>
             </Popover>
           )}
@@ -113,6 +97,34 @@ export function PostItem({
           <span>{commentsCount}</span>
         </div>
       </div>
+
+      <Dialog open={isDeletePostModalOpen}>
+        <DialogContent className="sm:max-w-sm" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Excluir post?</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja exluir este post?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              className="hover:cursor-pointer"
+              variant="outline"
+              onClick={closeDeletePostModal}
+            >
+              Cancelar
+            </Button>
+            <Button
+              className="hover:cursor-pointer"
+              variant="destructive"
+              type="button"
+              onClick={() => handleDeletePost(id)}
+            >
+              Excluir
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

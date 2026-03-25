@@ -8,6 +8,7 @@ dayjs.extend(relativeTime);
 
 export function usePostItem() {
   const [isPostLiked, setIsPostLiked] = useState(false);
+  const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [deletePost, { loading }] = useMutation(DELETE_POST);
 
   function toggleLike(): void {
@@ -16,6 +17,14 @@ export function usePostItem() {
 
   function formatPostDate(dateInNumber: string): string {
     return dayjs().to(dayjs(Number(dateInNumber)));
+  }
+
+  function openDeletePostModal(): void {
+    setIsDeletePostModalOpen(true);
+  }
+
+  function closeDeletePostModal(): void {
+    setIsDeletePostModalOpen(false);
   }
 
   async function handleDeletePost(postId: string) {
@@ -33,8 +42,11 @@ export function usePostItem() {
 
   return {
     isPostLiked,
+    isDeletePostModalOpen,
     toggleLike,
     formatPostDate,
     handleDeletePost,
+    openDeletePostModal,
+    closeDeletePostModal,
   };
 }
