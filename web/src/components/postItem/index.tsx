@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 
 export function PostItem({
+  id,
   authorName,
   authorImage,
   createdAt,
@@ -14,7 +15,8 @@ export function PostItem({
   likesCount,
   postContent,
 }: PostProps) {
-  const { isPostLiked, formatPostDate, toggleLike } = usePostItem();
+  const { isPostLiked, formatPostDate, toggleLike, handleDeletePost } =
+    usePostItem();
 
   const isPostOwner = true; // temporary
 
@@ -50,7 +52,10 @@ export function PostItem({
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="max-w-32 p-0" align="start">
-                <button className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer">
+                <button
+                  className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                  onClick={() => handleDeletePost(id)}
+                >
                   <span>Excluir</span>
                 </button>
               </PopoverContent>
