@@ -6,6 +6,7 @@ import { GetUserUseCase } from "@/modules/user/useCases/getUser/GetUserUseCase";
 import { CreatePostUseCase } from "@/modules/post/useCases/createPost/CreatePostUseCase";
 import { ListPostsUseCase } from "@/modules/post/useCases/listPosts/ListPostsUseCase";
 import { DeletePostUseCase } from "@/modules/post/useCases/deletePost/DeletePostUseCase";
+import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePostUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -20,4 +21,5 @@ export interface IContainer {
   createPostUseCase: CreatePostUseCase;
   listPostsUseCase: ListPostsUseCase;
   deletePostUseCase: DeletePostUseCase;
+  updatePostUseCase: UpdatePostUseCase;
 }
