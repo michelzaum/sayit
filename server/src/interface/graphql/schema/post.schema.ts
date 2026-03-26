@@ -8,6 +8,10 @@ export const postTypeDefs = `#graphql
     createdAt: String
   }
 
+  input PostInput {
+    content: String
+  }
+
   type Query {
     getPosts: [Post!]
     getPost: Post
