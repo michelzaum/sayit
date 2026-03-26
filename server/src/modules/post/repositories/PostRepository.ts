@@ -49,4 +49,13 @@ export class PostRepository implements IPostRepository {
       where: { id: postId },
     });
   }
+
+  async update(postId: string, newContent: string): Promise<Post> {
+    return prismaClient.post.update({
+      where: { id: postId },
+      data: {
+        content: newContent,
+      },
+    });
+  }
 }
