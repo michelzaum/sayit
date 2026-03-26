@@ -34,6 +34,7 @@ export function PostItem({
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
+    newPostContentRef,
     formatPostDate,
     toggleLike,
     openDeletePostModal,
@@ -154,10 +155,12 @@ export function PostItem({
             <DialogDescription asChild>
               <form className="flex flex-col gap-6">
                 <textarea
+                  defaultValue={postContent}
+                  ref={newPostContentRef}
                   name="newPostContent"
                   id="newPostContent"
                   rows={4}
-                  className="border border-gray-300 rounded-lg resize-none p-3"
+                  className="border border-gray-300 rounded-lg resize-none p-3 text-gray-950"
                 ></textarea>
                 <button
                   type="submit"

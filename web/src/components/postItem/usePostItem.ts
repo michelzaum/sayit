@@ -1,5 +1,5 @@
+import { useRef, useState } from "react";
 import dayjs from "dayjs";
-import { useState } from "react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
@@ -12,6 +12,9 @@ export function usePostItem() {
   const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [isUpdatePostModalOpen, setIsUpdatePostModalOpen] = useState(false);
   const [deletePost, { loading }] = useMutation(DELETE_POST);
+  const newPostContentRef = useRef<HTMLTextAreaElement>(
+    {} as HTMLTextAreaElement,
+  );
 
   function toggleLike(): void {
     setIsPostLiked((prevState) => !prevState);
@@ -58,6 +61,7 @@ export function usePostItem() {
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
+    newPostContentRef,
     toggleLike,
     formatPostDate,
     handleDeletePost,
