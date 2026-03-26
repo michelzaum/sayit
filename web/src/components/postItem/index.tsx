@@ -42,6 +42,7 @@ export function PostItem({
     openUpdatePostModal,
     closeUpdatetePostModal,
     handleDeletePost,
+    handleUpdatePost,
   } = usePostItem();
 
   const isPostOwner = true; // temporary
@@ -153,7 +154,7 @@ export function PostItem({
           <DialogHeader>
             <DialogTitle>Editar post</DialogTitle>
             <DialogDescription asChild>
-              <form className="flex flex-col gap-6">
+              <form onSubmit={handleUpdatePost} className="flex flex-col gap-6">
                 <textarea
                   defaultValue={postContent}
                   ref={newPostContentRef}

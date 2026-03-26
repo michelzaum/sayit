@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useMutation } from "@apollo/client/react";
@@ -40,6 +40,15 @@ export function usePostItem() {
     setIsUpdatePostModalOpen(false);
   }
 
+  async function handleUpdatePost(
+    event: FormEvent<HTMLFormElement>,
+  ): Promise<void> {
+    event.preventDefault();
+
+    const newPostContentValue = newPostContentRef.current.value;
+    console.log(newPostContentValue);
+  }
+
   async function handleDeletePost(postId: string) {
     try {
       await deletePost({
@@ -65,6 +74,7 @@ export function usePostItem() {
     toggleLike,
     formatPostDate,
     handleDeletePost,
+    handleUpdatePost,
     openDeletePostModal,
     closeDeletePostModal,
     openUpdatePostModal,
