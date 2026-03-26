@@ -19,7 +19,7 @@ export const postTypeDefs = `#graphql
 
   type Mutation {
     createPost(body: PostInput!): Post
-    updatePost(id: String, body: PostInput): Post
+    updatePost(id: String, newContent: String): Post
     deletePost(id: String): Boolean
   }
 

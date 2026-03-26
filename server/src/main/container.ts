@@ -11,6 +11,7 @@ import { ListPostsUseCase } from "@/modules/post/useCases/listPosts/ListPostsUse
 import { DeletePostUseCase } from "@/modules/post/useCases/deletePost/DeletePostUseCase";
 
 import { IContainer } from "./model";
+import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePostUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -26,4 +27,5 @@ export const container: IContainer = {
   createPostUseCase: new CreatePostUseCase(postRepository),
   listPostsUseCase: new ListPostsUseCase(postRepository),
   deletePostUseCase: new DeletePostUseCase(postRepository),
+  updatePostUseCase: new UpdatePostUseCase(postRepository),
 };

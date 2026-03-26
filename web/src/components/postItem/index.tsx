@@ -32,12 +32,18 @@ export function PostItem({
   const {
     isPostLiked,
     isDeletePostModalOpen,
+    isUpdatePostModalOpen,
     loading,
+    updatePostLoading,
+    newPostContentRef,
     formatPostDate,
     toggleLike,
     openDeletePostModal,
     closeDeletePostModal,
+    openUpdatePostModal,
+    closeUpdatetePostModal,
     handleDeletePost,
+    handleUpdatePost,
   } = usePostItem();
 
   const isPostOwner = true; // temporary
@@ -79,6 +85,12 @@ export function PostItem({
                   onClick={openDeletePostModal}
                 >
                   <span>Excluir</span>
+                </button>
+                <button
+                  className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                  onClick={openUpdatePostModal}
+                >
+                  <span>Editar</span>
                 </button>
               </PopoverContent>
             </Popover>
@@ -136,6 +148,46 @@ export function PostItem({
               )}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isUpdatePostModalOpen}>
+        <DialogContent className="sm:max-w-sm" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Editar post</DialogTitle>
+            <DialogDescription asChild>
+              <form
+                onSubmit={(event) => handleUpdatePost(event, id)}
+                className="flex flex-col gap-6"
+              >
+                <textarea
+                  defaultValue={postContent}
+                  ref={newPostContentRef}
+                  name="newPostContent"
+                  id="newPostContent"
+                  rows={4}
+                  className="border border-gray-300 rounded-lg resize-none p-3 text-gray-950"
+                ></textarea>
+                <button
+                  type="submit"
+                  className="bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center font-medium py-4 rounded-lg hover:bg-blue-900 transition-colors cursor-pointer disabled:"
+                  disabled={updatePostLoading}
+                >
+                  {!updatePostLoading ? (
+                    <span>Salvar alterações</span>
+                  ) : (
+                    <Loader size={24} className="animate-spin" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className="hover:cursor-pointer"
+                  onClick={closeUpdatetePostModal}
+                >
+                  <span className="text-gray-950">Cancelar</span>
+                </button>
+              </form>
+            </DialogDescription>
+          </DialogHeader>
         </DialogContent>
       </Dialog>
     </div>
