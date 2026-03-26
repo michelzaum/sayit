@@ -34,6 +34,7 @@ export function PostItem({
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
+    updatePostLoading,
     newPostContentRef,
     formatPostDate,
     toggleLike,
@@ -154,7 +155,10 @@ export function PostItem({
           <DialogHeader>
             <DialogTitle>Editar post</DialogTitle>
             <DialogDescription asChild>
-              <form onSubmit={handleUpdatePost} className="flex flex-col gap-6">
+              <form
+                onSubmit={(event) => handleUpdatePost(event, id)}
+                className="flex flex-col gap-6"
+              >
                 <textarea
                   defaultValue={postContent}
                   ref={newPostContentRef}
@@ -166,9 +170,9 @@ export function PostItem({
                 <button
                   type="submit"
                   className="bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center font-medium py-4 rounded-lg hover:bg-blue-900 transition-colors cursor-pointer disabled:"
-                  disabled={loading}
+                  disabled={updatePostLoading}
                 >
-                  {!loading ? (
+                  {!updatePostLoading ? (
                     <span>Salvar alterações</span>
                   ) : (
                     <Loader size={24} className="animate-spin" />
