@@ -8,10 +8,6 @@ export const postTypeDefs = `#graphql
     createdAt: String
   }
 
-  input PostInput {
-    content: String
-  }
-
   type Query {
     getPosts: [Post!]
     getPost: Post
@@ -19,7 +15,7 @@ export const postTypeDefs = `#graphql
 
   type Mutation {
     createPost(body: PostInput!): Post
-    updatePost(id: String, body: PostInput): Post
+    updatePost(id: String, newContent: String): Post
     deletePost(id: String): Boolean
   }
 
