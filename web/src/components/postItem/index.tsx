@@ -81,10 +81,10 @@ export function PostItem({
               </PopoverTrigger>
               <PopoverContent className="max-w-32 p-0" align="start">
                 <button
-                  className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                  className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer"
                   onClick={openDeletePostModal}
                 >
-                  <span>Excluir</span>
+                  <span className="text-red-600">Excluir</span>
                 </button>
                 <button
                   className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
