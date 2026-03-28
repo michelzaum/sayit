@@ -81,10 +81,10 @@ export function PostItem({
               </PopoverTrigger>
               <PopoverContent className="max-w-32 p-0" align="start">
                 <button
-                  className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                  className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer"
                   onClick={openDeletePostModal}
                 >
-                  <span>Excluir</span>
+                  <span className="text-red-600">Excluir</span>
                 </button>
                 <button
                   className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
@@ -100,7 +100,7 @@ export function PostItem({
       <span className="text-[10px] text-gray-500">
         {formatPostDate(createdAt.toString())}
       </span>
-      <Link to="/postDetails" className="py-4 block">
+      <Link to={`/postDetails?postId=${id}`} className="py-4 block">
         <span className="text-xs font-medium">{postContent}</span>
       </Link>
 

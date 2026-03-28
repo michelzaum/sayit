@@ -1,28 +1,24 @@
-import { ArrowLeftIcon } from "lucide-react";
-import { PostItem } from "../../components/postItem";
 import { Link } from "react-router";
+import { ArrowLeftIcon, Loader } from "lucide-react";
 
-const post = {
-  id: "1",
-  authorImage: "",
-  authorName: "John Doe",
-  createdAt: new Date(),
-  postContent: "Um Post bem legal feito pelo John doe a 1 hora atras.",
-  likesCount: 10,
-  commentsCount: 2,
-  comments: [
-    {
-      id: 1,
-      author: "John Doe 3",
-      authorImage: "👨️",
-      content: "Que post legal!",
-      createdAt: new Date(),
-    },
-  ],
-};
+import { PostItem } from "../../components/postItem";
+import { usePostDetails } from "./usePostDetails";
 
 export function PostDetails() {
-  const postInfo = post;
+  const { data, loading } = usePostDetails();
+
+  if (!data) {
+    return;
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-4 items-center justify-center p-10">
+        <Loader size={24} className="animate-spin" />
+        <span>Carregando post...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center p-6">
@@ -31,17 +27,18 @@ export function PostDetails() {
           <ArrowLeftIcon />
           <span>voltar</span>
         </Link>
-
         <div className="flex flex-col gap-4">
-          <span className="text-2xl">Postagem de John Doe</span>
+          <span className="text-2xl">
+            Postagem de {data.getPost.author.name}
+          </span>
           <PostItem
-            id={postInfo.id}
-            authorImage={postInfo.authorImage}
-            authorName={postInfo.authorName}
-            createdAt={postInfo.createdAt}
-            postContent={postInfo.postContent}
-            likesCount={postInfo.likesCount}
-            commentsCount={postInfo.commentsCount}
+            id={data.getPost.id}
+            authorImage={""}
+            authorName={data.getPost.author.name}
+            createdAt={data.getPost.createdAt}
+            postContent={data.getPost.content}
+            likesCount={data.getPost.likesCount}
+            commentsCount={data.getPost.commentsCount}
           />
 
           <form className="flex flex-col items-end gap-3">
@@ -62,29 +59,36 @@ export function PostDetails() {
 
         <div className="flex flex-col gap-4">
           <span>Comentarios</span>
-          <div className="flex flex-col gap-4">
-            {post.comments.map((comment) => (
-              <div
-                key={comment.id}
-                className="border border-gray-300 p-4 rounded-lg"
-              >
-                <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center">
-                  <div className="flex items-center gap-1">
-                    <span>{comment.authorImage}</span>
-                    <span className="text-xs font-medium">
-                      {comment.author}
+          {data.getPost.comments.length === 0 ? (
+            <div className="flex justify-center p-3">
+              <span>Esse post ainda não tem comentários.</span>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {data.getPost.comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  className="border border-gray-300 p-4 rounded-lg"
+                >
+                  <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center">
+                    <div className="flex items-center gap-1">
+                      {/* TODO: Update once we have user's image */}
+                      <span>{""}</span>
+                      <span className="text-xs font-medium">
+                        {comment.authorId}
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      {comment.createdAt.toString()}
                     </span>
                   </div>
-                  <span className="text-xs text-gray-500">
-                    {comment.createdAt.toString()}
-                  </span>
+                  <div className="py-4">
+                    <span className="text-xs font-medium">{comment.body}</span>
+                  </div>
                 </div>
-                <div className="py-4">
-                  <span className="text-xs font-medium">{comment.content}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
