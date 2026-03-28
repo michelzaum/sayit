@@ -5,11 +5,7 @@ import { PostItem } from "../../components/postItem";
 import { usePostDetails } from "./usePostDetails";
 
 export function PostDetails() {
-  const { data, loading, error } = usePostDetails();
-
-  if (error) {
-    return;
-  }
+  const { data, loading } = usePostDetails();
 
   if (!data) {
     return;
