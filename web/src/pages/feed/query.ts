@@ -14,6 +14,7 @@ export const GET_POSTS = gql`
         postId
       }
       author {
+        id
         email
         name
       }
