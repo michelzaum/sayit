@@ -1,6 +1,8 @@
-import { Link, useSearchParams } from "react-router";
-import { ArrowLeftIcon } from "lucide-react";
+import { Link } from "react-router";
+import { ArrowLeftIcon, Loader } from "lucide-react";
+
 import { PostItem } from "../../components/postItem";
+import { usePostDetails } from "./usePostDetails";
 
 const post = {
   id: "1",
@@ -22,12 +24,24 @@ const post = {
 };
 
 export function PostDetails() {
-  const [searchParams] = useSearchParams();
+  const { data, loading, error } = usePostDetails();
 
-  const postId = searchParams.get("postId");
+  if (error) {
+    return;
+  }
 
-  console.log(postId);
-  const postInfo = post;
+  if (!data) {
+    return;
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col gap-4 items-center justify-center p-10">
+        <Loader size={24} className="animate-spin" />
+        <span>Carregando post...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center p-6">
@@ -36,17 +50,18 @@ export function PostDetails() {
           <ArrowLeftIcon />
           <span>voltar</span>
         </Link>
-
         <div className="flex flex-col gap-4">
-          <span className="text-2xl">Postagem de John Doe</span>
+          <span className="text-2xl">
+            Postagem de {data.getPost.author.name}
+          </span>
           <PostItem
-            id={postInfo.id}
-            authorImage={postInfo.authorImage}
-            authorName={postInfo.authorName}
-            createdAt={postInfo.createdAt}
-            postContent={postInfo.postContent}
-            likesCount={postInfo.likesCount}
-            commentsCount={postInfo.commentsCount}
+            id={data.getPost.id}
+            authorImage={""}
+            authorName={data.getPost.author.name}
+            createdAt={data.getPost.createdAt}
+            postContent={data.getPost.content}
+            likesCount={data.getPost.likesCount}
+            commentsCount={data.getPost.commentsCount}
           />
 
           <form className="flex flex-col items-end gap-3">
