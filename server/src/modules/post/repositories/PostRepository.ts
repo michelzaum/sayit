@@ -31,9 +31,23 @@ export class PostRepository implements IPostRepository {
     });
   }
 
-  async getById(postId: string): Promise<Post> {
+  async getById(postId: string): Promise<Post & Partial<User>> {
     return prismaClient.post.findUnique({
       where: { id: postId },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        likes: true,
+        comments: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
   }
 
