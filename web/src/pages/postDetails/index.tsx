@@ -4,25 +4,6 @@ import { ArrowLeftIcon, Loader } from "lucide-react";
 import { PostItem } from "../../components/postItem";
 import { usePostDetails } from "./usePostDetails";
 
-const post = {
-  id: "1",
-  authorImage: "",
-  authorName: "John Doe",
-  createdAt: new Date(),
-  postContent: "Um Post bem legal feito pelo John doe a 1 hora atras.",
-  likesCount: 10,
-  commentsCount: 2,
-  comments: [
-    {
-      id: 1,
-      author: "John Doe 3",
-      authorImage: "👨️",
-      content: "Que post legal!",
-      createdAt: new Date(),
-    },
-  ],
-};
-
 export function PostDetails() {
   const { data, loading, error } = usePostDetails();
 
@@ -82,29 +63,36 @@ export function PostDetails() {
 
         <div className="flex flex-col gap-4">
           <span>Comentarios</span>
-          <div className="flex flex-col gap-4">
-            {post.comments.map((comment) => (
-              <div
-                key={comment.id}
-                className="border border-gray-300 p-4 rounded-lg"
-              >
-                <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center">
-                  <div className="flex items-center gap-1">
-                    <span>{comment.authorImage}</span>
-                    <span className="text-xs font-medium">
-                      {comment.author}
+          {data.getPost.comments.length === 0 ? (
+            <div className="flex justify-center p-3">
+              <span>Esse post ainda não tem comentários.</span>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {data.getPost.comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  className="border border-gray-300 p-4 rounded-lg"
+                >
+                  <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center">
+                    <div className="flex items-center gap-1">
+                      {/* TODO: Update once we have user's image */}
+                      <span>{""}</span>
+                      <span className="text-xs font-medium">
+                        {comment.authorId}
+                      </span>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      {comment.createdAt.toString()}
                     </span>
                   </div>
-                  <span className="text-xs text-gray-500">
-                    {comment.createdAt.toString()}
-                  </span>
+                  <div className="py-4">
+                    <span className="text-xs font-medium">{comment.body}</span>
+                  </div>
                 </div>
-                <div className="py-4">
-                  <span className="text-xs font-medium">{comment.content}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
