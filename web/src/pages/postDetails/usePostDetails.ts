@@ -4,11 +4,7 @@ import { useLazyQuery } from "@apollo/client/react";
 import { toast } from "sonner";
 
 import { GET_POST } from "./query";
-import { PostProps } from "./types";
-
-interface GetPostData {
-  getPost: PostProps;
-}
+import { GetPostData } from "./types";
 
 export function usePostDetails() {
   const [searchParams] = useSearchParams();

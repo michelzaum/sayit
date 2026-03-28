@@ -16,3 +16,7 @@ type Comment = {
   body: string;
   createdAt: Date;
 };
+
+export type GetPostData = {
+  getPost: PostProps;
+};
