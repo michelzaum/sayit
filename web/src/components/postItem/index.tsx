@@ -100,7 +100,7 @@ export function PostItem({
       <span className="text-[10px] text-gray-500">
         {formatPostDate(createdAt.toString())}
       </span>
-      <Link to="/postDetails" className="py-4 block">
+      <Link to={`/postDetails?postId=${id}`} className="py-4 block">
         <span className="text-xs font-medium">{postContent}</span>
       </Link>
 
