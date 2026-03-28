@@ -14,7 +14,7 @@ export const postTypeDefs = `#graphql
 
   type Query {
     getPosts: [Post!]
-    getPost: Post
+    getPost(postId: String): Post
   }
 
   type Mutation {
