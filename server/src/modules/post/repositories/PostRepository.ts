@@ -31,6 +31,12 @@ export class PostRepository implements IPostRepository {
     });
   }
 
+  async getById(postId: string): Promise<Post> {
+    return prismaClient.post.findUnique({
+      where: { id: postId },
+    });
+  }
+
   async getAll(): Promise<PostCard[]> {
     return prismaClient.post.findMany({
       select: {
