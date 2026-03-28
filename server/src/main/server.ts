@@ -61,6 +61,7 @@ app.use(
         listPostsUseCase: container.listPostsUseCase,
         deletePostUseCase: container.deletePostUseCase,
         updatePostUseCase: container.updatePostUseCase,
+        getPostUseCase: container.getPostUseCase,
       };
     },
   }),

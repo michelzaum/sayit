@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 import { UserRepository } from "../modules/user/repositories/UserRepository";
+
 import { CreateuserUseCase } from "../modules/user/useCases/createUser/CreateUserUseCase";
 import { GetUserUseCase } from "../modules/user/useCases/getUser/GetUserUseCase";
 import { SignInUseCase } from "../modules/auth/sign-in/useCases/SignInUseCase";
@@ -9,9 +10,10 @@ import { PostRepository } from "@/modules/post/repositories/PostRepository";
 import { CreatePostUseCase } from "@/modules/post/useCases/createPost/CreatePostUseCase";
 import { ListPostsUseCase } from "@/modules/post/useCases/listPosts/ListPostsUseCase";
 import { DeletePostUseCase } from "@/modules/post/useCases/deletePost/DeletePostUseCase";
+import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePostUseCase";
+import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 
 import { IContainer } from "./model";
-import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePostUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -28,4 +30,5 @@ export const container: IContainer = {
   listPostsUseCase: new ListPostsUseCase(postRepository),
   deletePostUseCase: new DeletePostUseCase(postRepository),
   updatePostUseCase: new UpdatePostUseCase(postRepository),
+  getPostUseCase: new GetPostUseCase(postRepository),
 };

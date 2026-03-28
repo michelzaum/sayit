@@ -3,10 +3,12 @@ import { IncomingMessage, ServerResponse } from "http";
 import { SignInUseCase } from "@/modules/auth/sign-in/useCases/SignInUseCase";
 import { CreateuserUseCase } from "@/modules/user/useCases/createUser/CreateUserUseCase";
 import { GetUserUseCase } from "@/modules/user/useCases/getUser/GetUserUseCase";
+
 import { CreatePostUseCase } from "@/modules/post/useCases/createPost/CreatePostUseCase";
 import { ListPostsUseCase } from "@/modules/post/useCases/listPosts/ListPostsUseCase";
 import { DeletePostUseCase } from "@/modules/post/useCases/deletePost/DeletePostUseCase";
 import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePostUseCase";
+import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -22,4 +24,5 @@ export interface IContainer {
   listPostsUseCase: ListPostsUseCase;
   deletePostUseCase: DeletePostUseCase;
   updatePostUseCase: UpdatePostUseCase;
+  getPostUseCase: GetPostUseCase;
 }
