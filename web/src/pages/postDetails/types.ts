@@ -11,6 +11,7 @@ export type PostProps = {
 };
 
 type Comment = {
+  id: string;
   author: string;
   authorImage: string;
   content: string;
