@@ -1,6 +1,6 @@
+import { Link, useSearchParams } from "react-router";
 import { ArrowLeftIcon } from "lucide-react";
 import { PostItem } from "../../components/postItem";
-import { Link } from "react-router";
 
 const post = {
   id: "1",
@@ -22,6 +22,11 @@ const post = {
 };
 
 export function PostDetails() {
+  const [searchParams] = useSearchParams();
+
+  const postId = searchParams.get("postId");
+
+  console.log(postId);
   const postInfo = post;
 
   return (
