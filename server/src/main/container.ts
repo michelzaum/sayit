@@ -14,9 +14,12 @@ import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePost
 import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 
 import { IContainer } from "./model";
+import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/CreateCommentUseCase";
+import { CommentRepository } from "@/modules/comments/repositories/CommentRepository";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
+const commentRepository = new CommentRepository();
 
 export const container: IContainer = {
   http: {
@@ -31,4 +34,5 @@ export const container: IContainer = {
   deletePostUseCase: new DeletePostUseCase(postRepository),
   updatePostUseCase: new UpdatePostUseCase(postRepository),
   getPostUseCase: new GetPostUseCase(postRepository),
+  createCommentUseCase: new CreateCommentUseCase(commentRepository),
 };
