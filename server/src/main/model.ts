@@ -10,6 +10,8 @@ import { DeletePostUseCase } from "@/modules/post/useCases/deletePost/DeletePost
 import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePostUseCase";
 import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 
+import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/CreateCommentUseCase";
+
 interface IHttp {
   req: IncomingMessage;
   res: ServerResponse<IncomingMessage>;
@@ -25,4 +27,5 @@ export interface IContainer {
   deletePostUseCase: DeletePostUseCase;
   updatePostUseCase: UpdatePostUseCase;
   getPostUseCase: GetPostUseCase;
+  createCommentUseCase: CreateCommentUseCase;
 }
