@@ -9,7 +9,7 @@ export class CommentRepository implements ICommentRepository {
     authorId: string,
     postId: string,
     content: string,
-  ): Promise<Partial<Comment> & Pick<User, "name">> {
+  ): Promise<Partial<Comment> & { authorName: string }> {
     const newComment = await prismaClient.comment.create({
       data: {
         content,
@@ -32,7 +32,7 @@ export class CommentRepository implements ICommentRepository {
 
     return {
       ...comment,
-      name: author.name,
+      authorName: author.name,
     };
   }
 }

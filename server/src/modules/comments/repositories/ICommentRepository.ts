@@ -6,5 +6,5 @@ export interface ICommentRepository {
     authorId: string,
     postId: string,
     content: string,
-  ): Promise<Partial<Comment> & Pick<User, "name">>;
+  ): Promise<Partial<Comment> & { authorName: string }>;
 }
