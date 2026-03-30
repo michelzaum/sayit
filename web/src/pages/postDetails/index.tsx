@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { ArrowLeftIcon, Loader } from "lucide-react";
+import { ArrowLeftIcon, Loader, User2 } from "lucide-react";
 
 import { PostItem } from "../../components/postItem";
 import { usePostDetails } from "./usePostDetails";
@@ -72,9 +72,14 @@ export function PostDetails() {
                   className="border border-gray-300 p-4 rounded-lg"
                 >
                   <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center">
-                    <div className="flex items-center gap-1">
-                      {/* TODO: Update once we have user's image */}
-                      <span>{""}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="rounded-full p-1 border border-gray-400">
+                        <User2
+                          className="text-gray-400"
+                          height={18}
+                          width={18}
+                        />
+                      </div>
                       <span className="text-xs font-medium">
                         {comment.author.name}
                       </span>
