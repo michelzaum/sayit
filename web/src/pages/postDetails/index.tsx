@@ -6,7 +6,7 @@ import { usePostDetails } from "./usePostDetails";
 import { formatRelativeDate } from "@/shared/formatRelativeDate";
 
 export function PostDetails() {
-  const { data, loading } = usePostDetails();
+  const { data, loading, newCommentRef, handleAddComment } = usePostDetails();
 
   if (!data) {
     return;
@@ -42,15 +42,19 @@ export function PostDetails() {
             commentsCount={data.getPost.commentsCount}
           />
 
-          <form className="flex flex-col items-end gap-3">
+          <form
+            className="flex flex-col items-end gap-3"
+            onSubmit={handleAddComment}
+          >
             <textarea
+              ref={newCommentRef}
               name="comment"
               id="comment"
               placeholder="Escreva um comentario"
               className="border border-gray-300 text-xs rounded-lg p-3 w-full resize-none"
             ></textarea>
             <button
-              type="button"
+              type="submit"
               className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg"
             >
               Comentar
