@@ -2,7 +2,6 @@ import { IContainer } from "@/main/model";
 
 type CreateCommentBody = {
   content: string;
-  authorId: string;
   postId: string;
 };
 
@@ -10,10 +9,11 @@ export const commentMutation = {
   createComment: async (
     _,
     args: CreateCommentBody,
-    { createCommentUseCase }: IContainer,
+    { createCommentUseCase, http }: IContainer,
   ) => {
-    const { authorId, postId, content } = args;
+    const { postId, content } = args;
+    const { req } = http;
 
-    return await createCommentUseCase.execute(authorId, postId, content);
+    return await createCommentUseCase.execute(postId, content, req);
   },
 };
