@@ -12,9 +12,11 @@ export type PostProps = {
 
 type Comment = {
   id: string;
-  authorId: string;
-  body: string;
-  createdAt: Date;
+  content: string;
+  createdAt: string;
+  author: {
+    name: string;
+  };
 };
 
 export type GetPostData = {
