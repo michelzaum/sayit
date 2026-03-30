@@ -61,7 +61,7 @@ export function PostDetails() {
             ></textarea>
             <button
               type="submit"
-              className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg disabled:bg-gray-400"
+              className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg disabled:bg-gray-400 hover:bg-blue-900 transition-colors cursor-pointer"
               disabled={createCommentLoading}
             >
               {createCommentLoading ? (
