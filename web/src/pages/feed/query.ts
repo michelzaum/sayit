@@ -6,17 +6,16 @@ export const GET_POSTS = gql`
       id
       content
       createdAt
-      likes {
-        authorId
+      author {
+        name
       }
       comments {
-        authorId
-        postId
-      }
-      author {
         id
-        email
-        name
+        createdAt
+        content
+      }
+      likes {
+        authorId
       }
     }
   }
