@@ -37,6 +37,10 @@ export function usePostDetails() {
 
     const newCommentValue = newCommentRef.current.value;
 
+    if (!newCommentValue) {
+      return;
+    }
+
     try {
       await createComment({
         variables: {
