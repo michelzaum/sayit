@@ -3,6 +3,7 @@ import { ArrowLeftIcon, Loader } from "lucide-react";
 
 import { PostItem } from "../../components/postItem";
 import { usePostDetails } from "./usePostDetails";
+import { formatRelativeDate } from "@/shared/formatRelativeDate";
 
 export function PostDetails() {
   const { data, loading } = usePostDetails();
@@ -75,15 +76,17 @@ export function PostDetails() {
                       {/* TODO: Update once we have user's image */}
                       <span>{""}</span>
                       <span className="text-xs font-medium">
-                        {comment.authorId}
+                        {comment.author.name}
                       </span>
                     </div>
                     <span className="text-xs text-gray-500">
-                      {comment.createdAt.toString()}
+                      {formatRelativeDate(comment.createdAt.toString())}
                     </span>
                   </div>
                   <div className="py-4">
-                    <span className="text-xs font-medium">{comment.body}</span>
+                    <span className="text-xs font-medium">
+                      {comment.content}
+                    </span>
                   </div>
                 </div>
               ))}

@@ -19,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+import { formatRelativeDate } from "@/shared/formatRelativeDate";
 
 export function PostItem({
   id,
@@ -36,7 +37,6 @@ export function PostItem({
     loading,
     updatePostLoading,
     newPostContentRef,
-    formatPostDate,
     toggleLike,
     openDeletePostModal,
     closeDeletePostModal,
@@ -98,7 +98,7 @@ export function PostItem({
         </div>
       </div>
       <span className="text-[10px] text-gray-500">
-        {formatPostDate(createdAt.toString())}
+        {formatRelativeDate(createdAt.toString())}
       </span>
       <Link to={`/postDetails?postId=${id}`} className="py-4 block">
         <span className="text-xs font-medium">{postContent}</span>
