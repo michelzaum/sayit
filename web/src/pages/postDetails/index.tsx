@@ -6,7 +6,13 @@ import { usePostDetails } from "./usePostDetails";
 import { formatRelativeDate } from "@/shared/formatRelativeDate";
 
 export function PostDetails() {
-  const { data, loading, newCommentRef, handleAddComment } = usePostDetails();
+  const {
+    data,
+    loading,
+    newCommentRef,
+    createCommentLoading,
+    handleAddComment,
+  } = usePostDetails();
 
   if (!data) {
     return;
@@ -55,9 +61,14 @@ export function PostDetails() {
             ></textarea>
             <button
               type="submit"
-              className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg"
+              className="text-xs font-medium bg-blue-950 text-white p-3 rounded-lg disabled:bg-gray-400"
+              disabled={createCommentLoading}
             >
-              Comentar
+              {createCommentLoading ? (
+                <Loader size={16} className="animate-spin" />
+              ) : (
+                <span>Comentar</span>
+              )}
             </button>
           </form>
         </div>

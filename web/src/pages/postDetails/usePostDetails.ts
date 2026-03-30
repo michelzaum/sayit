@@ -13,7 +13,8 @@ export function usePostDetails() {
   const postId = searchParams.get("postId");
   const [getPost, { data, loading, error }] =
     useLazyQuery<GetPostData>(GET_POST);
-  const [createComment] = useMutation(CREATE_COMMENT);
+  const [createComment, { loading: createCommentLoading }] =
+    useMutation(CREATE_COMMENT);
 
   useEffect(() => {
     async function handleGetPosts() {
@@ -54,6 +55,7 @@ export function usePostDetails() {
     data,
     loading,
     error,
+    createCommentLoading,
     newCommentRef,
     handleAddComment,
   };
