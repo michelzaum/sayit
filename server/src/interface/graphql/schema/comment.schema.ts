@@ -1,8 +1,8 @@
 export const commentTypeDefs = `#graphql
   type Comment {
     id: String
-    body: String
-    authorId: String
+    content: String
+    author: User
     postId: String
     createdAt: String
   }
