@@ -22,10 +22,6 @@ export function usePostItem() {
     setIsPostLiked((prevState) => !prevState);
   }
 
-  function formatPostDate(dateInNumber: string): string {
-    return dayjs().to(dayjs(Number(dateInNumber)));
-  }
-
   function openDeletePostModal(): void {
     setIsDeletePostModalOpen(true);
   }
@@ -90,7 +86,6 @@ export function usePostItem() {
     updatePostLoading,
     newPostContentRef,
     toggleLike,
-    formatPostDate,
     handleDeletePost,
     handleUpdatePost,
     openDeletePostModal,

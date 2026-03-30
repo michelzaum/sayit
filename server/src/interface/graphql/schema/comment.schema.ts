@@ -1,9 +1,20 @@
 export const commentTypeDefs = `#graphql
   type Comment {
     id: String
-    body: String
-    authorId: String
+    content: String
+    author: User
     postId: String
     createdAt: String
+  }
+
+  type CreateCommentResponse {
+    id: String
+    content: String
+    createdAt: String
+    authorName: String
+  }
+
+  type Mutation {
+    createComment(postId: String, content: String): CreateCommentResponse
   }
 `;

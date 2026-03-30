@@ -9,7 +9,7 @@ export type Post = {
   content: string;
   createdAt: string;
   likes: { authorId: string }[];
-  comments: { authorId: string }[];
+  comments: { author: { name: string } }[];
   author: {
     name: string;
     email: string;

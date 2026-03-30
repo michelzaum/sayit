@@ -10,7 +10,9 @@ export const POST_CREATED_SUBSCRIPTION = gql`
         authorId
       }
       comments {
-        authorId
+        author {
+          name
+        }
         postId
       }
       author {
