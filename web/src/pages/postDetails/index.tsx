@@ -1,9 +1,15 @@
 import { Link } from "react-router";
-import { ArrowLeftIcon, Loader, User2 } from "lucide-react";
+import { ArrowLeftIcon, Loader, MoreHorizontal, User2 } from "lucide-react";
 
 import { PostItem } from "../../components/postItem";
 import { usePostDetails } from "./usePostDetails";
 import { formatRelativeDate } from "@/shared/formatRelativeDate";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 
 export function PostDetails() {
   const {
@@ -13,6 +19,8 @@ export function PostDetails() {
     createCommentLoading,
     handleAddComment,
   } = usePostDetails();
+
+  const isCommentOwner = true; // temporary
 
   if (!data) {
     return;
@@ -99,9 +107,40 @@ export function PostDetails() {
                         {comment.author.name}
                       </span>
                     </div>
-                    <span className="text-xs text-gray-500">
-                      {formatRelativeDate(comment.createdAt.toString())}
-                    </span>
+                    <div className="flex items-center gap-4">
+                      <span className="text-xs text-gray-500">
+                        {formatRelativeDate(comment.createdAt.toString())}
+                      </span>
+                      {isCommentOwner && (
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className="hover:cursor-pointer border-gray-400"
+                            >
+                              <MoreHorizontal />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            className="max-w-32 p-0"
+                            align="start"
+                          >
+                            <button
+                              className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer"
+                              // onClick={openDeletePostModal}
+                            >
+                              <span className="text-red-600">Excluir</span>
+                            </button>
+                            <button
+                              className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                              // onClick={openUpdatePostModal}
+                            >
+                              <span>Editar</span>
+                            </button>
+                          </PopoverContent>
+                        </Popover>
+                      )}
+                    </div>
                   </div>
                   <div className="py-4">
                     <span className="text-xs font-medium">
