@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 
 import { UserRepository } from "../modules/user/repositories/UserRepository";
 
-import { CreateuserUseCase } from "../modules/user/useCases/createUser/CreateUserUseCase";
+import { CreateUserUseCase } from "../modules/user/useCases/createUser/CreateUserUseCase";
 import { GetUserUseCase } from "../modules/user/useCases/getUser/GetUserUseCase";
 import { SignInUseCase } from "../modules/auth/sign-in/useCases/SignInUseCase";
 
@@ -28,7 +28,7 @@ export const container: IContainer = {
     req: {} as IncomingMessage,
     res: {} as ServerResponse<IncomingMessage>,
   },
-  createUserUseCase: new CreateuserUseCase(userRepository),
+  createUserUseCase: new CreateUserUseCase(userRepository),
   getUserUseCase: new GetUserUseCase(userRepository),
   signInUseCase: new SignInUseCase(userRepository),
   createPostUseCase: new CreatePostUseCase(postRepository),
