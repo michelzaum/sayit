@@ -23,11 +23,14 @@ export function PostDetails() {
     data,
     loading,
     newCommentRef,
+    updatedCommentRef,
+    updatedCommentContent,
     createCommentLoading,
     isUpdateCommentModalOpen,
     openUpdateCommentModal,
     closeUpdateCommentModal,
     handleAddComment,
+    handleUpdateComment,
   } = usePostDetails();
 
   const isCommentOwner = true; // temporary
@@ -143,7 +146,12 @@ export function PostDetails() {
                             </button>
                             <button
                               className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
-                              onClick={openUpdateCommentModal}
+                              onClick={() =>
+                                openUpdateCommentModal(
+                                  comment.id,
+                                  comment.content,
+                                )
+                              }
                             >
                               <span>Editar</span>
                             </button>
@@ -169,12 +177,12 @@ export function PostDetails() {
             <DialogTitle>Editar comentário</DialogTitle>
             <DialogDescription asChild>
               <form
-                // onSubmit={(event) => handleUpdatePost(event, id)}
+                onSubmit={handleUpdateComment}
                 className="flex flex-col gap-6"
               >
                 <textarea
-                  // defaultValue={postContent}
-                  // ref={newPostContentRef}
+                  defaultValue={updatedCommentContent}
+                  ref={updatedCommentRef}
                   name="newPostContent"
                   id="newPostContent"
                   rows={4}

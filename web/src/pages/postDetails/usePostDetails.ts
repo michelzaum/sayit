@@ -9,9 +9,12 @@ import { CREATE_COMMENT } from "./mutation";
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
+  const updatedCommentRef = useRef({} as HTMLTextAreaElement);
   const [searchParams] = useSearchParams();
   const [isUpdateCommentModalOpen, setIsUpdateCommentModalOpen] =
     useState(false);
+  const [updatedCommentId, setUpdatedCommentId] = useState("");
+  const [updatedCommentContent, setUpdatedCommentContent] = useState("");
   const postId = searchParams.get("postId");
   const [getPost, { data, loading, error }] =
     useLazyQuery<GetPostData>(GET_POST);
@@ -34,12 +37,25 @@ export function usePostDetails() {
     handleGetPost();
   }, [getPost, postId]);
 
-  function openUpdateCommentModal() {
+  function openUpdateCommentModal(
+    commentId: string,
+    updateCommentContent: string,
+  ) {
+    setUpdatedCommentId(commentId);
+    setUpdatedCommentContent(updateCommentContent);
     setIsUpdateCommentModalOpen(true);
   }
 
   function closeUpdateCommentModal() {
     setIsUpdateCommentModalOpen(false);
+  }
+
+  async function handleUpdateComment(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const updateCommentValue = updatedCommentRef.current.value;
+
+    console.log({ updateCommentValue, updatedCommentId });
   }
 
   async function handleAddComment(event: FormEvent<HTMLFormElement>) {
@@ -71,9 +87,12 @@ export function usePostDetails() {
     error,
     createCommentLoading,
     newCommentRef,
+    updatedCommentRef,
+    updatedCommentContent,
     isUpdateCommentModalOpen,
     openUpdateCommentModal,
     closeUpdateCommentModal,
     handleAddComment,
+    handleUpdateComment,
   };
 }
