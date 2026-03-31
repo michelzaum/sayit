@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { useLazyQuery, useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
@@ -10,6 +10,8 @@ import { CREATE_COMMENT } from "./mutation";
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
   const [searchParams] = useSearchParams();
+  const [isUpdateCommentModalOpen, setIsUpdateCommentModalOpen] =
+    useState(false);
   const postId = searchParams.get("postId");
   const [getPost, { data, loading, error }] =
     useLazyQuery<GetPostData>(GET_POST);
@@ -17,7 +19,7 @@ export function usePostDetails() {
     useMutation(CREATE_COMMENT);
 
   useEffect(() => {
-    async function handleGetPosts() {
+    async function handleGetPost() {
       try {
         await getPost({
           variables: {
@@ -29,8 +31,16 @@ export function usePostDetails() {
       }
     }
 
-    handleGetPosts();
+    handleGetPost();
   }, [getPost, postId]);
+
+  function openUpdateCommentModal() {
+    setIsUpdateCommentModalOpen(true);
+  }
+
+  function closeUpdateCommentModal() {
+    setIsUpdateCommentModalOpen(false);
+  }
 
   async function handleAddComment(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -61,6 +71,9 @@ export function usePostDetails() {
     error,
     createCommentLoading,
     newCommentRef,
+    isUpdateCommentModalOpen,
+    openUpdateCommentModal,
+    closeUpdateCommentModal,
     handleAddComment,
   };
 }
