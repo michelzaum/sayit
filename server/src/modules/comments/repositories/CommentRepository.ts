@@ -35,4 +35,21 @@ export class CommentRepository implements ICommentRepository {
       authorName: author.name,
     };
   }
+
+  async update(
+    commentId: string,
+    newContent: string,
+  ): Promise<Pick<Comment, "content">> {
+    return prismaClient.comment.update({
+      where: {
+        id: commentId,
+      },
+      data: {
+        content: newContent,
+      },
+      select: {
+        content: true,
+      },
+    });
+  }
 }
