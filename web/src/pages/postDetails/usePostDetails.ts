@@ -119,11 +119,12 @@ export function usePostDetails() {
         },
       });
 
-      closeDeleteCommentModal();
       toast.success("Comentário excluído com sucesso!");
     } catch {
       toast.error("Erro ao excluir comentário. Tente novemente");
     }
+
+    closeDeleteCommentModal();
   }
 
   return {
