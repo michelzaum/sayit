@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { GET_POST } from "./query";
 import { GetPostData } from "./types";
-import { CREATE_COMMENT } from "./mutation";
+import { CREATE_COMMENT } from "./mutations/createComment";
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
