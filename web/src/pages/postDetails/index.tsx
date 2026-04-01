@@ -107,57 +107,61 @@ export function PostDetails() {
                   key={comment.id}
                   className="border border-gray-300 p-4 rounded-lg"
                 >
-                  <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:items-center">
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-full p-1 border border-gray-400">
-                        <User2
-                          className="text-gray-400"
-                          height={18}
-                          width={18}
-                        />
+                  <div className="flex flex-col gap-2 justify-between items-start">
+                    <div className="w-full flex gap-3 justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="rounded-full p-1 border border-gray-400">
+                          <User2
+                            className="text-gray-400"
+                            height={18}
+                            width={18}
+                          />
+                        </div>
+                        <span className="text-xs font-medium">
+                          {comment.author.name}
+                        </span>
                       </div>
-                      <span className="text-xs font-medium">
-                        {comment.author.name}
-                      </span>
+                      {isCommentOwner && (
+                        <div className="self-end items-start">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className="hover:cursor-pointer border-gray-400"
+                              >
+                                <MoreHorizontal />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="max-w-32 p-0"
+                              align="start"
+                            >
+                              <button
+                                className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer"
+                                // onClick={openDeletePostModal}
+                              >
+                                <span className="text-red-600">Excluir</span>
+                              </button>
+                              <button
+                                className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                                onClick={() =>
+                                  openUpdateCommentModal(
+                                    comment.id,
+                                    comment.content,
+                                  )
+                                }
+                              >
+                                <span>Editar</span>
+                              </button>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-xs text-gray-500">
                         {formatRelativeDate(comment.createdAt.toString())}
                       </span>
-                      {isCommentOwner && (
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="hover:cursor-pointer border-gray-400"
-                            >
-                              <MoreHorizontal />
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="max-w-32 p-0"
-                            align="start"
-                          >
-                            <button
-                              className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer"
-                              // onClick={openDeletePostModal}
-                            >
-                              <span className="text-red-600">Excluir</span>
-                            </button>
-                            <button
-                              className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
-                              onClick={() =>
-                                openUpdateCommentModal(
-                                  comment.id,
-                                  comment.content,
-                                )
-                              }
-                            >
-                              <span>Editar</span>
-                            </button>
-                          </PopoverContent>
-                        </Popover>
-                      )}
                     </div>
                   </div>
                   <div className="py-4">
