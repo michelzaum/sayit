@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { GET_POST } from "./query";
 import { GetPostData } from "./types";
 import { CREATE_COMMENT } from "./mutations/createComment";
+import { UPDATE_COMMENT } from "./mutations/updateComment";
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
@@ -20,6 +21,7 @@ export function usePostDetails() {
     useLazyQuery<GetPostData>(GET_POST);
   const [createComment, { loading: createCommentLoading }] =
     useMutation(CREATE_COMMENT);
+  const [updateComment] = useMutation(UPDATE_COMMENT);
 
   useEffect(() => {
     async function handleGetPost() {
@@ -55,7 +57,19 @@ export function usePostDetails() {
 
     const updateCommentValue = updatedCommentRef.current.value;
 
-    console.log({ updateCommentValue, updatedCommentId });
+    try {
+      await updateComment({
+        variables: {
+          commentId: updatedCommentId,
+          newContent: updateCommentValue,
+        },
+      });
+
+      closeUpdateCommentModal();
+      toast.success("Comentário atualizado com sucesso!");
+    } catch {
+      toast.error("Erro ao atualizar comentário. Tente novamente");
+    }
   }
 
   async function handleAddComment(event: FormEvent<HTMLFormElement>) {
