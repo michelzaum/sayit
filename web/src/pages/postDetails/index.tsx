@@ -30,6 +30,7 @@ export function PostDetails() {
     isUpdateCommentModalOpen,
     isDeleteCommentModalOpen,
     updateCommentLoading,
+    deleteCommentLoading,
     openUpdateCommentModal,
     closeUpdateCommentModal,
     closeDeleteCommentModal,
@@ -245,9 +246,9 @@ export function PostDetails() {
               variant="destructive"
               type="button"
               onClick={handleDeleteComment}
-              disabled={loading}
+              disabled={deleteCommentLoading}
             >
-              {loading ? (
+              {deleteCommentLoading ? (
                 <Loader className="animate-spin" />
               ) : (
                 <span>Excluir</span>

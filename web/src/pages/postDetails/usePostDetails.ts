@@ -7,6 +7,7 @@ import { GET_POST } from "./query";
 import { GetPostData } from "./types";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
+import { DELETE_COMMENT } from "./mutations/deleteComment";
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
@@ -26,6 +27,8 @@ export function usePostDetails() {
     useMutation(CREATE_COMMENT);
   const [updateComment, { loading: updateCommentLoading }] =
     useMutation(UPDATE_COMMENT);
+  const [deleteComment, { loading: deleteCommentLoading }] =
+    useMutation(DELETE_COMMENT);
 
   useEffect(() => {
     async function handleGetPost() {
@@ -109,7 +112,18 @@ export function usePostDetails() {
   }
 
   async function handleDeleteComment() {
-    console.log(deletedCommentId);
+    try {
+      await deleteComment({
+        variables: {
+          commentId: deletedCommentId,
+        },
+      });
+
+      closeDeleteCommentModal();
+      toast.success("Comentário excluído com sucesso!");
+    } catch {
+      toast.error("Erro ao excluir comentário. Tente novemente");
+    }
   }
 
   return {
@@ -123,6 +137,7 @@ export function usePostDetails() {
     isUpdateCommentModalOpen,
     isDeleteCommentModalOpen,
     updateCommentLoading,
+    deleteCommentLoading,
     openUpdateCommentModal,
     closeUpdateCommentModal,
     closeDeleteCommentModal,
