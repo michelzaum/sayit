@@ -10,4 +10,5 @@ export interface ICommentRepository {
     commentId: string,
     newContent: string,
   ): Promise<Pick<Comment, "content">>;
+  delete(commentId: string): Promise<void>;
 }
