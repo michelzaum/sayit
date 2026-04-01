@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 
 import { UserRepository } from "../modules/user/repositories/UserRepository";
 
-import { CreateuserUseCase } from "../modules/user/useCases/createUser/CreateUserUseCase";
+import { CreateUserUseCase } from "../modules/user/useCases/createUser/CreateUserUseCase";
 import { GetUserUseCase } from "../modules/user/useCases/getUser/GetUserUseCase";
 import { SignInUseCase } from "../modules/auth/sign-in/useCases/SignInUseCase";
 
@@ -13,9 +13,12 @@ import { DeletePostUseCase } from "@/modules/post/useCases/deletePost/DeletePost
 import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePostUseCase";
 import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 
-import { IContainer } from "./model";
-import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/CreateCommentUseCase";
 import { CommentRepository } from "@/modules/comments/repositories/CommentRepository";
+import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/CreateCommentUseCase";
+import { UpdateCommentUseCase } from "@/modules/comments/useCases/updateComment/UpdateCommentUseCase";
+
+import { IContainer } from "./model";
+import { DeleteCommentUseCase } from "@/modules/comments/useCases/deleteComment/DeleteCommentUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -26,7 +29,7 @@ export const container: IContainer = {
     req: {} as IncomingMessage,
     res: {} as ServerResponse<IncomingMessage>,
   },
-  createUserUseCase: new CreateuserUseCase(userRepository),
+  createUserUseCase: new CreateUserUseCase(userRepository),
   getUserUseCase: new GetUserUseCase(userRepository),
   signInUseCase: new SignInUseCase(userRepository),
   createPostUseCase: new CreatePostUseCase(postRepository),
@@ -35,4 +38,6 @@ export const container: IContainer = {
   updatePostUseCase: new UpdatePostUseCase(postRepository),
   getPostUseCase: new GetPostUseCase(postRepository),
   createCommentUseCase: new CreateCommentUseCase(commentRepository),
+  updateCommentUseCase: new UpdateCommentUseCase(commentRepository),
+  deleteCommentUseCase: new DeleteCommentUseCase(commentRepository),
 };

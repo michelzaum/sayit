@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 
 import { SignInUseCase } from "@/modules/auth/sign-in/useCases/SignInUseCase";
-import { CreateuserUseCase } from "@/modules/user/useCases/createUser/CreateUserUseCase";
+import { CreateUserUseCase } from "@/modules/user/useCases/createUser/CreateUserUseCase";
 import { GetUserUseCase } from "@/modules/user/useCases/getUser/GetUserUseCase";
 
 import { CreatePostUseCase } from "@/modules/post/useCases/createPost/CreatePostUseCase";
@@ -11,6 +11,8 @@ import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePost
 import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 
 import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/CreateCommentUseCase";
+import { UpdateCommentUseCase } from "@/modules/comments/useCases/updateComment/UpdateCommentUseCase";
+import { DeleteCommentUseCase } from "@/modules/comments/useCases/deleteComment/DeleteCommentUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -19,7 +21,7 @@ interface IHttp {
 
 export interface IContainer {
   http: IHttp;
-  createUserUseCase: CreateuserUseCase;
+  createUserUseCase: CreateUserUseCase;
   getUserUseCase: GetUserUseCase;
   signInUseCase: SignInUseCase;
   createPostUseCase: CreatePostUseCase;
@@ -28,4 +30,6 @@ export interface IContainer {
   updatePostUseCase: UpdatePostUseCase;
   getPostUseCase: GetPostUseCase;
   createCommentUseCase: CreateCommentUseCase;
+  updateCommentUseCase: UpdateCommentUseCase;
+  deleteCommentUseCase: DeleteCommentUseCase;
 }

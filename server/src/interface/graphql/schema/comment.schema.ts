@@ -14,7 +14,13 @@ export const commentTypeDefs = `#graphql
     authorName: String
   }
 
+  type UpdateCommentResponse {
+    content: String
+  }
+
   type Mutation {
     createComment(postId: String, content: String): CreateCommentResponse
+    updateComment(commentId: String, newContent: String): UpdateCommentResponse
+    deleteComment(commentId: String): Boolean
   }
 `;
