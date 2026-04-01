@@ -21,7 +21,8 @@ export function usePostDetails() {
     useLazyQuery<GetPostData>(GET_POST);
   const [createComment, { loading: createCommentLoading }] =
     useMutation(CREATE_COMMENT);
-  const [updateComment] = useMutation(UPDATE_COMMENT);
+  const [updateComment, { loading: updateCommentLoading }] =
+    useMutation(UPDATE_COMMENT);
 
   useEffect(() => {
     async function handleGetPost() {
@@ -104,6 +105,7 @@ export function usePostDetails() {
     updatedCommentRef,
     updatedCommentContent,
     isUpdateCommentModalOpen,
+    updateCommentLoading,
     openUpdateCommentModal,
     closeUpdateCommentModal,
     handleAddComment,

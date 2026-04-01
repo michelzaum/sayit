@@ -27,6 +27,7 @@ export function PostDetails() {
     updatedCommentContent,
     createCommentLoading,
     isUpdateCommentModalOpen,
+    updateCommentLoading,
     openUpdateCommentModal,
     closeUpdateCommentModal,
     handleAddComment,
@@ -195,13 +196,13 @@ export function PostDetails() {
                 <button
                   type="submit"
                   className="bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center font-medium py-4 rounded-lg hover:bg-blue-900 transition-colors cursor-pointer disabled:"
-                  // disabled={updatePostLoading}
+                  disabled={updateCommentLoading}
                 >
-                  {/* {!updatePostLoading ? (
+                  {!updateCommentLoading ? (
                     <span>Salvar alterações</span>
                   ) : (
                     <Loader size={24} className="animate-spin" />
-                  )} */}
+                  )}
                 </button>
                 <button
                   type="button"
