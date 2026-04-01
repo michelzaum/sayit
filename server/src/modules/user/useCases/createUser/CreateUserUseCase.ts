@@ -3,7 +3,7 @@ import { hash } from "bcryptjs";
 import { User } from "../../entities/User";
 import { IUserRepository } from "../../repositories/IUserRepository";
 
-export class CreateuserUseCase {
+export class CreateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async execute(data: User): Promise<User> {

@@ -11,6 +11,7 @@ import { UpdatePostUseCase } from "@/modules/post/useCases/updatePost/UpdatePost
 import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 
 import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/CreateCommentUseCase";
+import { UpdateCommentUseCase } from "@/modules/comments/useCases/updateComment/UpdateCommentUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -28,4 +29,5 @@ export interface IContainer {
   updatePostUseCase: UpdatePostUseCase;
   getPostUseCase: GetPostUseCase;
   createCommentUseCase: CreateCommentUseCase;
+  updateCommentUseCase: UpdateCommentUseCase;
 }
