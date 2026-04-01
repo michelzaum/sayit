@@ -15,7 +15,10 @@ export function usePostDetails() {
   const [isUpdateCommentModalOpen, setIsUpdateCommentModalOpen] =
     useState(false);
   const [updatedCommentId, setUpdatedCommentId] = useState("");
+  const [deletedCommentId, setDeletedCommentId] = useState("");
   const [updatedCommentContent, setUpdatedCommentContent] = useState("");
+  const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
+    useState(false);
   const postId = searchParams.get("postId");
   const [getPost, { data, loading, error }] =
     useLazyQuery<GetPostData>(GET_POST);
@@ -51,6 +54,15 @@ export function usePostDetails() {
 
   function closeUpdateCommentModal() {
     setIsUpdateCommentModalOpen(false);
+  }
+
+  function closeDeleteCommentModal() {
+    setIsDeleteCommentModalOpen(false);
+  }
+
+  function openDeleteCommentModal(commentId: string) {
+    setDeletedCommentId(commentId);
+    setIsDeleteCommentModalOpen(true);
   }
 
   async function handleUpdateComment(event: FormEvent<HTMLFormElement>) {
@@ -96,6 +108,10 @@ export function usePostDetails() {
     }
   }
 
+  async function handleDeleteComment() {
+    console.log(deletedCommentId);
+  }
+
   return {
     data,
     loading,
@@ -105,10 +121,14 @@ export function usePostDetails() {
     updatedCommentRef,
     updatedCommentContent,
     isUpdateCommentModalOpen,
+    isDeleteCommentModalOpen,
     updateCommentLoading,
     openUpdateCommentModal,
     closeUpdateCommentModal,
+    closeDeleteCommentModal,
+    openDeleteCommentModal,
     handleAddComment,
     handleUpdateComment,
+    handleDeleteComment,
   };
 }

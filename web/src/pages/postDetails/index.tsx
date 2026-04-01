@@ -14,6 +14,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -27,11 +28,15 @@ export function PostDetails() {
     updatedCommentContent,
     createCommentLoading,
     isUpdateCommentModalOpen,
+    isDeleteCommentModalOpen,
     updateCommentLoading,
     openUpdateCommentModal,
     closeUpdateCommentModal,
+    closeDeleteCommentModal,
+    openDeleteCommentModal,
     handleAddComment,
     handleUpdateComment,
+    handleDeleteComment,
   } = usePostDetails();
 
   const isCommentOwner = true; // temporary
@@ -139,7 +144,9 @@ export function PostDetails() {
                             >
                               <button
                                 className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer"
-                                // onClick={openDeletePostModal}
+                                onClick={() =>
+                                  openDeleteCommentModal(comment.id)
+                                }
                               >
                                 <span className="text-red-600">Excluir</span>
                               </button>
@@ -214,6 +221,39 @@ export function PostDetails() {
               </form>
             </DialogDescription>
           </DialogHeader>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isDeleteCommentModalOpen}>
+        <DialogContent className="sm:max-w-sm" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Excluir comentário?</DialogTitle>
+            <DialogDescription>
+              Tem certeza que deseja excluir este comentário?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              className="hover:cursor-pointer"
+              variant="outline"
+              onClick={closeDeleteCommentModal}
+              disabled={loading}
+            >
+              Cancelar
+            </Button>
+            <Button
+              className="hover:cursor-pointer"
+              variant="destructive"
+              type="button"
+              onClick={handleDeleteComment}
+              disabled={loading}
+            >
+              {loading ? (
+                <Loader className="animate-spin" />
+              ) : (
+                <span>Excluir</span>
+              )}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
