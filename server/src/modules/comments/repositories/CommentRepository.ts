@@ -52,4 +52,10 @@ export class CommentRepository implements ICommentRepository {
       },
     });
   }
+
+  async delete(commentId: string): Promise<void> {
+    await prismaClient.comment.delete({
+      where: { id: commentId },
+    });
+  }
 }

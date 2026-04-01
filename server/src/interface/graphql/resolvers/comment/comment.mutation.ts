@@ -10,6 +10,10 @@ type UpdateCommentBody = {
   newContent: string;
 };
 
+type DeleteCommentArgs = {
+  commentId: string;
+};
+
 export const commentMutation = {
   createComment: async (
     _,
@@ -28,5 +32,12 @@ export const commentMutation = {
   ) => {
     const { commentId, newContent } = args;
     return await updateCommentUseCase.execute(commentId, newContent);
+  },
+  deleteComment: async (
+    _,
+    { commentId }: DeleteCommentArgs,
+    { deleteCommentUseCase }: IContainer,
+  ) => {
+    return deleteCommentUseCase.execute(commentId);
   },
 };

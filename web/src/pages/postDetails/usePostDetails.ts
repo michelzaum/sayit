@@ -7,6 +7,7 @@ import { GET_POST } from "./query";
 import { GetPostData } from "./types";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
+import { DELETE_COMMENT } from "./mutations/deleteComment";
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
@@ -15,7 +16,10 @@ export function usePostDetails() {
   const [isUpdateCommentModalOpen, setIsUpdateCommentModalOpen] =
     useState(false);
   const [updatedCommentId, setUpdatedCommentId] = useState("");
+  const [deletedCommentId, setDeletedCommentId] = useState("");
   const [updatedCommentContent, setUpdatedCommentContent] = useState("");
+  const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
+    useState(false);
   const postId = searchParams.get("postId");
   const [getPost, { data, loading, error }] =
     useLazyQuery<GetPostData>(GET_POST);
@@ -23,6 +27,8 @@ export function usePostDetails() {
     useMutation(CREATE_COMMENT);
   const [updateComment, { loading: updateCommentLoading }] =
     useMutation(UPDATE_COMMENT);
+  const [deleteComment, { loading: deleteCommentLoading }] =
+    useMutation(DELETE_COMMENT);
 
   useEffect(() => {
     async function handleGetPost() {
@@ -51,6 +57,15 @@ export function usePostDetails() {
 
   function closeUpdateCommentModal() {
     setIsUpdateCommentModalOpen(false);
+  }
+
+  function closeDeleteCommentModal() {
+    setIsDeleteCommentModalOpen(false);
+  }
+
+  function openDeleteCommentModal(commentId: string) {
+    setDeletedCommentId(commentId);
+    setIsDeleteCommentModalOpen(true);
   }
 
   async function handleUpdateComment(event: FormEvent<HTMLFormElement>) {
@@ -96,6 +111,22 @@ export function usePostDetails() {
     }
   }
 
+  async function handleDeleteComment() {
+    try {
+      await deleteComment({
+        variables: {
+          commentId: deletedCommentId,
+        },
+      });
+
+      toast.success("Comentário excluído com sucesso!");
+    } catch {
+      toast.error("Erro ao excluir comentário. Tente novemente");
+    }
+
+    closeDeleteCommentModal();
+  }
+
   return {
     data,
     loading,
@@ -105,10 +136,15 @@ export function usePostDetails() {
     updatedCommentRef,
     updatedCommentContent,
     isUpdateCommentModalOpen,
+    isDeleteCommentModalOpen,
     updateCommentLoading,
+    deleteCommentLoading,
     openUpdateCommentModal,
     closeUpdateCommentModal,
+    closeDeleteCommentModal,
+    openDeleteCommentModal,
     handleAddComment,
     handleUpdateComment,
+    handleDeleteComment,
   };
 }

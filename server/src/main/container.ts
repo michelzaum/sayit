@@ -18,6 +18,7 @@ import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/
 import { UpdateCommentUseCase } from "@/modules/comments/useCases/updateComment/UpdateCommentUseCase";
 
 import { IContainer } from "./model";
+import { DeleteCommentUseCase } from "@/modules/comments/useCases/deleteComment/DeleteCommentUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -38,4 +39,5 @@ export const container: IContainer = {
   getPostUseCase: new GetPostUseCase(postRepository),
   createCommentUseCase: new CreateCommentUseCase(commentRepository),
   updateCommentUseCase: new UpdateCommentUseCase(commentRepository),
+  deleteCommentUseCase: new DeleteCommentUseCase(commentRepository),
 };

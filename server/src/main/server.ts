@@ -64,6 +64,7 @@ app.use(
         getPostUseCase: container.getPostUseCase,
         createCommentUseCase: container.createCommentUseCase,
         updateCommentUseCase: container.updateCommentUseCase,
+        deleteCommentUseCase: container.deleteCommentUseCase,
       };
     },
   }),
