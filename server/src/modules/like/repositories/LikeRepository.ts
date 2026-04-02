@@ -9,6 +9,10 @@ export class LikeRepository implements ILikeRepository {
         authorId,
         postId,
       },
+      select: {
+        authorId: true,
+        postId: true,
+      },
     });
   }
 }
