@@ -19,10 +19,13 @@ import { UpdateCommentUseCase } from "@/modules/comments/useCases/updateComment/
 
 import { IContainer } from "./model";
 import { DeleteCommentUseCase } from "@/modules/comments/useCases/deleteComment/DeleteCommentUseCase";
+import { CreateLikeUseCase } from "@/modules/like/useCases/CreateLikeUseCase";
+import { LikeRepository } from "@/modules/like/repositories/LikeRepository";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
 const commentRepository = new CommentRepository();
+const likeRepository = new LikeRepository();
 
 export const container: IContainer = {
   http: {
@@ -40,4 +43,5 @@ export const container: IContainer = {
   createCommentUseCase: new CreateCommentUseCase(commentRepository),
   updateCommentUseCase: new UpdateCommentUseCase(commentRepository),
   deleteCommentUseCase: new DeleteCommentUseCase(commentRepository),
+  createLikeUseCase: new CreateLikeUseCase(likeRepository),
 };
