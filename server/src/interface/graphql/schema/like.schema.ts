@@ -5,4 +5,8 @@ export const likeTypeDefs = `#graphql
     postId: String
     createdAt: String
   }
+
+  type Mutation {
+    createLike(authorId: String, postId: String): Boolean
+  }
 `;
