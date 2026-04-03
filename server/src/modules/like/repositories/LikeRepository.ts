@@ -3,6 +3,9 @@ import { Like } from "../entities/Like";
 import { ILikeRepository } from "./ILikeRepository";
 
 export class LikeRepository implements ILikeRepository {
+  getPostLikeByAuthorId(authorId: string): Promise<Like[]> {
+    throw new Error("Method not implemented.");
+  }
   async create(authorId: string, postId: string): Promise<Like> {
     return await prismaClient.like.create({
       data: {
@@ -21,6 +24,12 @@ export class LikeRepository implements ILikeRepository {
       where: {
         authorId_postId: { authorId, postId },
       },
+    });
+  }
+
+  async getPostLikesByAuthorId(authorId: string): Promise<Like[]> {
+    return await prismaClient.like.findMany({
+      where: { authorId },
     });
   }
 }
