@@ -7,6 +7,7 @@ import { PostCard } from "../../entities/PostCard";
 import { GET_POSTS } from "./query";
 import { POST_CREATED_SUBSCRIPTION } from "./subscription";
 import { GetPosts, PostCreatedSubscription } from "./types";
+import { Like } from "@/entities/Like";
 
 export function useFeed() {
   const { error, loading, data, subscribeToMore } =
@@ -44,8 +45,15 @@ export function useFeed() {
     }
   }, [data, subscribeToMore]);
 
+  async function hasUserLikedPost(likes: Partial<Like>[]): Promise<boolean> {
+    console.log(likes);
+
+    return true;
+  }
+
   return {
     loading,
     data,
+    hasUserLikedPost,
   };
 }

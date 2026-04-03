@@ -6,5 +6,5 @@ export type PostProps = {
   postContent: string;
   likesCount: number;
   commentsCount: number;
-  isPostLiked: boolean;
+  isPostLiked: () => Promise<boolean>;
 };
