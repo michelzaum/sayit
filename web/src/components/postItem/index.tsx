@@ -29,15 +29,15 @@ export function PostItem({
   commentsCount,
   likesCount,
   postContent,
+  isPostLiked,
 }: PostProps) {
   const {
-    isPostLiked,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
     updatePostLoading,
     newPostContentRef,
-    toggleLike,
+    // toggleLike,
     openDeletePostModal,
     closeDeletePostModal,
     openUpdatePostModal,
@@ -62,7 +62,7 @@ export function PostItem({
           <span className="text-xs font-medium">{authorName}</span>
         </div>
         <div className="flex items-center gap-4">
-          <button className="hover:cursor-pointer" onClick={toggleLike}>
+          <button className="hover:cursor-pointer">
             <Heart
               height={32}
               width={32}

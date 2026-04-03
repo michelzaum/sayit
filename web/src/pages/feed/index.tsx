@@ -8,6 +8,8 @@ import { useFeed } from "./useFeed";
 export function Feed() {
   const { data, loading } = useFeed();
 
+  console.log({ data });
+
   return (
     <div className="flex justify-center mt-10 px-6">
       <div className="w-full sm:max-w-xl flex flex-col gap-12">
@@ -26,6 +28,7 @@ export function Feed() {
                 postContent={post.content}
                 likesCount={post.likes.length}
                 commentsCount={post.comments.length}
+                isPostLiked={true}
               />
             ))
           ) : (

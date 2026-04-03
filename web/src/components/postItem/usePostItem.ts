@@ -9,7 +9,6 @@ import { UPDATE_POST } from "./mutation/updatetePost";
 dayjs.extend(relativeTime);
 
 export function usePostItem() {
-  const [isPostLiked, setIsPostLiked] = useState(false);
   const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [isUpdatePostModalOpen, setIsUpdatePostModalOpen] = useState(false);
   const [deletePost, { loading }] = useMutation(DELETE_POST);
@@ -18,9 +17,9 @@ export function usePostItem() {
     {} as HTMLTextAreaElement,
   );
 
-  function toggleLike(): void {
-    setIsPostLiked((prevState) => !prevState);
-  }
+  // function toggleLike(): void {
+  //   setIsPostLiked((prevState) => !prevState);
+  // }
 
   function openDeletePostModal(): void {
     setIsDeletePostModalOpen(true);
@@ -79,13 +78,13 @@ export function usePostItem() {
   }
 
   return {
-    isPostLiked,
+    // isPostLiked,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
     updatePostLoading,
     newPostContentRef,
-    toggleLike,
+    // toggleLike,
     handleDeletePost,
     handleUpdatePost,
     openDeletePostModal,
