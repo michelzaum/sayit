@@ -15,4 +15,12 @@ export class LikeRepository implements ILikeRepository {
       },
     });
   }
+
+  async delete(authorId: string, postId: string): Promise<void> {
+    await prismaClient.like.delete({
+      where: {
+        authorId_postId: { authorId, postId },
+      },
+    });
+  }
 }
