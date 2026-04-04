@@ -30,6 +30,10 @@ export class LikeRepository implements ILikeRepository {
   async getPostLikesByAuthorId(authorId: string): Promise<Like[]> {
     return await prismaClient.like.findMany({
       where: { authorId },
+      select: {
+        authorId: true,
+        postId: true,
+      },
     });
   }
 }
