@@ -16,6 +16,7 @@ import { DeleteCommentUseCase } from "@/modules/comments/useCases/deleteComment/
 
 import { CreateLikeUseCase } from "@/modules/like/useCases/CreateLikeUseCase";
 import { DeleteLikeUseCase } from "@/modules/like/useCases/DeleteLikeUseCase";
+import { PostLikesByAuthorIdUseCase } from "@/modules/like/useCases/PostLikesByAuthorIdUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -37,4 +38,5 @@ export interface IContainer {
   deleteCommentUseCase: DeleteCommentUseCase;
   createLikeUseCase: CreateLikeUseCase;
   deleteLikeUseCase: DeleteLikeUseCase;
+  getPostLikesByAuthorIdUseCase: PostLikesByAuthorIdUseCase;
 }

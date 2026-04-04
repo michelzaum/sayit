@@ -67,6 +67,7 @@ app.use(
         deleteCommentUseCase: container.deleteCommentUseCase,
         createLikeUseCase: container.createLikeUseCase,
         deleteLikeUseCase: container.deleteLikeUseCase,
+        getPostLikesByAuthorIdUseCase: container.getPostLikesByAuthorIdUseCase,
       };
     },
   }),

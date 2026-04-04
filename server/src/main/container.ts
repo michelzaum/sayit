@@ -22,6 +22,7 @@ import { DeleteCommentUseCase } from "@/modules/comments/useCases/deleteComment/
 import { CreateLikeUseCase } from "@/modules/like/useCases/CreateLikeUseCase";
 import { DeleteLikeUseCase } from "@/modules/like/useCases/DeleteLikeUseCase";
 import { LikeRepository } from "@/modules/like/repositories/LikeRepository";
+import { PostLikesByAuthorIdUseCase } from "@/modules/like/useCases/PostLikesByAuthorIdUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -46,4 +47,5 @@ export const container: IContainer = {
   deleteCommentUseCase: new DeleteCommentUseCase(commentRepository),
   createLikeUseCase: new CreateLikeUseCase(likeRepository),
   deleteLikeUseCase: new DeleteLikeUseCase(likeRepository),
+  getPostLikesByAuthorIdUseCase: new PostLikesByAuthorIdUseCase(likeRepository),
 };
