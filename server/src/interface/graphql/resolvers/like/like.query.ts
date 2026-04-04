@@ -12,6 +12,6 @@ export const likeQuery = {
     { getPostLikesByAuthorIdUseCase }: IContainer,
   ) => {
     const { authorId } = args;
-    return getPostLikesByAuthorIdUseCase.execute(authorId);
+    return await getPostLikesByAuthorIdUseCase.execute(authorId);
   },
 };
