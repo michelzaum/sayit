@@ -14,4 +14,12 @@ export const likeMutation = {
     const { authorId, postId } = args;
     return deleteLikeUseCase.execute(authorId, postId);
   },
+  getPostLikesByAuthorId: async (
+    _,
+    args: Pick<LikeArgs, "authorId">,
+    { getPostLikesByAuthorIdUseCase }: IContainer,
+  ) => {
+    const { authorId } = args;
+    return getPostLikesByAuthorIdUseCase.execute(authorId);
+  },
 };
