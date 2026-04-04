@@ -26,7 +26,7 @@ export function Feed() {
                 postContent={post.content}
                 likesCount={post.likes.length}
                 commentsCount={post.comments.length}
-                isPostLiked={() => hasUserLikedPost(post.likes)}
+                isPostLiked={hasUserLikedPost(post.likes)}
               />
             ))
           ) : (

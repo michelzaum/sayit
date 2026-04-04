@@ -45,10 +45,12 @@ export function useFeed() {
     }
   }, [data, subscribeToMore]);
 
-  async function hasUserLikedPost(likes: Partial<Like>[]): Promise<boolean> {
+  // TODO: Validate if this logic is necessary.
+  // We might just need the logged user ID information to check if its value is
+  // in "authorId" property in "likes" array.
+  function hasUserLikedPost(likes: Partial<Like>[]): boolean {
     console.log(likes);
-
-    return true;
+    return false;
   }
 
   return {
