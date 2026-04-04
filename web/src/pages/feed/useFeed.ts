@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 import { PostCard } from "../../entities/PostCard";
 
-import { GET_POSTS } from "./query";
+import { GET_POSTS } from "./queries/getPosts";
 import { POST_CREATED_SUBSCRIPTION } from "./subscription";
 import { GetPosts, PostCreatedSubscription } from "./types";
 import { Like } from "@/entities/Like";
