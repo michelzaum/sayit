@@ -14,6 +14,7 @@ export function useFeed() {
   const { error, loading, data, subscribeToMore } =
     useQuery<GetPosts>(GET_POSTS);
   const setLoggedUserId = useStore((state) => state.setLoggedUserId);
+  const setFeedPostsList = useStore((state) => state.setFeedPostsList);
 
   if (error) {
     toast.error("Erro ao carregar posts. Tente novamente");
@@ -22,6 +23,7 @@ export function useFeed() {
   useEffect(() => {
     if (data && data.getPosts.posts) {
       setLoggedUserId(data.getPosts.loggedUser.id);
+      setFeedPostsList(data.getPosts.posts);
 
       const unsubscribe = subscribeToMore<PostCreatedSubscription>({
         document: POST_CREATED_SUBSCRIPTION,
