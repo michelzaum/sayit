@@ -24,7 +24,16 @@ export function usePostItem() {
     setIsPostLikedByUser(isPostLiked);
   }
 
-  async function handleCreateLike(postId: string) {
+  async function handleDeleteLike(postId: string) {
+    console.log(`delete like from post ${postId}`);
+  }
+
+  async function handleCreateLike(postId: string, isPostLiked: boolean) {
+    if (isPostLiked) {
+      await handleDeleteLike(postId);
+      return;
+    }
+
     try {
       await createLike({
         variables: {

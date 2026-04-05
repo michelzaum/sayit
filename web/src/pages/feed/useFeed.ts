@@ -50,7 +50,7 @@ export function useFeed() {
   // in "authorId" property in "likes" array.
   function hasUserLikedPost(likes: Partial<Like>[]): boolean {
     console.log(likes);
-    return false;
+    return true;
   }
 
   return {

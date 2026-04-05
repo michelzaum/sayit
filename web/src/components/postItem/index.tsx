@@ -29,6 +29,7 @@ export function PostItem({
   commentsCount,
   likesCount,
   postContent,
+  isPostLiked,
 }: PostProps) {
   const {
     isPostLikedByUser,
@@ -65,7 +66,7 @@ export function PostItem({
         <div className="flex items-center gap-4">
           <button
             className="hover:cursor-pointer"
-            onClick={() => handleCreateLike(id)}
+            onClick={() => handleCreateLike(id, isPostLiked)}
           >
             <Heart
               height={32}
