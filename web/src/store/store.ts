@@ -1,13 +1,14 @@
-import { User } from "@/entities/User";
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 interface IStore {
-  loggedUser: User;
-  setLoggedUser: (loggedUser: User) => void;
+  loggedUserId: string;
+  setLoggedUserId: (loggedUserId: string) => void;
 }
 
-export const useStore = create<IStore>()((set) => ({
-  loggedUser: {} as User,
-  setLoggedUser: (loggedUserInfo: User) =>
-    set(() => ({ loggedUser: loggedUserInfo })),
-}));
+export const useStore = create(
+  devtools<IStore>((set) => ({
+    loggedUserId: "",
+    setLoggedUserId: (loggedUserId: string) => set(() => ({ loggedUserId })),
+  })),
+);

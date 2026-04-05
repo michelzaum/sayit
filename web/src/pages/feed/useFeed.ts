@@ -8,10 +8,12 @@ import { GET_POSTS } from "./queries/getPosts";
 import { POST_CREATED_SUBSCRIPTION } from "./subscription";
 import { GetPosts, PostCreatedSubscription } from "./types";
 import { Like } from "@/entities/Like";
+import { useStore } from "@/store/store";
 
 export function useFeed() {
   const { error, loading, data, subscribeToMore } =
     useQuery<GetPosts>(GET_POSTS);
+  const setLoggedUserId = useStore((state) => state.setLoggedUserId);
 
   if (error) {
     toast.error("Erro ao carregar posts. Tente novamente");
@@ -19,6 +21,8 @@ export function useFeed() {
 
   useEffect(() => {
     if (data && data.getPosts.posts) {
+      setLoggedUserId(data.getPosts.loggedUser.id);
+
       const unsubscribe = subscribeToMore<PostCreatedSubscription>({
         document: POST_CREATED_SUBSCRIPTION,
         updateQuery: (prev: any, { subscriptionData }) => {
@@ -43,7 +47,7 @@ export function useFeed() {
         unsubscribe();
       };
     }
-  }, [data, subscribeToMore]);
+  }, [data, subscribeToMore, setLoggedUserId]);
 
   // TODO: Validate if this logic is necessary.
   // We might just need the logged user ID information to check if its value is
