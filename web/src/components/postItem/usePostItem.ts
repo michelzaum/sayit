@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { DELETE_POST } from "./mutation/deletePost";
 import { UPDATE_POST } from "./mutation/updatetePost";
 import { CREATE_LIKE } from "./mutation/createLike";
+import { DELETE_LIKE } from "./mutation/deleteLike";
 dayjs.extend(relativeTime);
 
 export function usePostItem() {
@@ -16,6 +17,7 @@ export function usePostItem() {
   const [deletePost, { loading }] = useMutation(DELETE_POST);
   const [updatePost, { loading: updatePostLoading }] = useMutation(UPDATE_POST);
   const [createLike] = useMutation(CREATE_LIKE);
+  const [deleteLike] = useMutation(DELETE_LIKE);
   const newPostContentRef = useRef<HTMLTextAreaElement>(
     {} as HTMLTextAreaElement,
   );
@@ -25,7 +27,17 @@ export function usePostItem() {
   }
 
   async function handleDeleteLike(postId: string) {
-    console.log(`delete like from post ${postId}`);
+    try {
+      await deleteLike({
+        variables: {
+          postId,
+        },
+      });
+
+      toggleLike(false);
+    } catch {
+      toast.error("Erro ao remover like. Tente novamente");
+    }
   }
 
   async function handleCreateLike(postId: string, isPostLiked: boolean) {
@@ -40,6 +52,7 @@ export function usePostItem() {
           postId,
         },
       });
+
       toggleLike(true);
     } catch {
       toast.error("Erro ao salvar like. Tente novamente.");
