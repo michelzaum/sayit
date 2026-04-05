@@ -12,6 +12,7 @@ dayjs.extend(relativeTime);
 export function usePostItem() {
   const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [isUpdatePostModalOpen, setIsUpdatePostModalOpen] = useState(false);
+  const [isPostLikedByUser, setIsPostLikedByUser] = useState(false);
   const [deletePost, { loading }] = useMutation(DELETE_POST);
   const [updatePost, { loading: updatePostLoading }] = useMutation(UPDATE_POST);
   const [createLike] = useMutation(CREATE_LIKE);
@@ -19,9 +20,9 @@ export function usePostItem() {
     {} as HTMLTextAreaElement,
   );
 
-  // function toggleLike(): void {
-  //   setIsPostLiked((prevState) => !prevState);
-  // }
+  function toggleLike(isPostLiked: boolean): void {
+    setIsPostLikedByUser(isPostLiked);
+  }
 
   async function handleCreateLike(postId: string) {
     try {
@@ -30,6 +31,7 @@ export function usePostItem() {
           postId,
         },
       });
+      toggleLike(true);
     } catch {
       toast.error("Erro ao salvar like. Tente novamente.");
     }
@@ -92,7 +94,7 @@ export function usePostItem() {
   }
 
   return {
-    // isPostLiked,
+    isPostLikedByUser,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,

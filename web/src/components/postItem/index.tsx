@@ -29,9 +29,9 @@ export function PostItem({
   commentsCount,
   likesCount,
   postContent,
-  isPostLiked,
 }: PostProps) {
   const {
+    isPostLikedByUser,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
@@ -70,7 +70,7 @@ export function PostItem({
             <Heart
               height={32}
               width={32}
-              className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
+              className={`${isPostLikedByUser ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
             />
           </button>
           {isPostOwner && (
