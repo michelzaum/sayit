@@ -38,7 +38,7 @@ export const container: IContainer = {
   getUserUseCase: new GetUserUseCase(userRepository),
   signInUseCase: new SignInUseCase(userRepository),
   createPostUseCase: new CreatePostUseCase(postRepository),
-  listPostsUseCase: new ListPostsUseCase(postRepository),
+  listPostsUseCase: new ListPostsUseCase(postRepository, userRepository),
   deletePostUseCase: new DeletePostUseCase(postRepository),
   updatePostUseCase: new UpdatePostUseCase(postRepository),
   getPostUseCase: new GetPostUseCase(postRepository),

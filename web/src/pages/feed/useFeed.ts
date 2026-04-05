@@ -18,7 +18,7 @@ export function useFeed() {
   }
 
   useEffect(() => {
-    if (data) {
+    if (data && data.getPosts.posts) {
       const unsubscribe = subscribeToMore<PostCreatedSubscription>({
         document: POST_CREATED_SUBSCRIPTION,
         updateQuery: (prev: any, { subscriptionData }) => {
@@ -26,7 +26,7 @@ export function useFeed() {
 
           const newPost = subscriptionData.data.postCreated;
 
-          const postExists = prev.getPosts.some(
+          const postExists = prev.getPosts.posts.some(
             (post: PostCard) => post.id === newPost.id,
           );
 
@@ -34,7 +34,7 @@ export function useFeed() {
 
           return {
             ...prev,
-            getPosts: [...prev.getPosts, newPost],
+            getPosts: [...prev.getPosts.posts, newPost],
           };
         },
       });

@@ -12,8 +12,13 @@ export const postTypeDefs = `#graphql
     content: String
   }
 
+  type GetPostsResponse {
+    posts: [Post!]
+    loggedUser: User
+  }
+
   type Query {
-    getPosts: [Post!]
+    getPosts: GetPostsResponse
     getPost(postId: String): Post
   }
 
