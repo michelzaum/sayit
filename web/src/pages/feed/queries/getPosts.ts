@@ -19,6 +19,9 @@ export const GET_POSTS = gql`
           authorId
         }
       }
+      loggedUser {
+        id
+      }
     }
   }
 `;
