@@ -49,8 +49,15 @@ export function useFeed() {
   // We might just need the logged user ID information to check if its value is
   // in "authorId" property in "likes" array.
   function hasUserLikedPost(likes: Partial<Like>[]): boolean {
-    console.log(likes);
-    return true;
+    const loggedUserId = data.getPosts.loggedUser.id;
+
+    const item = likes.find((like) => like.authorId === loggedUserId);
+
+    if (item?.authorId) {
+      return true;
+    }
+
+    return false;
   }
 
   return {
