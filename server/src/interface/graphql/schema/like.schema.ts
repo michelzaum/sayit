@@ -17,6 +17,6 @@ export const likeTypeDefs = `#graphql
 
   type Mutation {
     createLike(postId: String): LikeResponse
-    deleteLike(authorId: String, postId: String): Boolean
+    deleteLike(postId: String): Boolean
   }
 `;
