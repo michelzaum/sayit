@@ -49,7 +49,7 @@ export function useFeed() {
         unsubscribe();
       };
     }
-  }, [data, subscribeToMore, setLoggedUserId]);
+  }, [data, subscribeToMore, setLoggedUserId, setFeedPostsList]);
 
   // TODO: Validate if this logic is necessary.
   // We might just need the logged user ID information to check if its value is
