@@ -5,4 +5,18 @@ export const likeTypeDefs = `#graphql
     postId: String
     createdAt: String
   }
+
+  type LikeResponse {
+    authorId: String
+    postId: String
+  }
+
+  type Query {
+    getPostLikesByAuthorId(authorId: String): [LikeResponse]
+  }
+
+  type Mutation {
+    createLike(postId: String): LikeResponse
+    deleteLike(postId: String): Boolean
+  }
 `;

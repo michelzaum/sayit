@@ -4,9 +4,10 @@ import { toast } from "sonner";
 
 import { PostCard } from "../../entities/PostCard";
 
-import { GET_POSTS } from "./query";
+import { GET_POSTS } from "./queries/getPosts";
 import { POST_CREATED_SUBSCRIPTION } from "./subscription";
 import { GetPosts, PostCreatedSubscription } from "./types";
+import { Like } from "@/entities/Like";
 
 export function useFeed() {
   const { error, loading, data, subscribeToMore } =
@@ -44,8 +45,17 @@ export function useFeed() {
     }
   }, [data, subscribeToMore]);
 
+  // TODO: Validate if this logic is necessary.
+  // We might just need the logged user ID information to check if its value is
+  // in "authorId" property in "likes" array.
+  function hasUserLikedPost(likes: Partial<Like>[]): boolean {
+    console.log(likes);
+    return true;
+  }
+
   return {
     loading,
     data,
+    hasUserLikedPost,
   };
 }

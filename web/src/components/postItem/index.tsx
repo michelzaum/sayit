@@ -29,19 +29,21 @@ export function PostItem({
   commentsCount,
   likesCount,
   postContent,
+  isPostLiked,
 }: PostProps) {
   const {
-    isPostLiked,
+    isPostLikedByUser,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
     updatePostLoading,
     newPostContentRef,
-    toggleLike,
+    // toggleLike,
     openDeletePostModal,
     closeDeletePostModal,
     openUpdatePostModal,
     closeUpdatetePostModal,
+    handleCreateLike,
     handleDeletePost,
     handleUpdatePost,
   } = usePostItem();
@@ -62,11 +64,14 @@ export function PostItem({
           <span className="text-xs font-medium">{authorName}</span>
         </div>
         <div className="flex items-center gap-4">
-          <button className="hover:cursor-pointer" onClick={toggleLike}>
+          <button
+            className="hover:cursor-pointer"
+            onClick={() => handleCreateLike(id, isPostLiked)}
+          >
             <Heart
               height={32}
               width={32}
-              className={`${isPostLiked ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
+              className={`${isPostLikedByUser ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
             />
           </button>
           {isPostOwner && (

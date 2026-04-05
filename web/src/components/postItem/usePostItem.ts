@@ -6,20 +6,57 @@ import { toast } from "sonner";
 
 import { DELETE_POST } from "./mutation/deletePost";
 import { UPDATE_POST } from "./mutation/updatetePost";
+import { CREATE_LIKE } from "./mutation/createLike";
+import { DELETE_LIKE } from "./mutation/deleteLike";
 dayjs.extend(relativeTime);
 
 export function usePostItem() {
-  const [isPostLiked, setIsPostLiked] = useState(false);
   const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [isUpdatePostModalOpen, setIsUpdatePostModalOpen] = useState(false);
+  const [isPostLikedByUser, setIsPostLikedByUser] = useState(false);
   const [deletePost, { loading }] = useMutation(DELETE_POST);
   const [updatePost, { loading: updatePostLoading }] = useMutation(UPDATE_POST);
+  const [createLike] = useMutation(CREATE_LIKE);
+  const [deleteLike] = useMutation(DELETE_LIKE);
   const newPostContentRef = useRef<HTMLTextAreaElement>(
     {} as HTMLTextAreaElement,
   );
 
-  function toggleLike(): void {
-    setIsPostLiked((prevState) => !prevState);
+  function toggleLike(isPostLiked: boolean): void {
+    setIsPostLikedByUser(isPostLiked);
+  }
+
+  async function handleDeleteLike(postId: string) {
+    try {
+      await deleteLike({
+        variables: {
+          postId,
+        },
+      });
+
+      toggleLike(false);
+    } catch {
+      toast.error("Erro ao remover like. Tente novamente");
+    }
+  }
+
+  async function handleCreateLike(postId: string, isPostLiked: boolean) {
+    if (isPostLiked) {
+      await handleDeleteLike(postId);
+      return;
+    }
+
+    try {
+      await createLike({
+        variables: {
+          postId,
+        },
+      });
+
+      toggleLike(true);
+    } catch {
+      toast.error("Erro ao salvar like. Tente novamente.");
+    }
   }
 
   function openDeletePostModal(): void {
@@ -79,13 +116,14 @@ export function usePostItem() {
   }
 
   return {
-    isPostLiked,
+    isPostLikedByUser,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
     updatePostLoading,
     newPostContentRef,
-    toggleLike,
+    // toggleLike,
+    handleCreateLike,
     handleDeletePost,
     handleUpdatePost,
     openDeletePostModal,
