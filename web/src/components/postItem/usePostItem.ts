@@ -8,12 +8,13 @@ import { DELETE_POST } from "./mutation/deletePost";
 import { UPDATE_POST } from "./mutation/updatetePost";
 import { CREATE_LIKE } from "./mutation/createLike";
 import { DELETE_LIKE } from "./mutation/deleteLike";
+import { useStore } from "@/store/store";
 dayjs.extend(relativeTime);
 
 export function usePostItem() {
   const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [isUpdatePostModalOpen, setIsUpdatePostModalOpen] = useState(false);
-  const [isPostLikedByUser, setIsPostLikedByUser] = useState(false);
+  const [userLikedPost, setUserLikedPost] = useState(false);
   const [deletePost, { loading }] = useMutation(DELETE_POST);
   const [updatePost, { loading: updatePostLoading }] = useMutation(UPDATE_POST);
   const [createLike] = useMutation(CREATE_LIKE);
@@ -21,9 +22,13 @@ export function usePostItem() {
   const newPostContentRef = useRef<HTMLTextAreaElement>(
     {} as HTMLTextAreaElement,
   );
+  const addPostLike = useStore((state) => state.addPostLike);
+  const removePostLike = useStore((state) => state.removePostLike);
+  const getPostById = useStore((state) => state.getPostById);
+  const loggedUserId = useStore((state) => state.loggedUserId);
 
   function toggleLike(isPostLiked: boolean): void {
-    setIsPostLikedByUser(isPostLiked);
+    setUserLikedPost(isPostLiked);
   }
 
   async function handleDeleteLike(postId: string) {
@@ -34,13 +39,25 @@ export function usePostItem() {
         },
       });
 
+      removePostLike(postId);
       toggleLike(false);
     } catch {
       toast.error("Erro ao remover like. Tente novamente");
     }
   }
 
-  async function handleCreateLike(postId: string, isPostLiked: boolean) {
+  function addALikeInPostInStore(postId: string) {
+    addPostLike(postId);
+  }
+
+  async function handleCreateLike(postId: string) {
+    const post = getPostById(postId);
+
+    const isPostLiked =
+      post.likes.length > 0
+        ? post.likes.find((like) => like.authorId === loggedUserId).authorId
+        : false;
+
     if (isPostLiked) {
       await handleDeleteLike(postId);
       return;
@@ -53,6 +70,7 @@ export function usePostItem() {
         },
       });
 
+      addALikeInPostInStore(postId);
       toggleLike(true);
     } catch {
       toast.error("Erro ao salvar like. Tente novamente.");
@@ -73,6 +91,24 @@ export function usePostItem() {
 
   function closeUpdatetePostModal(): void {
     setIsUpdatePostModalOpen(false);
+  }
+
+  function isPostAlreadyLikedByUser(postId: string): boolean {
+    const post = getPostById(postId);
+
+    if (post) {
+      const userLikeInPost = post.likes.find(
+        (like) => like.authorId === loggedUserId,
+      );
+
+      if (userLikeInPost && userLikeInPost.authorId) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return false;
   }
 
   async function handleUpdatePost(
@@ -116,13 +152,13 @@ export function usePostItem() {
   }
 
   return {
-    isPostLikedByUser,
+    userLikedPost,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
     updatePostLoading,
     newPostContentRef,
-    // toggleLike,
+    isPostAlreadyLikedByUser,
     handleCreateLike,
     handleDeletePost,
     handleUpdatePost,
