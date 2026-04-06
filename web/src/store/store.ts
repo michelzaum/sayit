@@ -11,6 +11,7 @@ interface IActions {
   setLoggedUserId: (loggedUserId: string) => void;
   setFeedPostsList: (feedPostsList: PostCard[]) => void;
   addPostLike: (postId: string) => void;
+  removePostLike: (postId: string) => void;
   getPostById: (postId: string) => PostCard;
 }
 
@@ -34,6 +35,19 @@ export const useStore = create<IState & IActions>()(
                     postId,
                   },
                 ],
+              }
+            : post,
+        ),
+      })),
+    removePostLike: (postId: string) =>
+      set(({ feedPostsList }) => ({
+        feedPostsList: feedPostsList.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                likes: post.likes.filter(
+                  (like) => like.authorId !== get().loggedUserId,
+                ),
               }
             : post,
         ),
