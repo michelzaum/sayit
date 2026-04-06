@@ -1,7 +1,12 @@
 import { PostCard } from "../../entities/PostCard";
 
 export type GetPosts = {
-  getPosts: PostCard[];
+  getPosts: {
+    posts: PostCard[];
+    loggedUser: {
+      id: string;
+    };
+  };
 };
 
 export type Post = {

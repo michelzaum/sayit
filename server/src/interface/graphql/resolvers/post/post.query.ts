@@ -5,8 +5,10 @@ interface GetPostArgs {
 }
 
 export const postQuery = {
-  getPosts: async (_, args, { listPostsUseCase }: IContainer) => {
-    return await listPostsUseCase.execute();
+  getPosts: async (_, args, { listPostsUseCase, http }: IContainer) => {
+    const { req } = http;
+
+    return await listPostsUseCase.execute(req);
   },
   getPost: async (
     _,

@@ -16,7 +16,7 @@ export function Feed() {
         <div className="flex flex-col gap-4 py-3">
           <span className="text-base font-medium">Posts recentes</span>
           {!loading ? (
-            data.getPosts?.map((post) => (
+            data.getPosts?.posts.map((post) => (
               <PostItem
                 key={post.id}
                 id={post.id}
