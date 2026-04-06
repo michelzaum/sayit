@@ -8,6 +8,7 @@ import { DELETE_POST } from "./mutation/deletePost";
 import { UPDATE_POST } from "./mutation/updatetePost";
 import { CREATE_LIKE } from "./mutation/createLike";
 import { DELETE_LIKE } from "./mutation/deleteLike";
+import { useStore } from "@/store/store";
 dayjs.extend(relativeTime);
 
 export function usePostItem() {
@@ -21,6 +22,9 @@ export function usePostItem() {
   const newPostContentRef = useRef<HTMLTextAreaElement>(
     {} as HTMLTextAreaElement,
   );
+  const addPostLike = useStore((state) => state.addPostLike);
+  const getPostById = useStore((state) => state.getPostById);
+  const loggedUserId = useStore((state) => state.loggedUserId);
 
   function toggleLike(isPostLiked: boolean): void {
     setIsPostLikedByUser(isPostLiked);
@@ -40,7 +44,18 @@ export function usePostItem() {
     }
   }
 
-  async function handleCreateLike(postId: string, isPostLiked: boolean) {
+  function addALikeInPostInStore(postId: string) {
+    addPostLike(postId);
+  }
+
+  async function handleCreateLike(postId: string) {
+    const post = getPostById(postId);
+
+    const isPostLiked =
+      post.likes.length > 0
+        ? post.likes.find((like) => like.authorId === loggedUserId).authorId
+        : false;
+
     if (isPostLiked) {
       await handleDeleteLike(postId);
       return;
@@ -53,6 +68,7 @@ export function usePostItem() {
         },
       });
 
+      addALikeInPostInStore(postId);
       toggleLike(true);
     } catch {
       toast.error("Erro ao salvar like. Tente novamente.");

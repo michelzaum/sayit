@@ -7,7 +7,6 @@ import { PostCard } from "../../entities/PostCard";
 import { GET_POSTS } from "./queries/getPosts";
 import { POST_CREATED_SUBSCRIPTION } from "./subscription";
 import { GetPosts, PostCreatedSubscription } from "./types";
-import { Like } from "@/entities/Like";
 import { useStore } from "@/store/store";
 
 export function useFeed() {
@@ -15,6 +14,8 @@ export function useFeed() {
     useQuery<GetPosts>(GET_POSTS);
   const setLoggedUserId = useStore((state) => state.setLoggedUserId);
   const setFeedPostsList = useStore((state) => state.setFeedPostsList);
+  const feedPostsList = useStore((state) => state.feedPostsList);
+  const loggedUserId = useStore((state) => state.loggedUserId);
 
   if (error) {
     toast.error("Erro ao carregar posts. Tente novamente");
@@ -54,13 +55,11 @@ export function useFeed() {
   // TODO: Validate if this logic is necessary.
   // We might just need the logged user ID information to check if its value is
   // in "authorId" property in "likes" array.
-  function hasUserLikedPost(likes: Partial<Like>[]): boolean {
-    const loggedUserId = data.getPosts.loggedUser.id;
+  function hasUserLikedPost(postId: string): boolean {
+    const post = feedPostsList.find((post) => post?.id === postId);
 
-    const item = likes.find((like) => like.authorId === loggedUserId);
-
-    if (item?.authorId) {
-      return true;
+    if (post) {
+      return post.likes.some((like) => like.authorId === loggedUserId);
     }
 
     return false;
