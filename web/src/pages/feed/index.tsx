@@ -6,7 +6,7 @@ import { PostItem } from "../../components/postItem";
 import { useFeed } from "./useFeed";
 
 export function Feed() {
-  const { data, loading, hasUserLikedPost } = useFeed();
+  const { data, loading } = useFeed();
 
   return (
     <div className="flex justify-center mt-10 px-6">
@@ -26,7 +26,6 @@ export function Feed() {
                 postContent={post.content}
                 likesCount={post.likes.length}
                 commentsCount={post.comments.length}
-                isPostLiked={hasUserLikedPost(post.likes)}
               />
             ))
           ) : (

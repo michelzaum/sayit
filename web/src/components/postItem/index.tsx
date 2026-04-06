@@ -29,16 +29,15 @@ export function PostItem({
   commentsCount,
   likesCount,
   postContent,
-  isPostLiked,
 }: PostProps) {
   const {
-    isPostLikedByUser,
+    userLikedPost,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
     updatePostLoading,
     newPostContentRef,
-    // toggleLike,
+    isPostAlreadyLikedByUser,
     openDeletePostModal,
     closeDeletePostModal,
     openUpdatePostModal,
@@ -66,12 +65,12 @@ export function PostItem({
         <div className="flex items-center gap-4">
           <button
             className="hover:cursor-pointer"
-            onClick={() => handleCreateLike(id, isPostLiked)}
+            onClick={() => handleCreateLike(id)}
           >
             <Heart
               height={32}
               width={32}
-              className={`${isPostLikedByUser ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
+              className={`${userLikedPost || isPostAlreadyLikedByUser(id) ? "fill-red-500 stroke-red-500" : "bg-transparent stroke-1 stroke-gray-400"}`}
             />
           </button>
           {isPostOwner && (

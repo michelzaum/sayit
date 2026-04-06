@@ -14,7 +14,7 @@ dayjs.extend(relativeTime);
 export function usePostItem() {
   const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [isUpdatePostModalOpen, setIsUpdatePostModalOpen] = useState(false);
-  const [isPostLikedByUser, setIsPostLikedByUser] = useState(false);
+  const [userLikedPost, setUserLikedPost] = useState(false);
   const [deletePost, { loading }] = useMutation(DELETE_POST);
   const [updatePost, { loading: updatePostLoading }] = useMutation(UPDATE_POST);
   const [createLike] = useMutation(CREATE_LIKE);
@@ -23,11 +23,12 @@ export function usePostItem() {
     {} as HTMLTextAreaElement,
   );
   const addPostLike = useStore((state) => state.addPostLike);
+  const removePostLike = useStore((state) => state.removePostLike);
   const getPostById = useStore((state) => state.getPostById);
   const loggedUserId = useStore((state) => state.loggedUserId);
 
   function toggleLike(isPostLiked: boolean): void {
-    setIsPostLikedByUser(isPostLiked);
+    setUserLikedPost(isPostLiked);
   }
 
   async function handleDeleteLike(postId: string) {
@@ -38,6 +39,7 @@ export function usePostItem() {
         },
       });
 
+      removePostLike(postId);
       toggleLike(false);
     } catch {
       toast.error("Erro ao remover like. Tente novamente");
@@ -91,6 +93,24 @@ export function usePostItem() {
     setIsUpdatePostModalOpen(false);
   }
 
+  function isPostAlreadyLikedByUser(postId: string): boolean {
+    const post = getPostById(postId);
+
+    if (post) {
+      const userLikeInPost = post.likes.find(
+        (like) => like.authorId === loggedUserId,
+      );
+
+      if (userLikeInPost && userLikeInPost.authorId) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return false;
+  }
+
   async function handleUpdatePost(
     event: FormEvent<HTMLFormElement>,
     postId: string,
@@ -132,13 +152,13 @@ export function usePostItem() {
   }
 
   return {
-    isPostLikedByUser,
+    userLikedPost,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
     loading,
     updatePostLoading,
     newPostContentRef,
-    // toggleLike,
+    isPostAlreadyLikedByUser,
     handleCreateLike,
     handleDeletePost,
     handleUpdatePost,
