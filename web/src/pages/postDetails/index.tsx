@@ -125,7 +125,7 @@ export function PostDetails() {
                           />
                         </div>
                         <span className="text-xs font-medium">
-                          {`comment.author.name`}
+                          {comment.author.name}
                         </span>
                       </div>
                       {isCommentOwner && (
