@@ -109,6 +109,7 @@ export function usePostDetails() {
       });
 
       toast.success("Comentário adicionado com sucesso!");
+      newCommentRef.current.value = "";
     } catch {
       toast.error("Erro ao adicionar comentário. Tente novamente");
     }
