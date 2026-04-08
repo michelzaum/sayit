@@ -8,6 +8,7 @@ import { GetPostData } from "./types";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
 import { DELETE_COMMENT } from "./mutations/deleteComment";
+import { useStore } from "@/store/store";
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
@@ -21,14 +22,16 @@ export function usePostDetails() {
   const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
     useState(false);
   const postId = searchParams.get("postId");
-  const [getPost, { data, loading, error }] =
-    useLazyQuery<GetPostData>(GET_POST);
+  const [getPost, { loading, error }] = useLazyQuery<GetPostData>(GET_POST);
   const [createComment, { loading: createCommentLoading }] =
     useMutation(CREATE_COMMENT);
   const [updateComment, { loading: updateCommentLoading }] =
     useMutation(UPDATE_COMMENT);
   const [deleteComment, { loading: deleteCommentLoading }] =
     useMutation(DELETE_COMMENT);
+
+  const feedPostsList = useStore((state) => state.feedPostsList);
+  const postDetails = feedPostsList.find((post) => post.id === postId);
 
   useEffect(() => {
     async function handleGetPost() {
@@ -128,7 +131,7 @@ export function usePostDetails() {
   }
 
   return {
-    data,
+    postDetails,
     loading,
     error,
     createCommentLoading,
