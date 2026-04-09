@@ -2,17 +2,16 @@ import { PostCard } from "@/entities/PostCard";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
+interface IState {
+  loggedUserId: string;
+  feedPostsList: PostCard[];
+}
+
 type PostComment = {
   id: string;
   content: string;
   postId: string;
 };
-
-interface IState {
-  loggedUserId: string;
-  feedPostsList: PostCard[];
-  postDetails: PostCard;
-}
 
 interface IActions {
   setLoggedUserId: (loggedUserId: string) => void;
@@ -21,7 +20,6 @@ interface IActions {
   removePostLike: (postId: string) => void;
   getPostById: (postId: string) => PostCard;
   addPostComment: (comment: PostComment) => void;
-  setPostDetails: (postId: string) => PostCard;
 }
 
 export const useStore = create<IState & IActions>()(
@@ -81,11 +79,6 @@ export const useStore = create<IState & IActions>()(
               }
             : post,
         ),
-      })),
-    postDetails: {},
-    setPostDetails: (postId: string) =>
-      set(() => ({
-        postDetails: get().feedPostsList.find((post) => post.id === postId),
       })),
   })),
 );

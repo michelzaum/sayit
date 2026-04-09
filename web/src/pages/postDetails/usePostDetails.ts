@@ -38,14 +38,10 @@ export function usePostDetails() {
     useMutation(DELETE_COMMENT);
 
   const addPostComment = useStore((state) => state.addPostComment);
-  useStore((state) => state.setPostDetails)(postId);
-  const postDetails = useStore((state) => state.postDetails);
+  const feedPostsList = useStore((state) => state.feedPostsList);
+  const postDetails = feedPostsList.find((post) => post.id === postId);
 
   useEffect(() => {
-    if (!postId) {
-      return;
-    }
-
     async function handleGetPost() {
       try {
         await getPost({
