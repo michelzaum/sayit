@@ -10,15 +10,6 @@ export const GET_POSTS = gql`
         author {
           name
         }
-        comments {
-          id
-          createdAt
-          content
-          author {
-            id
-            name
-          }
-        }
         likes {
           authorId
         }
