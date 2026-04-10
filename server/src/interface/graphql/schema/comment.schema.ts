@@ -18,6 +18,10 @@ export const commentTypeDefs = `#graphql
     content: String
   }
 
+  type Query {
+    getAllCommentsByPostId(postId: String): [Comment]
+  }
+
   type Mutation {
     createComment(postId: String, content: String): CreateCommentResponse
     updateComment(commentId: String, newContent: String): UpdateCommentResponse
