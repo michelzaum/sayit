@@ -8,6 +8,14 @@ import { GetPostData } from "./types";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
 import { DELETE_COMMENT } from "./mutations/deleteComment";
+import { useStore } from "@/store/store";
+
+type CreateCommentResponse = {
+  createComment: {
+    id: string;
+    content: string;
+  };
+};
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
@@ -21,14 +29,17 @@ export function usePostDetails() {
   const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
     useState(false);
   const postId = searchParams.get("postId");
-  const [getPost, { data, loading, error }] =
-    useLazyQuery<GetPostData>(GET_POST);
+  const [getPost, { loading, error }] = useLazyQuery<GetPostData>(GET_POST);
   const [createComment, { loading: createCommentLoading }] =
-    useMutation(CREATE_COMMENT);
+    useMutation<CreateCommentResponse>(CREATE_COMMENT);
   const [updateComment, { loading: updateCommentLoading }] =
     useMutation(UPDATE_COMMENT);
   const [deleteComment, { loading: deleteCommentLoading }] =
     useMutation(DELETE_COMMENT);
+
+  const addPostComment = useStore((state) => state.addPostComment);
+  const feedPostsList = useStore((state) => state.feedPostsList);
+  const postDetails = feedPostsList.find((post) => post.id === postId);
 
   useEffect(() => {
     async function handleGetPost() {
@@ -98,13 +109,19 @@ export function usePostDetails() {
     }
 
     try {
-      await createComment({
+      const { data } = await createComment({
         variables: {
           postId,
           content: newCommentValue,
         },
       });
 
+      addPostComment({
+        id: data.createComment.id,
+        content: data.createComment.content,
+        postId,
+      });
+      newCommentRef.current.value = "";
       toast.success("Comentário adicionado com sucesso!");
     } catch {
       toast.error("Erro ao adicionar comentário. Tente novamente");
@@ -128,7 +145,7 @@ export function usePostDetails() {
   }
 
   return {
-    data,
+    postDetails,
     loading,
     error,
     createCommentLoading,

@@ -21,7 +21,7 @@ import {
 
 export function PostDetails() {
   const {
-    data,
+    postDetails,
     loading,
     newCommentRef,
     updatedCommentRef,
@@ -42,7 +42,7 @@ export function PostDetails() {
 
   const isCommentOwner = true; // temporary
 
-  if (!data) {
+  if (!postDetails) {
     return;
   }
 
@@ -64,16 +64,16 @@ export function PostDetails() {
         </Link>
         <div className="flex flex-col gap-4">
           <span className="text-2xl">
-            Postagem de {data.getPost.author.name}
+            Postagem de {postDetails.author.name}
           </span>
           <PostItem
-            id={data.getPost.id}
+            id={postDetails.id}
             authorImage={""}
-            authorName={data.getPost.author.name}
-            createdAt={data.getPost.createdAt}
-            postContent={data.getPost.content}
-            likesCount={data.getPost.likesCount}
-            commentsCount={data.getPost.commentsCount}
+            authorName={postDetails.author.name}
+            createdAt={postDetails.createdAt}
+            postContent={postDetails.content}
+            likesCount={postDetails.likes.length}
+            commentsCount={postDetails.comments.length}
           />
 
           <form
@@ -103,13 +103,13 @@ export function PostDetails() {
 
         <div className="flex flex-col gap-4">
           <span>Comentarios</span>
-          {data.getPost.comments.length === 0 ? (
+          {postDetails.comments.length === 0 ? (
             <div className="flex justify-center p-3">
               <span>Esse post ainda não tem comentários.</span>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {data.getPost.comments.map((comment) => (
+              {postDetails.comments.map((comment) => (
                 <div
                   key={comment.id}
                   className="border border-gray-300 p-4 rounded-lg"

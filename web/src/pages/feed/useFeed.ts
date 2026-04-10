@@ -52,9 +52,6 @@ export function useFeed() {
     }
   }, [data, subscribeToMore, setLoggedUserId, setFeedPostsList]);
 
-  // TODO: Validate if this logic is necessary.
-  // We might just need the logged user ID information to check if its value is
-  // in "authorId" property in "likes" array.
   function hasUserLikedPost(postId: string): boolean {
     const post = feedPostsList.find((post) => post?.id === postId);
 
@@ -67,7 +64,7 @@ export function useFeed() {
 
   return {
     loading,
-    data,
+    feedPostsList,
     hasUserLikedPost,
   };
 }
