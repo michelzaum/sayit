@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router";
 import { useLazyQuery, useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
 
-import { GET_POST } from "./query";
+import { GET_POST } from "./queries/getPost";
 import { GetPostData } from "./types";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
