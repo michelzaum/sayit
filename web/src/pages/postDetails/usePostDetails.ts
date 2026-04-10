@@ -1,10 +1,8 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useLayoutEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { useLazyQuery, useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
 
-import { GET_POST } from "./queries/getPost";
-import { GetPostData } from "./types";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
 import { DELETE_COMMENT } from "./mutations/deleteComment";
@@ -41,7 +39,6 @@ export function usePostDetails() {
   const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
     useState(false);
   const postId = searchParams.get("postId");
-  const [getPost, { loading, error }] = useLazyQuery<GetPostData>(GET_POST);
   const [getAllCommentsByPostId, { data: postComments }] =
     useLazyQuery<GetAllCommentsResponse>(GET_ALL_COMMENTS_BY_POST_ID);
   const [createComment, { loading: createCommentLoading }] =
@@ -54,8 +51,12 @@ export function usePostDetails() {
   const addPostComment = useStore((state) => state.addPostComment);
   const feedPostsList = useStore((state) => state.feedPostsList);
   const postDetails = feedPostsList.find((post) => post.id === postId);
+  const postDetailsComments = useStore((state) => state.postDetailsComments);
+  const setPostDetailsComments = useStore(
+    (state) => state.setPostDetailsComments,
+  );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function handleGetComments() {
       try {
         await getAllCommentsByPostId({
@@ -63,29 +64,15 @@ export function usePostDetails() {
             postId,
           },
         });
+
+        setPostDetailsComments(postComments);
       } catch {
         console.log("error");
       }
     }
 
     handleGetComments();
-  }, [postId, getAllCommentsByPostId, postComments]);
-
-  useEffect(() => {
-    async function handleGetPost() {
-      try {
-        await getPost({
-          variables: {
-            postId,
-          },
-        });
-      } catch {
-        toast.error("Erro ao carregar post. Tente novamente");
-      }
-    }
-
-    handleGetPost();
-  }, [getPost, postId]);
+  }, [postId, getAllCommentsByPostId, postComments, setPostDetailsComments]);
 
   function openUpdateCommentModal(
     commentId: string,
@@ -176,9 +163,7 @@ export function usePostDetails() {
 
   return {
     postDetails,
-    postComments,
-    loading,
-    error,
+    postDetailsComments,
     createCommentLoading,
     newCommentRef,
     updatedCommentRef,

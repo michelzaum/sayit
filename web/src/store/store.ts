@@ -5,7 +5,19 @@ import { devtools } from "zustand/middleware";
 interface IState {
   loggedUserId: string;
   feedPostsList: PostCard[];
+  postDetailsComments: AllCommentsResponse;
 }
+
+type CommentResponse = {
+  id: string;
+  content: string;
+  createdAt: string;
+  postId: string;
+};
+
+type AllCommentsResponse = {
+  getAllCommentsByPostId: CommentResponse[];
+};
 
 type PostComment = {
   id: string;
@@ -20,6 +32,7 @@ interface IActions {
   removePostLike: (postId: string) => void;
   getPostById: (postId: string) => PostCard;
   addPostComment: (comment: PostComment) => void;
+  setPostDetailsComments: (postDetailsComments: AllCommentsResponse) => void;
 }
 
 export const useStore = create<IState & IActions>()(
@@ -80,5 +93,8 @@ export const useStore = create<IState & IActions>()(
             : post,
         ),
       })),
+    postDetailsComments: {},
+    setPostDetailsComments: (postDetailsComments: AllCommentsResponse) =>
+      set(() => ({ postDetailsComments })),
   })),
 );

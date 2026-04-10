@@ -22,8 +22,7 @@ import {
 export function PostDetails() {
   const {
     postDetails,
-    postComments,
-    loading,
+    postDetailsComments,
     newCommentRef,
     updatedCommentRef,
     updatedCommentContent,
@@ -43,18 +42,22 @@ export function PostDetails() {
 
   const isCommentOwner = true; // temporary
 
-  if (!postDetails || !postComments) {
+  if (
+    !postDetails ||
+    !postDetailsComments ||
+    !postDetailsComments.getAllCommentsByPostId
+  ) {
     return;
   }
 
-  if (loading) {
-    return (
-      <div className="flex flex-col gap-4 items-center justify-center p-10">
-        <Loader size={24} className="animate-spin" />
-        <span>Carregando post...</span>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex flex-col gap-4 items-center justify-center p-10">
+  //       <Loader size={24} className="animate-spin" />
+  //       <span>Carregando post...</span>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex justify-center p-6">
@@ -74,7 +77,7 @@ export function PostDetails() {
             createdAt={postDetails.createdAt}
             postContent={postDetails.content}
             likesCount={postDetails.likes.length}
-            commentsCount={postComments.getAllCommentsByPostId.length}
+            commentsCount={postDetailsComments.getAllCommentsByPostId.length}
           />
 
           <form
@@ -104,13 +107,13 @@ export function PostDetails() {
 
         <div className="flex flex-col gap-4">
           <span>Comentarios</span>
-          {postComments.getAllCommentsByPostId.length === 0 ? (
+          {postDetailsComments.getAllCommentsByPostId.length === 0 ? (
             <div className="flex justify-center p-3">
               <span>Esse post ainda não tem comentários.</span>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {postComments.getAllCommentsByPostId.map((comment) => (
+              {postDetailsComments.getAllCommentsByPostId.map((comment) => (
                 <div
                   key={comment.id}
                   className="border border-gray-300 p-4 rounded-lg"
@@ -238,7 +241,7 @@ export function PostDetails() {
               className="hover:cursor-pointer"
               variant="outline"
               onClick={closeDeleteCommentModal}
-              disabled={loading}
+              // disabled={loading}
             >
               Cancelar
             </Button>
