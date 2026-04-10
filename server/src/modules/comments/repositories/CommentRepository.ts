@@ -36,6 +36,14 @@ export class CommentRepository implements ICommentRepository {
     };
   }
 
+  async getAllByPostId(postId: string): Promise<Comment[]> {
+    return prismaClient.comment.findMany({
+      where: {
+        postId,
+      },
+    });
+  }
+
   async update(
     commentId: string,
     newContent: string,

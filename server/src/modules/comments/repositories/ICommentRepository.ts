@@ -11,4 +11,5 @@ export interface ICommentRepository {
     newContent: string,
   ): Promise<Pick<Comment, "content">>;
   delete(commentId: string): Promise<void>;
+  getAllByPostId(postId: string): Promise<Comment[]>;
 }
