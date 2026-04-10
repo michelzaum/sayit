@@ -22,6 +22,7 @@ import {
 export function PostDetails() {
   const {
     postDetails,
+    postComments,
     loading,
     newCommentRef,
     updatedCommentRef,
@@ -42,7 +43,7 @@ export function PostDetails() {
 
   const isCommentOwner = true; // temporary
 
-  if (!postDetails) {
+  if (!postDetails || !postComments) {
     return;
   }
 
@@ -73,7 +74,7 @@ export function PostDetails() {
             createdAt={postDetails.createdAt}
             postContent={postDetails.content}
             likesCount={postDetails.likes.length}
-            commentsCount={0}
+            commentsCount={postComments.getAllCommentsByPostId.length}
           />
 
           <form
@@ -103,13 +104,13 @@ export function PostDetails() {
 
         <div className="flex flex-col gap-4">
           <span>Comentarios</span>
-          {true ? (
+          {postComments.getAllCommentsByPostId.length === 0 ? (
             <div className="flex justify-center p-3">
               <span>Esse post ainda não tem comentários.</span>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {postDetails.comments.map((comment) => (
+              {postComments.getAllCommentsByPostId.map((comment) => (
                 <div
                   key={comment.id}
                   className="border border-gray-300 p-4 rounded-lg"
@@ -125,7 +126,7 @@ export function PostDetails() {
                           />
                         </div>
                         <span className="text-xs font-medium">
-                          {comment.author.name}
+                          {`comment.author.name`}
                         </span>
                       </div>
                       {isCommentOwner && (

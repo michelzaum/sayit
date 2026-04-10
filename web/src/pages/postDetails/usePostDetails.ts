@@ -9,12 +9,24 @@ import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
 import { DELETE_COMMENT } from "./mutations/deleteComment";
 import { useStore } from "@/store/store";
+import { GET_ALL_COMMENTS_BY_POST_ID } from "./queries/getAllCommentsByPostId";
 
 type CreateCommentResponse = {
   createComment: {
     id: string;
     content: string;
   };
+};
+
+type CommentResponse = {
+  id: string;
+  content: string;
+  createdAt: string;
+  postId: string;
+};
+
+type GetAllCommentsResponse = {
+  getAllCommentsByPostId: CommentResponse[];
 };
 
 export function usePostDetails() {
@@ -30,6 +42,8 @@ export function usePostDetails() {
     useState(false);
   const postId = searchParams.get("postId");
   const [getPost, { loading, error }] = useLazyQuery<GetPostData>(GET_POST);
+  const [getAllCommentsByPostId, { data: postComments }] =
+    useLazyQuery<GetAllCommentsResponse>(GET_ALL_COMMENTS_BY_POST_ID);
   const [createComment, { loading: createCommentLoading }] =
     useMutation<CreateCommentResponse>(CREATE_COMMENT);
   const [updateComment, { loading: updateCommentLoading }] =
@@ -40,6 +54,22 @@ export function usePostDetails() {
   const addPostComment = useStore((state) => state.addPostComment);
   const feedPostsList = useStore((state) => state.feedPostsList);
   const postDetails = feedPostsList.find((post) => post.id === postId);
+
+  useEffect(() => {
+    async function handleGetComments() {
+      try {
+        await getAllCommentsByPostId({
+          variables: {
+            postId,
+          },
+        });
+      } catch {
+        console.log("error");
+      }
+    }
+
+    handleGetComments();
+  }, [postId, getAllCommentsByPostId, postComments]);
 
   useEffect(() => {
     async function handleGetPost() {
@@ -146,6 +176,7 @@ export function usePostDetails() {
 
   return {
     postDetails,
+    postComments,
     loading,
     error,
     createCommentLoading,
