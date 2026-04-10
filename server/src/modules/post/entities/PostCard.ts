@@ -6,6 +6,5 @@ export type PostCard = {
   content: string;
   createdAt: Date;
   author: User;
-  comments: Comment[];
   likes: Like[];
 };
