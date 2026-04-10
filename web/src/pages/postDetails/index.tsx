@@ -73,7 +73,7 @@ export function PostDetails() {
             createdAt={postDetails.createdAt}
             postContent={postDetails.content}
             likesCount={postDetails.likes.length}
-            commentsCount={postDetails.comments.length}
+            commentsCount={0}
           />
 
           <form
@@ -103,7 +103,7 @@ export function PostDetails() {
 
         <div className="flex flex-col gap-4">
           <span>Comentarios</span>
-          {postDetails.comments.length === 0 ? (
+          {true ? (
             <div className="flex justify-center p-3">
               <span>Esse post ainda não tem comentários.</span>
             </div>
