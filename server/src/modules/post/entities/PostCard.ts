@@ -1,4 +1,3 @@
-import { Comment } from "@/modules/comments/entities/Comment";
 import { Like } from "@/modules/like/entities/Like";
 import { User } from "@/modules/user/entities/User";
 
@@ -6,6 +5,6 @@ export type PostCard = {
   content: string;
   createdAt: Date;
   author: User;
-  comments: Comment[];
   likes: Like[];
+  commentsCount: number;
 };

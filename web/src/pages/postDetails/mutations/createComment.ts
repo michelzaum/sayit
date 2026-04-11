@@ -5,6 +5,10 @@ export const CREATE_COMMENT = gql`
     createComment(postId: $postId, content: $content) {
       id
       content
+      author {
+        id
+        name
+      }
     }
   }
 `;

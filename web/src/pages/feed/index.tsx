@@ -25,7 +25,7 @@ export function Feed() {
                 createdAt={post.createdAt}
                 postContent={post.content}
                 likesCount={post.likes.length}
-                commentsCount={post.comments.length}
+                commentsCount={post.commentsCount}
               />
             ))
           ) : (

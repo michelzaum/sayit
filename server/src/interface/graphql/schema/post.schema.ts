@@ -5,6 +5,7 @@ export const postTypeDefs = `#graphql
     author: User
     likes: [Like!]
     comments: [Comment!]
+    commentsCount: Int
     createdAt: String
   }
 

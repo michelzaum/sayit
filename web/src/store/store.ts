@@ -2,15 +2,31 @@ import { PostCard } from "@/entities/PostCard";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
+type CommentResponse = {
+  id: string;
+  content: string;
+  createdAt: string;
+  postId: string;
+  author?: {
+    id: string;
+    name: string;
+  };
+};
+
 interface IState {
   loggedUserId: string;
   feedPostsList: PostCard[];
+  commentsByPost: Record<string, CommentResponse[]>;
 }
 
 type PostComment = {
   id: string;
   content: string;
   postId: string;
+  author?: {
+    id: string;
+    name: string;
+  };
 };
 
 interface IActions {
@@ -20,6 +36,9 @@ interface IActions {
   removePostLike: (postId: string) => void;
   getPostById: (postId: string) => PostCard;
   addPostComment: (comment: PostComment) => void;
+  updatePostComment: (commentId: string, content: string, postId: string) => void;
+  removePostComment: (commentId: string, postId: string) => void;
+  setPostDetailsComments: (postId: string, comments: CommentResponse[]) => void;
 }
 
 export const useStore = create<IState & IActions>()(
@@ -53,7 +72,7 @@ export const useStore = create<IState & IActions>()(
             ? {
                 ...post,
                 likes: post.likes.filter(
-                  (like) => like.authorId !== get().loggedUserId,
+                   (like) => like.authorId !== get().loggedUserId,
                 ),
               }
             : post,
@@ -61,24 +80,57 @@ export const useStore = create<IState & IActions>()(
       })),
     getPostById: (postId: string) =>
       get().feedPostsList.find((post) => post.id === postId),
+    commentsByPost: {},
     addPostComment: (postComment: PostComment) =>
-      set(({ feedPostsList }) => ({
-        feedPostsList: feedPostsList.map((post) =>
-          post.id === postComment.id
-            ? {
-                ...post,
-                comments: [
-                  ...post.comments,
-                  {
-                    id: postComment.id,
-                    authorId: get().loggedUserId,
-                    content: postComment.content,
-                    postId: postComment.postId,
-                  },
-                ],
-              }
-            : post,
+      set((state) => {
+        const currentComments = state.commentsByPost[postComment.postId] || [];
+        return {
+          feedPostsList: state.feedPostsList.map((post) =>
+            post.id === postComment.postId
+              ? { ...post, commentsCount: post.commentsCount + 1 }
+              : post,
+          ),
+          commentsByPost: {
+            ...state.commentsByPost,
+            [postComment.postId]: [
+              ...currentComments,
+              {
+                content: postComment.content,
+                id: postComment.id,
+                postId: postComment.postId,
+                createdAt: new Date().toISOString(),
+                author: postComment.author,
+              },
+            ],
+          },
+        };
+      }),
+    updatePostComment: (commentId: string, content: string, postId: string) =>
+      set((state) => ({
+        commentsByPost: {
+          ...state.commentsByPost,
+          [postId]: (state.commentsByPost[postId] || []).map((comment) =>
+            comment.id === commentId ? { ...comment, content } : comment,
+          ),
+        },
+      })),
+    removePostComment: (commentId: string, postId: string) =>
+      set((state) => ({
+        feedPostsList: state.feedPostsList.map((post) =>
+          post.id === postId ? { ...post, commentsCount: post.commentsCount - 1 } : post,
         ),
+        commentsByPost: {
+          ...state.commentsByPost,
+          [postId]: (state.commentsByPost[postId] || []).filter(
+            (comment) => comment.id !== commentId,
+          ),
+        },
+      })),
+    setPostDetailsComments: (postId: string, comments: CommentResponse[]) =>
+      set(() => ({
+        commentsByPost: {
+          [postId]: comments,
+        },
       })),
   })),
 );
