@@ -4,4 +4,8 @@ export type Comment = {
   createdAt: Date;
   authorId: string;
   postId: string;
+  author?: {
+    id: string;
+    name: string;
+  };
 };

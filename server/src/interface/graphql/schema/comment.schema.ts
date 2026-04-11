@@ -11,7 +11,7 @@ export const commentTypeDefs = `#graphql
     id: String
     content: String
     createdAt: String
-    authorName: String
+    author: User
   }
 
   type UpdateCommentResponse {

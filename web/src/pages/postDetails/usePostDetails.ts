@@ -13,6 +13,10 @@ type CreateCommentResponse = {
   createComment: {
     id: string;
     content: string;
+    author: {
+      id: string;
+      name: string;
+    };
   };
 };
 
@@ -163,8 +167,8 @@ export function usePostDetails() {
           content: data.createComment.content,
           postId,
           author: {
-            id: loggedUserId,
-            name: "Você", // Fallback for real-time update
+            id: data.createComment.author.id,
+            name: data.createComment.author.name,
           },
         });
       }

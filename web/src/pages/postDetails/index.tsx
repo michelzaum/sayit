@@ -54,6 +54,8 @@ export function PostDetails() {
   //   );
   // }
 
+  console.log(postDetailsComments);
+
   return (
     <div className="flex justify-center p-6">
       <div className="w-full sm:max-w-xl flex flex-col gap-10">

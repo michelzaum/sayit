@@ -9,31 +9,22 @@ export class CommentRepository implements ICommentRepository {
     authorId: string,
     postId: string,
     content: string,
-  ): Promise<Partial<Comment> & { authorName: string }> {
-    const newComment = await prismaClient.comment.create({
+  ): Promise<Comment> {
+    return prismaClient.comment.create({
       data: {
         content,
         authorId,
         postId,
       },
-      select: {
-        id: true,
-        content: true,
-        createdAt: true,
+      include: {
         author: {
           select: {
+            id: true,
             name: true,
           },
         },
       },
-    });
-
-    const { author, ...comment } = newComment;
-
-    return {
-      ...comment,
-      authorName: author.name,
-    };
+    }) as unknown as Promise<Comment>;
   }
 
   async getAllByPostId(postId: string): Promise<Comment[]> {
@@ -41,13 +32,21 @@ export class CommentRepository implements ICommentRepository {
       where: {
         postId,
       },
-    });
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    }) as unknown as Promise<Comment[]>;
   }
 
   async update(
     commentId: string,
     newContent: string,
-  ): Promise<Pick<Comment, "content">> {
+  ): Promise<Comment> {
     return prismaClient.comment.update({
       where: {
         id: commentId,
@@ -55,10 +54,15 @@ export class CommentRepository implements ICommentRepository {
       data: {
         content: newContent,
       },
-      select: {
-        content: true,
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
-    });
+    }) as unknown as Promise<Comment>;
   }
 
   async delete(commentId: string): Promise<void> {

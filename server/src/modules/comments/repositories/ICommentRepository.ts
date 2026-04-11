@@ -5,11 +5,11 @@ export interface ICommentRepository {
     authorId: string,
     postId: string,
     content: string,
-  ): Promise<Partial<Comment> & { authorName: string }>;
+  ): Promise<Comment>;
   update(
     commentId: string,
     newContent: string,
-  ): Promise<Pick<Comment, "content">>;
+  ): Promise<Comment>;
   delete(commentId: string): Promise<void>;
   getAllByPostId(postId: string): Promise<Comment[]>;
 }
