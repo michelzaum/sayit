@@ -13,6 +13,7 @@ import { GetPostUseCase } from "@/modules/post/useCases/getPost/GetPostUseCase";
 import { CreateCommentUseCase } from "@/modules/comments/useCases/createComment/CreateCommentUseCase";
 import { UpdateCommentUseCase } from "@/modules/comments/useCases/updateComment/UpdateCommentUseCase";
 import { DeleteCommentUseCase } from "@/modules/comments/useCases/deleteComment/DeleteCommentUseCase";
+import { GetAllCommentsByPostIdUseCase } from "@/modules/comments/useCases/getAllCommentsByPostId/GetAllCommentsByPostIdUseCase";
 
 import { CreateLikeUseCase } from "@/modules/like/useCases/CreateLikeUseCase";
 import { DeleteLikeUseCase } from "@/modules/like/useCases/DeleteLikeUseCase";
@@ -39,4 +40,5 @@ export interface IContainer {
   createLikeUseCase: CreateLikeUseCase;
   deleteLikeUseCase: DeleteLikeUseCase;
   getPostLikesByAuthorIdUseCase: PostLikesByAuthorIdUseCase;
+  getAllCommentsByPostIdUseCase: GetAllCommentsByPostIdUseCase;
 }

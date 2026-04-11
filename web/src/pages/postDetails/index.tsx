@@ -21,8 +21,8 @@ import {
 
 export function PostDetails() {
   const {
-    data,
-    loading,
+    postDetails,
+    postDetailsComments,
     newCommentRef,
     updatedCommentRef,
     updatedCommentContent,
@@ -35,25 +35,26 @@ export function PostDetails() {
     closeUpdateCommentModal,
     closeDeleteCommentModal,
     openDeleteCommentModal,
+    handleDeleteComment,
     handleAddComment,
     handleUpdateComment,
-    handleDeleteComment,
+    loggedUserId,
   } = usePostDetails();
 
-  const isCommentOwner = true; // temporary
-
-  if (!data) {
+  if (!postDetails || !postDetailsComments) {
     return;
   }
 
-  if (loading) {
-    return (
-      <div className="flex flex-col gap-4 items-center justify-center p-10">
-        <Loader size={24} className="animate-spin" />
-        <span>Carregando post...</span>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex flex-col gap-4 items-center justify-center p-10">
+  //       <Loader size={24} className="animate-spin" />
+  //       <span>Carregando post...</span>
+  //     </div>
+  //   );
+  // }
+
+  console.log(postDetailsComments);
 
   return (
     <div className="flex justify-center p-6">
@@ -64,16 +65,16 @@ export function PostDetails() {
         </Link>
         <div className="flex flex-col gap-4">
           <span className="text-2xl">
-            Postagem de {data.getPost.author.name}
+            Postagem de {postDetails.author.name}
           </span>
           <PostItem
-            id={data.getPost.id}
+            id={postDetails.id}
             authorImage={""}
-            authorName={data.getPost.author.name}
-            createdAt={data.getPost.createdAt}
-            postContent={data.getPost.content}
-            likesCount={data.getPost.likesCount}
-            commentsCount={data.getPost.commentsCount}
+            authorName={postDetails.author.name}
+            createdAt={postDetails.createdAt}
+            postContent={postDetails.content}
+            likesCount={postDetails.likes.length}
+            commentsCount={postDetailsComments.length}
           />
 
           <form
@@ -103,13 +104,13 @@ export function PostDetails() {
 
         <div className="flex flex-col gap-4">
           <span>Comentarios</span>
-          {data.getPost.comments.length === 0 ? (
+          {postDetailsComments.length === 0 ? (
             <div className="flex justify-center p-3">
               <span>Esse post ainda não tem comentários.</span>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {data.getPost.comments.map((comment) => (
+              {postDetailsComments.map((comment) => (
                 <div
                   key={comment.id}
                   className="border border-gray-300 p-4 rounded-lg"
@@ -125,10 +126,10 @@ export function PostDetails() {
                           />
                         </div>
                         <span className="text-xs font-medium">
-                          {comment.author.name}
+                          {comment.author?.name || "Usuário"}
                         </span>
                       </div>
-                      {isCommentOwner && (
+                      {comment.author?.id === loggedUserId && (
                         <div className="self-end items-start">
                           <Popover>
                             <PopoverTrigger asChild>
@@ -144,7 +145,7 @@ export function PostDetails() {
                               align="start"
                             >
                               <button
-                                className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer"
+                                className="flex flex-col items-start p-3 hover:bg-red-100 hover:cursor-pointer w-full"
                                 onClick={() =>
                                   openDeleteCommentModal(comment.id)
                                 }
@@ -152,7 +153,7 @@ export function PostDetails() {
                                 <span className="text-red-600">Excluir</span>
                               </button>
                               <button
-                                className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer"
+                                className="flex flex-col items-start p-3 hover:bg-gray-100 hover:cursor-pointer w-full"
                                 onClick={() =>
                                   openUpdateCommentModal(
                                     comment.id,
@@ -237,7 +238,7 @@ export function PostDetails() {
               className="hover:cursor-pointer"
               variant="outline"
               onClick={closeDeleteCommentModal}
-              disabled={loading}
+            // disabled={loading}
             >
               Cancelar
             </Button>
