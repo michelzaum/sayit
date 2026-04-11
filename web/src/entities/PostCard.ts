@@ -9,5 +9,6 @@ export type PostCard = {
   author: Partial<User>;
   comments: Partial<Comment>[];
   likes: Partial<Like>[];
+  commentsCount: number;
   isPostLikedByUser: boolean;
 };

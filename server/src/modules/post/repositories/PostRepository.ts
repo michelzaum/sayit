@@ -56,15 +56,23 @@ export class PostRepository implements IPostRepository {
   }
 
   async getAll(): Promise<PostCard[]> {
-    return prismaClient.post.findMany({
+    const posts = await prismaClient.post.findMany({
       select: {
         id: true,
         content: true,
         createdAt: true,
         author: true,
         likes: true,
+        _count: {
+          select: { comments: true },
+        },
       },
     });
+
+    return posts.map((post) => ({
+      ...post,
+      commentsCount: post._count.comments,
+    }));
   }
 
   async delete(postId: string): Promise<void> {

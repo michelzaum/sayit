@@ -13,6 +13,7 @@ export const GET_POSTS = gql`
         likes {
           authorId
         }
+        commentsCount
       }
       loggedUser {
         id

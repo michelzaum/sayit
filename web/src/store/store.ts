@@ -85,6 +85,11 @@ export const useStore = create<IState & IActions>()(
       set((state) => {
         const currentComments = state.commentsByPost[postComment.postId] || [];
         return {
+          feedPostsList: state.feedPostsList.map((post) =>
+            post.id === postComment.postId
+              ? { ...post, commentsCount: post.commentsCount + 1 }
+              : post,
+          ),
           commentsByPost: {
             ...state.commentsByPost,
             [postComment.postId]: [
@@ -111,6 +116,9 @@ export const useStore = create<IState & IActions>()(
       })),
     removePostComment: (commentId: string, postId: string) =>
       set((state) => ({
+        feedPostsList: state.feedPostsList.map((post) =>
+          post.id === postId ? { ...post, commentsCount: post.commentsCount - 1 } : post,
+        ),
         commentsByPost: {
           ...state.commentsByPost,
           [postId]: (state.commentsByPost[postId] || []).filter(

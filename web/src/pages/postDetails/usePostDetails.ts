@@ -49,16 +49,38 @@ export function usePostDetails() {
   const [isDeleteCommentModalOpen, setIsDeleteCommentModalOpen] =
     useState(false);
   const postId = searchParams.get("postId");
-  const [getAllCommentsByPostId, { data: postComments }] =
+  const [getAllCommentsByPostId] =
     useLazyQuery<GetAllCommentsResponse>(GET_ALL_COMMENTS_BY_POST_ID, {
       fetchPolicy: "network-only",
     });
   const [createComment, { loading: createCommentLoading }] =
-    useMutation<CreateCommentResponse>(CREATE_COMMENT);
+    useMutation<CreateCommentResponse>(CREATE_COMMENT, {
+      update(cache) {
+        cache.modify({
+          id: cache.identify({ __typename: "Post", id: postId }),
+          fields: {
+            commentsCount(existingCount = 0) {
+              return existingCount + 1;
+            },
+          },
+        });
+      },
+    });
   const [updateComment, { loading: updateCommentLoading }] =
     useMutation(UPDATE_COMMENT);
   const [deleteComment, { loading: deleteCommentLoading }] =
-    useMutation(DELETE_COMMENT);
+    useMutation(DELETE_COMMENT, {
+      update(cache) {
+        cache.modify({
+          id: cache.identify({ __typename: "Post", id: postId }),
+          fields: {
+            commentsCount(existingCount = 0) {
+              return existingCount - 1;
+            },
+          },
+        });
+      },
+    });
 
   const addPostComment = useStore((state) => state.addPostComment);
   const updatePostComment = useStore((state) => state.updatePostComment);
