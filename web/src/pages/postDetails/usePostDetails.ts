@@ -1,4 +1,4 @@
-import { FormEvent, useLayoutEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 import { useLazyQuery, useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
@@ -21,11 +21,17 @@ type CommentResponse = {
   content: string;
   createdAt: string;
   postId: string;
+  author?: {
+    id: string;
+    name: string;
+  };
 };
 
 type GetAllCommentsResponse = {
   getAllCommentsByPostId: CommentResponse[];
 };
+
+const EMPTY_COMMENTS: CommentResponse[] = [];
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
@@ -40,7 +46,9 @@ export function usePostDetails() {
     useState(false);
   const postId = searchParams.get("postId");
   const [getAllCommentsByPostId, { data: postComments }] =
-    useLazyQuery<GetAllCommentsResponse>(GET_ALL_COMMENTS_BY_POST_ID);
+    useLazyQuery<GetAllCommentsResponse>(GET_ALL_COMMENTS_BY_POST_ID, {
+      fetchPolicy: "network-only",
+    });
   const [createComment, { loading: createCommentLoading }] =
     useMutation<CreateCommentResponse>(CREATE_COMMENT);
   const [updateComment, { loading: updateCommentLoading }] =
@@ -49,30 +57,42 @@ export function usePostDetails() {
     useMutation(DELETE_COMMENT);
 
   const addPostComment = useStore((state) => state.addPostComment);
+  const updatePostComment = useStore((state) => state.updatePostComment);
+  const removePostComment = useStore((state) => state.removePostComment);
   const feedPostsList = useStore((state) => state.feedPostsList);
   const postDetails = feedPostsList.find((post) => post.id === postId);
-  const postDetailsComments = useStore((state) => state.postDetailsComments);
+  const loggedUserId = useStore((state) => state.loggedUserId);
+  const postDetailsComments = useStore(
+    (state) => state.commentsByPost[postId ?? ""] || EMPTY_COMMENTS,
+  );
   const setPostDetailsComments = useStore(
     (state) => state.setPostDetailsComments,
   );
 
-  useLayoutEffect(() => {
+  const lastFetchedPostId = useRef<string | null>(null);
+  useEffect(() => {
     async function handleGetComments() {
+      if (!postId || lastFetchedPostId.current === postId) return;
+
       try {
-        await getAllCommentsByPostId({
+        lastFetchedPostId.current = postId;
+        const { data: commentsData } = await getAllCommentsByPostId({
           variables: {
             postId,
           },
         });
 
-        setPostDetailsComments(postComments);
+        if (commentsData) {
+          setPostDetailsComments(postId, commentsData.getAllCommentsByPostId);
+        }
       } catch {
         console.log("error");
+        lastFetchedPostId.current = null; // Reset on error to allow retry
       }
     }
 
     handleGetComments();
-  }, [postId, getAllCommentsByPostId, postComments, setPostDetailsComments]);
+  }, [postId, getAllCommentsByPostId, setPostDetailsComments]);
 
   function openUpdateCommentModal(
     commentId: string,
@@ -109,6 +129,10 @@ export function usePostDetails() {
         },
       });
 
+      if (postId) {
+        updatePostComment(updatedCommentId, updateCommentValue, postId);
+      }
+
       closeUpdateCommentModal();
       toast.success("Comentário atualizado com sucesso!");
     } catch {
@@ -133,11 +157,17 @@ export function usePostDetails() {
         },
       });
 
-      addPostComment({
-        id: data.createComment.id,
-        content: data.createComment.content,
-        postId,
-      });
+      if (postId) {
+        addPostComment({
+          id: data.createComment.id,
+          content: data.createComment.content,
+          postId,
+          author: {
+            id: loggedUserId,
+            name: "Você", // Fallback for real-time update
+          },
+        });
+      }
       newCommentRef.current.value = "";
       toast.success("Comentário adicionado com sucesso!");
     } catch {
@@ -152,6 +182,10 @@ export function usePostDetails() {
           commentId: deletedCommentId,
         },
       });
+
+      if (postId) {
+        removePostComment(deletedCommentId, postId);
+      }
 
       toast.success("Comentário excluído com sucesso!");
     } catch {
@@ -179,5 +213,6 @@ export function usePostDetails() {
     handleAddComment,
     handleUpdateComment,
     handleDeleteComment,
+    loggedUserId,
   };
 }
