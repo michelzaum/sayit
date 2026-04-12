@@ -25,6 +25,8 @@ export function usePostItem() {
   const addPostLike = useStore((state) => state.addPostLike);
   const removePostLike = useStore((state) => state.removePostLike);
   const getPostById = useStore((state) => state.getPostById);
+  const updatePostInStore = useStore((state) => state.updatePost);
+  const removePostFromStore = useStore((state) => state.removePost);
   const loggedUserId = useStore((state) => state.loggedUserId);
 
   function toggleLike(isPostLiked: boolean): void {
@@ -127,6 +129,7 @@ export function usePostItem() {
         },
       });
 
+      updatePostInStore(postId, newPostContentValue);
       toast.success("Post atualizado com sucesso!");
     } catch {
       toast.error("Erro ao atualizar post. Tente novamente");
@@ -143,6 +146,7 @@ export function usePostItem() {
         },
       });
 
+      removePostFromStore(postId);
       toast.success("Post excluído com sucesso!");
     } catch {
       toast.error("Erro ao excluir post. Tente novamente");

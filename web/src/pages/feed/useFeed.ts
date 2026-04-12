@@ -11,7 +11,7 @@ import { useStore } from "@/store/store";
 
 export function useFeed() {
   const { error, loading, data, subscribeToMore } =
-    useQuery<GetPosts>(GET_POSTS);
+    useQuery<GetPosts>(GET_POSTS, { fetchPolicy: "network-only" });
   const setLoggedUserId = useStore((state) => state.setLoggedUserId);
   const setFeedPostsList = useStore((state) => state.setFeedPostsList);
   const feedPostsList = useStore((state) => state.feedPostsList);

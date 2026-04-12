@@ -39,6 +39,8 @@ interface IActions {
   updatePostComment: (commentId: string, content: string, postId: string) => void;
   removePostComment: (commentId: string, postId: string) => void;
   setPostDetailsComments: (postId: string, comments: CommentResponse[]) => void;
+  updatePost: (postId: string, content: string) => void;
+  removePost: (postId: string) => void;
 }
 
 export const useStore = create<IState & IActions>()(
@@ -131,6 +133,16 @@ export const useStore = create<IState & IActions>()(
         commentsByPost: {
           [postId]: comments,
         },
+      })),
+    updatePost: (postId: string, content: string) =>
+      set(({ feedPostsList }) => ({
+        feedPostsList: feedPostsList.map((post) =>
+          post.id === postId ? { ...post, content } : post,
+        ),
+      })),
+    removePost: (postId: string) =>
+      set(({ feedPostsList }) => ({
+        feedPostsList: feedPostsList.filter((post) => post.id !== postId),
       })),
   })),
 );
