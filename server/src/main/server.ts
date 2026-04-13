@@ -52,6 +52,7 @@ function getAccessToken(req: IncomingMessage) {
       extensions: {
         code: 'UNAUTHENTICATED',
         http: { status: 401 },
+        status: 401,
       }
     });
   }
@@ -63,6 +64,7 @@ function getAccessToken(req: IncomingMessage) {
       extensions: {
         code: 'UNAUTHENTICATED',
         http: { status: 401 },
+        status: 401,
       }
     });
   }
@@ -84,6 +86,7 @@ app.use(
             extensions: {
               code: 'UNAUTHENTICATED',
               http: { status: 401 },
+              status: 401,
             }
           });
       }
