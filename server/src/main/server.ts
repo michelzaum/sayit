@@ -73,7 +73,7 @@ function getAccessToken(req: IncomingMessage) {
 }
 
 app.use(
-  "",
+  "/",
   cors<cors.CorsRequest>(),
   express.json(),
   expressMiddleware(server, {
