@@ -1,9 +1,10 @@
-import http from "http";
+import http, { IncomingMessage } from "http";
 import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/use/ws";
+import { GraphQLError } from "graphql/error";
 import { expressMiddleware } from "@as-integrations/express5";
 import express from "express";
 import cors from "cors";
@@ -43,12 +44,53 @@ const server = new ApolloServer<IContainer>({
 
 await server.start();
 
+function getAccessToken(req: IncomingMessage) {
+  const cookie = req.headers.cookie || '';
+
+  if (!cookie) {
+    throw new GraphQLError('User is not authenticated', {
+      extensions: {
+        code: 'UNAUTHENTICATED',
+        http: { status: 401 },
+        status: 401,
+      }
+    });
+  }
+
+  const [_, accessToken] = cookie.split("=");
+
+  if (!accessToken) {
+    throw new GraphQLError('User is not authenticated', {
+      extensions: {
+        code: 'UNAUTHENTICATED',
+        http: { status: 401 },
+        status: 401,
+      }
+    });
+  }
+
+  return accessToken;
+}
+
 app.use(
   "",
   cors<cors.CorsRequest>(),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
+      if (req.body.operationName !== 'SignIn' && req.body.operationName !== 'SignUp') {
+        const token = getAccessToken(req);
+
+        if (!token)
+          throw new GraphQLError('User is not authenticated', {
+            extensions: {
+              code: 'UNAUTHENTICATED',
+              http: { status: 401 },
+              status: 401,
+            }
+          });
+      }
+
       return {
         http: {
           req,
