@@ -1,10 +1,8 @@
 name: Sayit CI
 
 on:
-  push:
-    branches: [dev]
   pull_request:
-    branches: [main]
+    branches: [dev, main]
 
 jobs:
   ci:
