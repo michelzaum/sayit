@@ -8,8 +8,8 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User.js'
-export type * from './models/Post.js'
-export type * from './models/Like.js'
-export type * from './models/Comment.js'
-export type * from './commonInputTypes.js'
+export type * from './models/User'
+export type * from './models/Post'
+export type * from './models/Like'
+export type * from './models/Comment'
+export type * from './commonInputTypes'

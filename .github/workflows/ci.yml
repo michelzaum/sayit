@@ -1,0 +1,37 @@
+name: Sayit CI
+
+on:
+  pull_request:
+    branches: [dev, main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout node
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+          cache: "npm"
+          cache-dependency-path: |
+            server/package-lock.json
+            web/package-lock.json
+
+      - name: Install server dependencies
+        run: npm ci
+        working-directory: ./server
+
+      - name: Install client dependencies
+        run: npm ci
+        working-directory: ./web
+
+      - name: Server typechecking
+        run: npm run typecheck:server
+        working-directory: ./server
+
+      - name: Client typechecking
+        run: npm run typecheck:web
+        working-directory: ./web
