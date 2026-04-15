@@ -5,12 +5,10 @@ import { Toaster } from "sonner";
 import "./index.css";
 import { client } from "./graphql/client.ts";
 import { RoutesComponent } from "./routes.tsx";
-import { Header } from "./components/header/index.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <Header />
       <Toaster richColors />
       <RoutesComponent />
     </BrowserRouter>
