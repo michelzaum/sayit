@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, afterEach } from "vitest";
 import { renderHook } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { MockedProvider } from "@apollo/client/testing/react";
@@ -6,6 +6,7 @@ import { MockedProvider } from "@apollo/client/testing/react";
 import { useSign, validateEmail } from "./useSignIn";
 
 const mockNavigate = vi.fn();
+const mockSignIn = vi.fn();
 
 vi.mock("react-router", async () => {
   const actual = (await vi.importActual("react-router")) as object;
@@ -15,12 +16,17 @@ vi.mock("react-router", async () => {
   };
 });
 
-import { afterEach } from "vitest";
+vi.mock("@apollo/client/react", async () => {
+  const actual = (await vi.importActual("@apollo/client/react")) as object;
+  return {
+    ...actual,
+    useMutation: () => [mockSignIn, {}],
+  };
+});
 
 afterEach(() => {
   vi.clearAllMocks();
 });
-
 
 describe("Email validation", () => {
   it("should return false for empty email", () => {
@@ -66,5 +72,30 @@ describe("Submit", () => {
     await result.current.onSignInSubmit(event);
 
     expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it("should call signIn mutation when email and password are valid", async () => {
+    const event = {
+      preventDefault: vi.fn(),
+    } as unknown as React.FormEvent<HTMLFormElement>;
+
+    const { result } = renderHook(() => useSign(), {
+      wrapper: ({ children }) => (
+        <MockedProvider mocks={[]}>
+          <MemoryRouter>{children}</MemoryRouter>
+        </MockedProvider>
+      ),
+    });
+
+    result.current.emailRef.current = {
+      value: "valid@mail.com",
+    } as HTMLInputElement;
+    result.current.passwordRef.current = {
+      value: "password",
+    } as HTMLInputElement;
+
+    await result.current.onSignInSubmit(event);
+
+    expect(mockSignIn).toHaveBeenCalled();
   });
 });
