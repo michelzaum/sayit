@@ -1,6 +1,7 @@
 import { describe, expect, it, vi, afterEach } from "vitest";
-import { renderHook } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
+import { toast } from "sonner";
+import { renderHook } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 
 import { useSign, validateEmail } from "./useSignIn";
@@ -97,5 +98,34 @@ describe("Submit", () => {
     await result.current.onSignInSubmit(event);
 
     expect(mockSignIn).toHaveBeenCalled();
+  });
+
+  it("should call toast.error if signIn mutation call fail", async () => {
+    const errorSpy = vi.spyOn(toast, "error");
+
+    mockSignIn.mockRejectedValueOnce(new Error());
+
+    const event = {
+      preventDefault: vi.fn(),
+    } as unknown as React.FormEvent<HTMLFormElement>;
+
+    const { result } = renderHook(() => useSign(), {
+      wrapper: ({ children }) => (
+        <MockedProvider mocks={[]}>
+          <MemoryRouter>{children}</MemoryRouter>
+        </MockedProvider>
+      ),
+    });
+
+    result.current.emailRef.current = {
+      value: "valid@mail.com",
+    } as HTMLInputElement;
+    result.current.passwordRef.current = {
+      value: "password",
+    } as HTMLInputElement;
+
+    await result.current.onSignInSubmit(event);
+
+    expect(errorSpy).toHaveBeenCalledWith("Erro ao fazer login. Tente novamente");
   });
 });
