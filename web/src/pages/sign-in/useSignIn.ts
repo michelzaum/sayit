@@ -5,6 +5,10 @@ import { useNavigate } from "react-router";
 
 import { SIGN_IN } from "./mutation";
 
+export function validateEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 export function useSign() {
   const emailRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
@@ -18,6 +22,12 @@ export function useSign() {
 
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
+
+    const isValidEmail = validateEmail(emailValue);
+
+    if (!emailValue || !isValidEmail || !passwordValue) {
+      return;
+    }
 
     try {
       await signIn({
