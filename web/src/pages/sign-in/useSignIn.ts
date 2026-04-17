@@ -19,6 +19,10 @@ export function useSign() {
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
 
+    if (!emailValue || !passwordValue) {
+      return;
+    }
+
     try {
       await signIn({
         variables: {
