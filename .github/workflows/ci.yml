@@ -32,6 +32,10 @@ jobs:
         run: npm run typecheck:server
         working-directory: ./server
 
-      - name: Client typechecking
+      - name: Web client typechecking
         run: npm run typecheck:web
+        working-directory: ./web
+
+      - name: Web client tests
+        run: npm test
         working-directory: ./web
