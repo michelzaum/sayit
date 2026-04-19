@@ -107,4 +107,19 @@ describe('onRegisterSubmit', () => {
 
       expect(errorSpy).toHaveBeenCalledWith('Senha invalida. Minimo 8 caracteres e maximo 16')
     });
+
+  it.each(['test', 'test@', '@.com', 'test.com', '.'])
+    ('should call toast error message if email is invalid: $0', async (value) => {
+      const errorSpy = vi.spyOn(toast, 'error');
+
+      mockSignUp.mockRejectedValue(new Error());
+
+      result.current.nameRef.current = { value: 'John' } as HTMLInputElement;
+      result.current.emailRef.current = { value } as HTMLInputElement;
+      result.current.passwordRef.current = { value: '12345678' } as HTMLInputElement;
+
+      await result.current.onRegisterSubmit(event);
+
+      expect(errorSpy).toHaveBeenCalledWith('E-mail invalido')
+    });
 });
