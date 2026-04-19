@@ -1,9 +1,16 @@
 import { FormEvent, useRef } from "react";
-import { useMutation } from "@apollo/client/react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { z } from 'zod';
+import { useMutation } from "@apollo/client/react";
 
 import { CREATE_USER } from "./mutation";
-import { toast } from "sonner";
+
+const schema = z.object({
+  name: z.string().refine((name) => !/\d/.test(name)),
+  email: z.email(),
+  password: z.string().min(8).max(16),
+});
 
 export function useSignUp() {
   const nameRef = useRef<HTMLInputElement>({} as HTMLInputElement);
@@ -22,6 +29,17 @@ export function useSignUp() {
     const passwordValue = passwordRef.current.value;
 
     if (!nameValue || !emailValue || !passwordValue) {
+      return;
+    }
+
+    const { error } = schema.safeParse({
+      email: emailValue,
+      name: nameValue,
+      password: passwordValue,
+    });
+
+    if (error) {
+      toast.error('Dados invalidos no formulario');
       return;
     }
 
