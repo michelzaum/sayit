@@ -26,19 +26,19 @@ vi.mock("@apollo/client/react", async () => {
 });
 
 describe('onRegisterSubmit', () => {
+  const event = {
+    preventDefault: vi.fn(),
+  } as unknown as React.FormEvent<HTMLFormElement>;
+
+  const { result } = renderHook(() => useSignUp(), {
+    wrapper: ({ children }) => (
+      <MockedProvider mocks={[]}>
+        <MemoryRouter>{children}</MemoryRouter>
+      </MockedProvider>
+    )
+  });
+
   it('should not call navigate if name is empty', async () => {
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSignUp(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      )
-    });
-
     result.current.nameRef.current = { value: "" } as HTMLInputElement;
     result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
     result.current.passwordRef.current = { value: "password" } as HTMLInputElement;
@@ -49,18 +49,6 @@ describe('onRegisterSubmit', () => {
   });
 
   it('should not call navigate if email is empty', async () => {
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSignUp(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      )
-    });
-
     result.current.nameRef.current = { value: "John" } as HTMLInputElement;
     result.current.emailRef.current = { value: "" } as HTMLInputElement;
     result.current.passwordRef.current = { value: "password" } as HTMLInputElement;
@@ -71,18 +59,6 @@ describe('onRegisterSubmit', () => {
   });
 
   it('should not call navigate if email is empty', async () => {
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSignUp(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      )
-    });
-
     result.current.nameRef.current = { value: "John" } as HTMLInputElement;
     result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
     result.current.passwordRef.current = { value: "" } as HTMLInputElement;
@@ -93,18 +69,6 @@ describe('onRegisterSubmit', () => {
   });
 
   it('should call navigate if all fields information were provided', async () => {
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSignUp(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      )
-    });
-
     result.current.nameRef.current = { value: "John" } as HTMLInputElement;
     result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
     result.current.passwordRef.current = { value: "password" } as HTMLInputElement;
@@ -118,18 +82,6 @@ describe('onRegisterSubmit', () => {
     const errorSpy = vi.spyOn(toast, 'error');
 
     mockSignUp.mockRejectedValue(new Error());
-
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSignUp(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      )
-    });
 
     result.current.nameRef.current = { value: "John" } as HTMLInputElement;
     result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
