@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client/react";
 import { CREATE_USER } from "./mutation";
 
 const schema = z.object({
-  name: z.string().refine((name) => !/\d/.test(name), { error: 'Nome invalido' }),
+  name: z.string().min(1).refine((name) => !/\d/.test(name), { error: 'Nome invalido' }),
   email: z.string().email({ error: 'E-mail invalido' }),
   password: z.string()
     .min(8, {

@@ -78,17 +78,18 @@ describe('onRegisterSubmit', () => {
     expect(mockNavigate).toHaveBeenCalledTimes(1);
   });
 
-  it('should call toast error message if some error happens', async () => {
-    const errorSpy = vi.spyOn(toast, 'error');
+  it.each(['123', 'john123', '123john', '@#!', 'J0hn'])
+    ('should call toast error message name is invalid: $0', async (value) => {
+      const errorSpy = vi.spyOn(toast, 'error');
 
-    mockSignUp.mockRejectedValue(new Error());
+      mockSignUp.mockRejectedValue(new Error());
 
-    result.current.nameRef.current = { value: "John" } as HTMLInputElement;
-    result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
-    result.current.passwordRef.current = { value: "password" } as HTMLInputElement;
+      result.current.nameRef.current = { value } as HTMLInputElement;
+      result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
+      result.current.passwordRef.current = { value: "password" } as HTMLInputElement;
 
-    await result.current.onRegisterSubmit(event);
+      await result.current.onRegisterSubmit(event);
 
-    expect(errorSpy).toHaveBeenCalledWith("Ocorreu um erro ao criar usúario. Tente novamente");
-  });
+      expect(errorSpy).toHaveBeenCalledWith('Nome invalido')
+    });
 });
