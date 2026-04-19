@@ -7,9 +7,15 @@ import { useMutation } from "@apollo/client/react";
 import { CREATE_USER } from "./mutation";
 
 const schema = z.object({
-  name: z.string().refine((name) => !/\d/.test(name)),
-  email: z.email(),
-  password: z.string().min(8).max(16),
+  name: z.string().refine((name) => !/\d/.test(name), { error: 'Nome invalido' }),
+  email: z.string().email({ error: 'E-mail invalido' }),
+  password: z.string()
+    .min(8, {
+      error: 'Senha invalida. Minimo 8 caracteres e maximo 16',
+    })
+    .max(16, {
+      error: 'Senha invalida. Minimo 8 caracteres e maximo 16',
+    }),
 });
 
 export function useSignUp() {
@@ -18,6 +24,12 @@ export function useSignUp() {
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const [createUser, { loading }] = useMutation(CREATE_USER);
   const navigate = useNavigate();
+
+  function displayFormFieldErrorMessage(error: z.ZodError) {
+    error.issues.forEach((issue) => {
+      toast.error(issue.message);
+    });
+  }
 
   async function onRegisterSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -39,7 +51,7 @@ export function useSignUp() {
     });
 
     if (error) {
-      toast.error('Dados invalidos no formulario');
+      displayFormFieldErrorMessage(error);
       return;
     }
 
