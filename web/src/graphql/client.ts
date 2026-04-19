@@ -6,6 +6,11 @@ import {
   InMemoryCache,
   ApolloLink,
 } from "@apollo/client";
+import {
+  CombinedGraphQLErrors,
+  ServerError,
+} from "@apollo/client/errors";
+import { ErrorLink } from "@apollo/client/link/error";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 
 const httpLink = new HttpLink({
@@ -28,7 +33,23 @@ const splitLink = ApolloLink.split(
   httpLink,
 );
 
+const errorLink = new ErrorLink(({ error }) => {
+  if (CombinedGraphQLErrors.is(error)) {
+    error.errors.forEach(({ extensions }) => {
+      if (extensions?.code === 'UNAUTHENTICATED') {
+        window.location.href = '/sign-in';
+      }
+    });
+  } else if (ServerError.is(error)) {
+    console.log(
+      `[Network error]: Status: ${error.statusCode}, Message: ${error.message}`,
+    );
+  } else {
+    console.log(`[Network error]: ${error}`);
+  }
+});
+
 export const client = new ApolloClient({
-  link: splitLink,
+  link: ApolloLink.from([errorLink, splitLink]),
   cache: new InMemoryCache(),
 });
