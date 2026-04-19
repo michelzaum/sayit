@@ -79,7 +79,7 @@ describe('onRegisterSubmit', () => {
   });
 
   it.each(['123', 'john123', '123john', '@#!', 'J0hn'])
-    ('should call toast error message name is invalid: $0', async (value) => {
+    ('should call toast error message if name is invalid: $0', async (value) => {
       const errorSpy = vi.spyOn(toast, 'error');
 
       mockSignUp.mockRejectedValue(new Error());
@@ -91,5 +91,20 @@ describe('onRegisterSubmit', () => {
       await result.current.onRegisterSubmit(event);
 
       expect(errorSpy).toHaveBeenCalledWith('Nome invalido')
+    });
+
+  it.each(['123', '1234567', '12345678900987654321', 'test', 'testtesttest'])
+    ('should call toast error message if password is invalid: $0', async (value) => {
+      const errorSpy = vi.spyOn(toast, 'error');
+
+      mockSignUp.mockRejectedValue(new Error());
+
+      result.current.nameRef.current = { value: 'John' } as HTMLInputElement;
+      result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
+      result.current.passwordRef.current = { value } as HTMLInputElement;
+
+      await result.current.onRegisterSubmit(event);
+
+      expect(errorSpy).toHaveBeenCalledWith('Senha invalida. Minimo 8 caracteres e maximo 16')
     });
 });
