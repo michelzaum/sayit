@@ -21,6 +21,10 @@ export function useSignUp() {
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
 
+    if (!nameValue || !emailValue || !passwordValue) {
+      return;
+    }
+
     try {
       await createUser({
         variables: {
