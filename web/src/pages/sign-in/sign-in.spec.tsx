@@ -52,19 +52,19 @@ describe("Email validation", () => {
 });
 
 describe("Submit", () => {
+  const event = {
+    preventDefault: vi.fn(),
+  } as unknown as React.FormEvent<HTMLFormElement>;
+
+  const { result } = renderHook(() => useSign(), {
+    wrapper: ({ children }) => (
+      <MockedProvider mocks={[]}>
+        <MemoryRouter>{children}</MemoryRouter>
+      </MockedProvider>
+    ),
+  });
+
   it("should not call navigate if email is invalid", async () => {
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSign(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      ),
-    });
-
     result.current.emailRef.current = { value: "invalid" } as HTMLInputElement;
     result.current.passwordRef.current = {
       value: "password",
@@ -76,18 +76,6 @@ describe("Submit", () => {
   });
 
   it("should call signIn mutation when email and password are valid", async () => {
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSign(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      ),
-    });
-
     result.current.emailRef.current = {
       value: "valid@mail.com",
     } as HTMLInputElement;
@@ -104,18 +92,6 @@ describe("Submit", () => {
     const errorSpy = vi.spyOn(toast, "error");
 
     mockSignIn.mockRejectedValueOnce(new Error());
-
-    const event = {
-      preventDefault: vi.fn(),
-    } as unknown as React.FormEvent<HTMLFormElement>;
-
-    const { result } = renderHook(() => useSign(), {
-      wrapper: ({ children }) => (
-        <MockedProvider mocks={[]}>
-          <MemoryRouter>{children}</MemoryRouter>
-        </MockedProvider>
-      ),
-    });
 
     result.current.emailRef.current = {
       value: "valid@mail.com",
