@@ -10,7 +10,7 @@ export class CreateUserUseCase {
     const { email: existingUserEmail } = await this.userRepository.getByEmail(data.email);
 
     if (existingUserEmail) {
-      throw new Error("E-mail ja cadastrado");
+      throw new Error("E-mail já cadastrado");
     }
 
     const { password } = data;

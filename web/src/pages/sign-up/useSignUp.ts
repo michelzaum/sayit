@@ -2,6 +2,7 @@ import { FormEvent, useRef } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from 'zod';
+import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 
 import { CREATE_USER } from "./mutation";
@@ -70,7 +71,12 @@ export function useSignUp() {
       toast.success("Usúario criado com sucesso! Faça login", {
         dismissible: true,
       });
-    } catch {
+    } catch (error: any) {
+      if (error instanceof CombinedGraphQLErrors) {
+        toast.error(error.message);
+        return;
+      }
+
       toast.error("Ocorreu um erro ao criar usúario. Tente novamente");
     }
   }
