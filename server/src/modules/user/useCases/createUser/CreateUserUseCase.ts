@@ -6,10 +6,10 @@ import { IUserRepository } from "../../repositories/IUserRepository";
 export class CreateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) { }
 
-  async execute(data: User): Promise<User> {
-    const { email: existingUserEmail } = await this.userRepository.getByEmail(data.email);
+  async execute(data: Omit<User, 'id'>): Promise<User> {
+    const isEmailAlreadyInUse = await this.userRepository.getByEmail(data.email);
 
-    if (existingUserEmail) {
+    if (isEmailAlreadyInUse) {
       throw new Error("E-mail já cadastrado");
     }
 
