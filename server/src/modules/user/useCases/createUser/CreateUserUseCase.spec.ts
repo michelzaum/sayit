@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
+import { compare } from 'bcryptjs';
 
 import { InMemoryUserReposiory } from '../../repositories/in-memory/InMemoryUserRepository';
 import { CreateUserUseCase } from './CreateUserUseCase';
@@ -38,5 +39,19 @@ describe('CreateUserUseCase', () => {
 
     expect(createUserUseCase.execute(newUserInfo)).rejects.toThrow("E-mail já cadastrado");
     expect(inMemoryUserReposiory.users.length).toBe(1);
+  });
+
+  it("should correctly hash user's password", async () => {
+    const newUserInfo = {
+      email: "johndoe@gmail.com",
+      name: "john",
+      password: "12345678",
+    };
+
+    const newUser = await createUserUseCase.execute(newUserInfo);
+    const passwordMatch = await compare("12345678", newUser.password);
+
+    expect(passwordMatch).toBe(true);
+    expect(newUser.password).not.toBe(newUserInfo.password);
   });
 });
