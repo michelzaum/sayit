@@ -43,7 +43,7 @@ describe('CreateUserUseCase', () => {
     await createUserUseCase.execute(newUserInfo);
 
     // Assert
-    expect(createUserUseCase.execute(newUserInfo)).rejects.toThrow("E-mail já cadastrado");
+    await expect(createUserUseCase.execute(newUserInfo)).rejects.toThrow("E-mail já cadastrado");
     expect(inMemoryUserReposiory.users.length).toBe(1);
   });
 
@@ -63,4 +63,17 @@ describe('CreateUserUseCase', () => {
     expect(passwordMatch).toBe(true);
     expect(newUser.password).not.toBe(newUserInfo.password);
   });
+
+  it.each(['123', '1234567', 'abcdefg', '', '.', ' '])
+    ('should not create an user if password is less than 8 characters: $0', async (passwordValue) => {
+      const newUserInfo = {
+        name: 'John',
+        email: 'johndoe@gmail.com',
+        password: passwordValue,
+      };
+
+      // const createUserWithInvalidPassword = async () => await ;
+
+      await expect(() => createUserUseCase.execute(newUserInfo)).rejects.toThrow("Senha invalida. Minimo 8 caracteres e maximo 16");
+    });
 });
