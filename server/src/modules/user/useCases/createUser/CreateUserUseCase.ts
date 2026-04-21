@@ -1,7 +1,20 @@
 import { hash } from "bcryptjs";
+import { z } from 'zod';
 
 import { User } from "../../entities/User";
 import { IUserRepository } from "../../repositories/IUserRepository";
+
+const schema = z.object({
+  name: z.string().min(1, { error: 'Nome invalido' }).refine((name) => !/\d/.test(name), { error: 'Nome invalido' }),
+  email: z.email({ error: 'E-mail invalido' }),
+  password: z.string()
+    .min(8, {
+      error: 'Senha invalida. Minimo 8 caracteres e maximo 16',
+    })
+    .max(16, {
+      error: 'Senha invalida. Minimo 8 caracteres e maximo 16',
+    }),
+});
 
 export class CreateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) { }
@@ -15,8 +28,12 @@ export class CreateUserUseCase {
 
     const { password } = data;
 
-    if (password.length < 8 || password.length > 16) {
-      throw new Error("Senha invalida. Minimo 8 caracteres e maximo 16");
+    const { error } = schema.safeParse(data);
+
+    if (error) {
+      error.issues.forEach((issue) => {
+        throw new Error(issue.message);
+      });
     }
 
     const encryptedPassword = await hash(password, 8);
