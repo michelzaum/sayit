@@ -41,9 +41,10 @@ describe('CreateUserUseCase', () => {
 
     // Act
     await createUserUseCase.execute(newUserInfo);
+    const userWithDuplicatedEmail = () => createUserUseCase.execute(newUserInfo);
 
     // Assert
-    await expect(createUserUseCase.execute(newUserInfo)).rejects.toThrow("E-mail já cadastrado");
+    await expect(userWithDuplicatedEmail).rejects.toThrow("E-mail já cadastrado");
     expect(inMemoryUserReposiory.users.length).toBe(1);
   });
 
