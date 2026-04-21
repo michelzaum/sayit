@@ -2,7 +2,7 @@ name: Sayit CI
 
 on:
   pull_request:
-    branches: [dev, main]
+    branches: [ dev, main ]
 
 jobs:
   ci:
@@ -24,18 +24,22 @@ jobs:
         run: npm ci
         working-directory: ./server
 
-      - name: Install client dependencies
-        run: npm ci
-        working-directory: ./web
-
       - name: Server typechecking
         run: npm run typecheck:server
         working-directory: ./server
 
-      - name: Web client typechecking
+      - name: Server tests
+        run: npm test
+        working-directory: ./server
+
+      - name: Install client dependencies
+        run: npm ci
+        working-directory: ./web
+
+      - name: Client typechecking
         run: npm run typecheck:web
         working-directory: ./web
 
-      - name: Web client tests
+      - name: Client tests
         run: npm test
         working-directory: ./web

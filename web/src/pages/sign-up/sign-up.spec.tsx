@@ -78,17 +78,48 @@ describe('onRegisterSubmit', () => {
     expect(mockNavigate).toHaveBeenCalledTimes(1);
   });
 
-  it('should call toast error message if some error happens', async () => {
-    const errorSpy = vi.spyOn(toast, 'error');
+  it.each(['123', 'john123', '123john', '@#!', 'J0hn'])
+    ('should call toast error message if name is invalid: $0', async (value) => {
+      const errorSpy = vi.spyOn(toast, 'error');
 
-    mockSignUp.mockRejectedValue(new Error());
+      mockSignUp.mockRejectedValue(new Error());
 
-    result.current.nameRef.current = { value: "John" } as HTMLInputElement;
-    result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
-    result.current.passwordRef.current = { value: "password" } as HTMLInputElement;
+      result.current.nameRef.current = { value } as HTMLInputElement;
+      result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
+      result.current.passwordRef.current = { value: "password" } as HTMLInputElement;
 
-    await result.current.onRegisterSubmit(event);
+      await result.current.onRegisterSubmit(event);
 
-    expect(errorSpy).toHaveBeenCalledWith("Ocorreu um erro ao criar usúario. Tente novamente");
-  });
+      expect(errorSpy).toHaveBeenCalledWith('Nome invalido')
+    });
+
+  it.each(['123', '1234567', '12345678900987654321', 'test', 'testtesttest'])
+    ('should call toast error message if password is invalid: $0', async (value) => {
+      const errorSpy = vi.spyOn(toast, 'error');
+
+      mockSignUp.mockRejectedValue(new Error());
+
+      result.current.nameRef.current = { value: 'John' } as HTMLInputElement;
+      result.current.emailRef.current = { value: "john@mail.com" } as HTMLInputElement;
+      result.current.passwordRef.current = { value } as HTMLInputElement;
+
+      await result.current.onRegisterSubmit(event);
+
+      expect(errorSpy).toHaveBeenCalledWith('Senha invalida. Minimo 8 caracteres e maximo 16')
+    });
+
+  it.each(['test', 'test@', '@.com', 'test.com', '.'])
+    ('should call toast error message if email is invalid: $0', async (value) => {
+      const errorSpy = vi.spyOn(toast, 'error');
+
+      mockSignUp.mockRejectedValue(new Error());
+
+      result.current.nameRef.current = { value: 'John' } as HTMLInputElement;
+      result.current.emailRef.current = { value } as HTMLInputElement;
+      result.current.passwordRef.current = { value: '12345678' } as HTMLInputElement;
+
+      await result.current.onRegisterSubmit(event);
+
+      expect(errorSpy).toHaveBeenCalledWith('E-mail invalido')
+    });
 });

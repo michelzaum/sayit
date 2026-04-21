@@ -78,10 +78,10 @@ app.use(
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
-      if (req.body.operationName !== 'SignIn' && req.body.operationName !== 'SignUp') {
+      if (req.body.operationName !== 'SignIn' && req.body.operationName !== 'CreateUser') {
         const token = getAccessToken(req);
 
-        if (!token)
+        if (!token) {
           throw new GraphQLError('User is not authenticated', {
             extensions: {
               code: 'UNAUTHENTICATED',
@@ -89,6 +89,7 @@ app.use(
               status: 401,
             }
           });
+        }
       }
 
       return {
