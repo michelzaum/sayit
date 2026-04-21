@@ -15,6 +15,10 @@ export class CreateUserUseCase {
 
     const { password } = data;
 
+    if (password.length < 8 || password.length > 16) {
+      throw new Error("Senha invalida. Minimo 8 caracteres e maximo 16");
+    }
+
     const encryptedPassword = await hash(password, 8);
 
     return await this.userRepository.create({
