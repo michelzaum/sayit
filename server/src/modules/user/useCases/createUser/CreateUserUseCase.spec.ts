@@ -79,4 +79,20 @@ describe('CreateUserUseCase', () => {
       // Assert
       await expect(createUserWithInvalidPassword).rejects.toThrow("Senha invalida. Minimo 8 caracteres e maximo 16");
     });
+
+  it.each(['123123123123123123', 'abcdefghijklmnopqr'])
+    ('should not create an user if password is more than 16 characters: $0', async (passwordValue) => {
+      // Arrange
+      const newUserInfo = {
+        name: 'John',
+        email: 'johndoe@gmail.com',
+        password: passwordValue,
+      };
+
+      // Act
+      const createUserWithInvalidPassword = () => createUserUseCase.execute(newUserInfo);
+
+      // Assert
+      await expect(createUserWithInvalidPassword).rejects.toThrow("Senha invalida. Minimo 8 caracteres e maximo 16");
+    });
 });
