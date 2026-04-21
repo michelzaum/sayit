@@ -111,4 +111,20 @@ describe('CreateUserUseCase', () => {
     expect(userWithoutName).rejects.toThrow('Nome invalido');
     expect(inMemoryUserReposiory.users.length).toBe(0);
   });
+
+  it('should not create an user if email is missing', async () => {
+    // Arrange
+    const newUserInfo = {
+      name: 'John',
+      email: '',
+      password: '12345678',
+    };
+
+    // Act
+    const userWithoutEmail = () => createUserUseCase.execute(newUserInfo);
+
+    // Assert
+    expect(userWithoutEmail).rejects.toThrow('E-mail invalido');
+    expect(inMemoryUserReposiory.users.length).toBe(0);
+  });
 });
