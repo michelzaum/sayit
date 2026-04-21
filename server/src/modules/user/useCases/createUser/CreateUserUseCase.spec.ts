@@ -154,4 +154,22 @@ describe('CreateUserUseCase', () => {
     expect(createUserRepositorySpy).not.toHaveBeenCalled();
     expect(inMemoryUserReposiory.users.length).toBe(0);
   });
+
+  it.each(['123', 'john123', 'j0hn', '123john'])('should not create an user if name is invalid: $0', async (values) => {
+    // Arrange
+    const newUserInfo = {
+      name: values,
+      email: 'johndoe@gmail.com',
+      password: '12345678',
+    };
+    const createUserRepositorySpy = vi.spyOn(inMemoryUserReposiory, 'create');
+
+    // Act
+    const userWithInvalidName = () => createUserUseCase.execute(newUserInfo);
+
+    // Assert
+    await expect(userWithInvalidName).rejects.toThrow('Nome invalido');
+    expect(createUserRepositorySpy).not.toHaveBeenCalled();
+    expect(inMemoryUserReposiory.users.length).toBe(0);
+  });
 });
