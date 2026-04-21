@@ -127,4 +127,20 @@ describe('CreateUserUseCase', () => {
     expect(userWithoutEmail).rejects.toThrow('E-mail invalido');
     expect(inMemoryUserReposiory.users.length).toBe(0);
   });
+
+  it('should not create an user if password is missing', async () => {
+    // Arrange
+    const newUserInfo = {
+      name: 'John',
+      email: 'johndoe@gmail.com',
+      password: '',
+    };
+
+    // Act
+    const userWithoutPassword = () => createUserUseCase.execute(newUserInfo);
+
+    // Assert
+    expect(userWithoutPassword).rejects.toThrow('Senha invalida. Minimo 8 caracteres e maximo 16');
+    expect(inMemoryUserReposiory.users.length).toBe(0);
+  });
 });
