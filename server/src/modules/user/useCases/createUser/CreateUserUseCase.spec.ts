@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { compare } from 'bcryptjs';
 
 import { InMemoryUserReposiory } from '../../repositories/in-memory/InMemoryUserRepository';
@@ -72,12 +72,14 @@ describe('CreateUserUseCase', () => {
         email: 'johndoe@gmail.com',
         password: passwordValue,
       };
+      const createUserRepositorySpy = vi.spyOn(inMemoryUserReposiory, 'create');
 
       // Act
       const createUserWithInvalidPassword = () => createUserUseCase.execute(newUserInfo);
 
       // Assert
       await expect(createUserWithInvalidPassword).rejects.toThrow("Senha invalida. Minimo 8 caracteres e maximo 16");
+      expect(createUserRepositorySpy).not.toHaveBeenCalled();
     });
 
   it.each(['123123123123123123', 'abcdefghijklmnopqr'])
@@ -88,12 +90,14 @@ describe('CreateUserUseCase', () => {
         email: 'johndoe@gmail.com',
         password: passwordValue,
       };
+      const createUserRepositorySpy = vi.spyOn(inMemoryUserReposiory, 'create');
 
       // Act
       const createUserWithInvalidPassword = () => createUserUseCase.execute(newUserInfo);
 
       // Assert
       await expect(createUserWithInvalidPassword).rejects.toThrow("Senha invalida. Minimo 8 caracteres e maximo 16");
+      expect(createUserRepositorySpy).not.toHaveBeenCalled();
     });
 
   it('should not create an user if name is missing', async () => {
@@ -103,12 +107,14 @@ describe('CreateUserUseCase', () => {
       email: 'johndoe@gmail.com',
       password: '12345678',
     };
+    const createUserRepositorySpy = vi.spyOn(inMemoryUserReposiory, 'create');
 
     // Act
     const userWithoutName = () => createUserUseCase.execute(newUserInfo);
 
     // Assert
-    expect(userWithoutName).rejects.toThrow('Nome invalido');
+    await expect(userWithoutName).rejects.toThrow('Nome invalido');
+    expect(createUserRepositorySpy).not.toHaveBeenCalled();
     expect(inMemoryUserReposiory.users.length).toBe(0);
   });
 
@@ -119,12 +125,14 @@ describe('CreateUserUseCase', () => {
       email: '',
       password: '12345678',
     };
+    const createUserRepositorySpy = vi.spyOn(inMemoryUserReposiory, 'create');
 
     // Act
     const userWithoutEmail = () => createUserUseCase.execute(newUserInfo);
 
     // Assert
-    expect(userWithoutEmail).rejects.toThrow('E-mail invalido');
+    await expect(userWithoutEmail).rejects.toThrow('E-mail invalido');
+    expect(createUserRepositorySpy).not.toHaveBeenCalled();
     expect(inMemoryUserReposiory.users.length).toBe(0);
   });
 
@@ -135,12 +143,14 @@ describe('CreateUserUseCase', () => {
       email: 'johndoe@gmail.com',
       password: '',
     };
+    const createUserRepositorySpy = vi.spyOn(inMemoryUserReposiory, 'create');
 
     // Act
     const userWithoutPassword = () => createUserUseCase.execute(newUserInfo);
 
     // Assert
-    expect(userWithoutPassword).rejects.toThrow('Senha invalida. Minimo 8 caracteres e maximo 16');
+    await expect(userWithoutPassword).rejects.toThrow('Senha invalida. Minimo 8 caracteres e maximo 16');
+    expect(createUserRepositorySpy).not.toHaveBeenCalled();
     expect(inMemoryUserReposiory.users.length).toBe(0);
   });
 });
