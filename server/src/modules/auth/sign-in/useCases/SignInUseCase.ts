@@ -22,6 +22,14 @@ export class SignInUseCase {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async execute(input: SignInUseCaseInput): Promise<string> {
+    const { error } = schema.safeParse(input);
+
+    if (error) {
+      error.issues.forEach((issue) => {
+        throw new Error(issue.message);
+      });
+    }
+
     const { email, password } = input;
 
     const user = await this.userRepository.getByEmail(email);
