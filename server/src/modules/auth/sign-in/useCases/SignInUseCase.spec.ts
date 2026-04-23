@@ -31,6 +31,23 @@ describe("SignInUseCase", () => {
     );
   });
 
+  it.each(["test", "test.com", "@", "@.com", ""])(
+    "should throw an error if email is invalid: $0",
+    async (values) => {
+      // Arrange
+      const user = {
+        email: values,
+        password: "12345678",
+      };
+
+      // Act
+      const invalidUser = async () => signInUseCase.execute(user);
+
+      // Assert
+      await expect(invalidUser).rejects.toThrow(`E-mail invalido`);
+    },
+  );
+
   it("should call getByEmail with the user's email that is trying to sign-in", async () => {
     // Arrange
     const user = {
