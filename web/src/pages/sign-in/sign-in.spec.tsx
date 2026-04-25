@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { renderHook } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 
-import { useSign, validateEmail } from "./useSignIn";
+import { useSign } from "./useSignIn";
 
 const mockNavigate = vi.fn();
 const mockSignIn = vi.fn();
@@ -29,28 +29,6 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-describe("Email validation", () => {
-  it("should return false for empty email", () => {
-    const emptyEmail = "";
-
-    expect(validateEmail(emptyEmail)).toBe(false);
-  });
-
-  it.each(["invalid", "invalid@", "@domain.com"])(
-    "should return false for invalid email format: $0",
-    (invalidValues) => {
-      expect(validateEmail(invalidValues)).toBe(false);
-    },
-  );
-
-  it.each(["test@example.com", "user.name@domain.org"])(
-    "should return true for valid email format: $0",
-    (validValues) => {
-      expect(validateEmail(validValues)).toBe(true);
-    },
-  );
-});
-
 describe("Submit", () => {
   const event = {
     preventDefault: vi.fn(),
@@ -64,16 +42,20 @@ describe("Submit", () => {
     ),
   });
 
-  it("should not call navigate if email is invalid", async () => {
-    result.current.emailRef.current = { value: "invalid" } as HTMLInputElement;
-    result.current.passwordRef.current = {
-      value: "password",
-    } as HTMLInputElement;
+  it.each(["invalid", "", "test.", "test.com", "@", "@.@"])(
+    "should not call navigate and signIn if email is invalid: $0",
+    async (values) => {
+      result.current.emailRef.current = { value: values } as HTMLInputElement;
+      result.current.passwordRef.current = {
+        value: "password",
+      } as HTMLInputElement;
 
-    await result.current.onSignInSubmit(event);
+      await result.current.onSignInSubmit(event);
 
-    expect(mockNavigate).not.toHaveBeenCalled();
-  });
+      expect(mockNavigate).not.toHaveBeenCalled();
+      expect(mockSignIn).not.toHaveBeenCalled();
+    },
+  );
 
   it("should call signIn mutation when email and password are valid", async () => {
     result.current.emailRef.current = {
@@ -102,6 +84,8 @@ describe("Submit", () => {
 
     await result.current.onSignInSubmit(event);
 
-    expect(errorSpy).toHaveBeenCalledWith("Erro ao fazer login. Tente novamente");
+    expect(errorSpy).toHaveBeenCalledWith(
+      "Erro ao fazer login. Tente novamente",
+    );
   });
 });

@@ -1,21 +1,25 @@
 import { FormEvent, useRef } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
-import { z } from 'zod';
+import { z } from "zod";
 import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
 
 import { CREATE_USER } from "./mutation";
 
 const schema = z.object({
-  name: z.string().min(1).refine((name) => !/\d/.test(name), { error: 'Nome invalido' }),
-  email: z.string().email({ error: 'E-mail invalido' }),
-  password: z.string()
+  name: z
+    .string()
+    .min(1)
+    .refine((name) => !/\d/.test(name), { error: "Nome invalido" }),
+  email: z.email({ error: "E-mail invalido" }),
+  password: z
+    .string()
     .min(8, {
-      error: 'Senha invalida. Minimo 8 caracteres e maximo 16',
+      error: "Senha invalida. Minimo 8 caracteres e maximo 16",
     })
     .max(16, {
-      error: 'Senha invalida. Minimo 8 caracteres e maximo 16',
+      error: "Senha invalida. Minimo 8 caracteres e maximo 16",
     }),
 });
 
