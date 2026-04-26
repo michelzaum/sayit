@@ -14,7 +14,7 @@ vi.mock("@apollo/client/react", async () => {
   };
 });
 
-describe('useCreatePost', () => {
+describe('onCreatePostSubmit', () => {
   const event = {
     preventDefault: vi.fn(),
   } as unknown as React.FormEvent<HTMLFormElement>;
