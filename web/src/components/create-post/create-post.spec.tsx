@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter } from 'react-router';
 import { toast } from 'sonner';
 import { renderHook } from '@testing-library/react';
@@ -29,6 +29,10 @@ describe('onCreatePostSubmit', () => {
     )
   });
 
+  beforeEach(() => {
+    vi.clearAllMocks();
+  })
+
   it('should not call createPost if postContent is empty', async () => {
     // Arrange
     result.current.postContentRef.current.value = '';
@@ -38,6 +42,19 @@ describe('onCreatePostSubmit', () => {
 
     // Assert
     expect(mockCreatePost).not.toHaveBeenCalled();
+  });
+
+  it('should call toast.error function if createPost got an error', async () => {
+    // Arrange
+    const errorSpy = vi.spyOn(toast, 'error');
+    mockCreatePost.mockRejectedValueOnce(new Error());
+    result.current.postContentRef.current.value = 'Post content';
+
+    // Act
+    await result.current.onCreatePostSubmit(event);
+
+    // Assert
+    expect(errorSpy).toHaveBeenCalledWith('Erro ao criar o post. Tente novamente', { dismissible: true });
   });
 
   it('should call createPost if postContent has a value', async () => {
