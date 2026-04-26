@@ -1,8 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
-import { renderHook } from '@testing-library/react';
-import { useCreatePost } from './useCreatePost';
-import { MockedProvider } from '@apollo/client/testing/react';
 import { MemoryRouter } from 'react-router';
+import { toast } from 'sonner';
+import { renderHook } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing/react';
+
+import { useCreatePost } from './useCreatePost';
 
 const mockCreatePost = vi.fn();
 
@@ -36,5 +38,18 @@ describe('onCreatePostSubmit', () => {
 
     // Assert
     expect(mockCreatePost).not.toHaveBeenCalled();
+  });
+
+  it('should call createPost if postContent has a value', async () => {
+    // Arrange
+    result.current.postContentRef.current.value = 'Post content';
+    const successSpy = vi.spyOn(toast, 'success');
+
+    // Act
+    await result.current.onCreatePostSubmit(event);
+
+    // Assert
+    expect(mockCreatePost).toHaveBeenCalledTimes(1);
+    expect(successSpy).toHaveBeenCalledWith('Post criado com sucesso!', { dismissible: true });
   });
 });
