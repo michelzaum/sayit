@@ -31,7 +31,7 @@ describe('onCreatePostSubmit', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-  })
+  });
 
   it('should not call createPost if postContent is empty', async () => {
     // Arrange
