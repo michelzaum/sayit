@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'node:http';
-import { beforeAll, describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import jwt from 'jsonwebtoken';
 
 import { InMemoryPostRepository } from '../../repositories/in-memory/InMemoryPostRepository';
@@ -9,9 +9,11 @@ describe('CreatePostUseCase', () => {
   let inMemoryPostRepository: InMemoryPostRepository;
   let createPostUseCase: CreatePostUseCase;
 
-  beforeAll(() => {
+  beforeEach(() => {
     inMemoryPostRepository = new InMemoryPostRepository();
     createPostUseCase = new CreatePostUseCase(inMemoryPostRepository);
+
+    vi.clearAllMocks();
   });
 
   it('should create a new post correctly', async () => {
@@ -38,5 +40,25 @@ describe('CreatePostUseCase', () => {
     const storedPosts = await inMemoryPostRepository.getAll();
     expect(storedPosts).toHaveLength(1);
     expect(storedPosts[0]).toHaveProperty('authorId', 'author-id-123');
+  });
+
+  it('should throw an error if no cookie is found in request', async () => {
+    // Arrange
+    const newPost = {
+      content: 'New post content',
+    };
+
+    const mockRequest = {
+      headers: {
+        cookie: ''
+      }
+    } as unknown as IncomingMessage;
+
+    // Act
+    const result = async () => await createPostUseCase.execute(newPost, mockRequest);
+
+    // Assert
+    await expect(result()).rejects.toThrow();
+    expect(inMemoryPostRepository.postList.length).toBe(0);
   });
 });
