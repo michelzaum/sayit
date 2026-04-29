@@ -107,4 +107,24 @@ describe('CreatePostUseCase', () => {
     await expect(result()).rejects.toThrow("Invalid access token. No 'sub' value found.");
     expect(inMemoryPostRepository.postList.length).toBe(0);
   });
+
+  it('should throw an error if the accessToken is not found in cookies', async () => {
+    // Arrange
+    const newPost = {
+      content: 'New post content',
+    };
+
+    const mockRequest = {
+      headers: {
+        cookie: 'otherToken=some_value; anotherCookie=123'
+      }
+    } as unknown as IncomingMessage;
+
+    // Act
+    const result = async () => await createPostUseCase.execute(newPost, mockRequest);
+
+    // Assert
+    await expect(result()).rejects.toThrow("access token not found");
+    expect(inMemoryPostRepository.postList.length).toBe(0);
+  });
 });
