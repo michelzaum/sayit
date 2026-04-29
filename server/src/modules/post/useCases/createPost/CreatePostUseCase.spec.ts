@@ -85,4 +85,26 @@ describe('CreatePostUseCase', () => {
     await expect(result()).rejects.toThrow();
     expect(inMemoryPostRepository.postList.length).toBe(0);
   });
+
+  it('should throw an error if the token does not contain a sub value', async () => {
+    // Arrange
+    const newPost = {
+      content: 'New post content',
+    };
+
+    const mockRequest = {
+      headers: {
+        cookie: 'accessToken=mock_token_without_sub'
+      }
+    } as unknown as IncomingMessage;
+
+    vi.spyOn(jwt, 'verify').mockReturnValue({ somethingElse: 'value' } as any);
+
+    // Act
+    const result = async () => await createPostUseCase.execute(newPost, mockRequest);
+
+    // Assert
+    await expect(result()).rejects.toThrow("Invalid access token. No 'sub' value found.");
+    expect(inMemoryPostRepository.postList.length).toBe(0);
+  });
 });
