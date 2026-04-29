@@ -61,4 +61,28 @@ describe('CreatePostUseCase', () => {
     await expect(result()).rejects.toThrow();
     expect(inMemoryPostRepository.postList.length).toBe(0);
   });
+
+  it('should throw an error if the token is invalid', async () => {
+    // Arrange
+    const newPost = {
+      content: 'New post content',
+    };
+
+    const mockRequest = {
+      headers: {
+        cookie: 'accessToken=invalid_token_123'
+      }
+    } as unknown as IncomingMessage;
+
+    vi.spyOn(jwt, 'verify').mockImplementation(() => {
+      throw new Error('Invalid token');
+    });
+
+    // Act
+    const result = async () => await createPostUseCase.execute(newPost, mockRequest);
+
+    // Assert
+    await expect(result()).rejects.toThrow();
+    expect(inMemoryPostRepository.postList.length).toBe(0);
+  });
 });
