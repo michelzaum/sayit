@@ -20,4 +20,8 @@ describe('GetPostUseCase', () => {
     expect(result).toHaveProperty('id', createdPost.id);
     expect(result.content).toBe('Hello World');
   });
+
+  it('should throw an error if post does not exist', async () => {
+    await expect(getPostUseCase.execute('non-existing-id')).rejects.toThrow('Post not found');
+  });
 });
