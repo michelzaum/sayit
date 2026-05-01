@@ -24,4 +24,16 @@ describe('GetPostUseCase', () => {
   it('should throw an error if post does not exist', async () => {
     await expect(getPostUseCase.execute('non-existing-id')).rejects.toThrow('Post not found');
   });
+
+  it('should return the correct post when multiple posts exist', async () => {
+    await inMemoryPostRepository.create({ content: 'Post 1' }, 'author-1');
+    const post2 = await inMemoryPostRepository.create({ content: 'Post 2' }, 'author-2');
+    await inMemoryPostRepository.create({ content: 'Post 3' }, 'author-3');
+
+    const result = await getPostUseCase.execute(post2.id);
+
+    expect(result).toHaveProperty('id', post2.id);
+    expect(result.content).toBe('Post 2');
+    expect(result).toHaveProperty('authorId', 'author-2');
+  });
 });
