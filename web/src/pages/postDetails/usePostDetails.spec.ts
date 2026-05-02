@@ -18,7 +18,7 @@ vi.mock('sonner', () => ({
   },
 }));
 
-vi.mock('@/store/store', () => ({
+vi.mock('../../store/store', () => ({
   useStore: vi.fn((selector) => {
     const state = {
       addPostComment: vi.fn(),

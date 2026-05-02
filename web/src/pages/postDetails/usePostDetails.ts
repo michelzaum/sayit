@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
 import { DELETE_COMMENT } from "./mutations/deleteComment";
-import { useStore } from "@/store/store";
+import { useStore } from "../../store/store";
 import { GET_ALL_COMMENTS_BY_POST_ID } from "./queries/getAllCommentsByPostId";
 
 type CreateCommentResponse = {
