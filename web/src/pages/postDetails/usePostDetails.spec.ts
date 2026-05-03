@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { usePostDetails } from './usePostDetails';
+import { useStore } from '../../store/store';
 
 vi.mock('react-router', () => ({
   useSearchParams: () => [{ get: vi.fn().mockReturnValue('1') }],
@@ -46,5 +47,28 @@ describe('usePostDetails', () => {
     expect(result.current.isUpdateCommentModalOpen).toBe(false);
     expect(result.current.isDeleteCommentModalOpen).toBe(false);
     expect(result.current.loggedUserId).toBe('user-1');
+  });
+
+  it('should start postDetailsComments with the correct comments by post array', () => {
+    // Arrange
+    (useStore as unknown as Mock).mockImplementation((selector) => {
+      const state = {
+        addPostComment: vi.fn(),
+        updatePostComment: vi.fn(),
+        removePostComment: vi.fn(),
+        feedPostsList: [{ id: '1', content: 'Different Post' }],
+        loggedUserId: 'user-99',
+        commentsByPost: { '1': [{ id: 'c1', content: 'cool' }] },
+        setPostDetailsComments: vi.fn(),
+      };
+      return selector(state);
+    });
+    const { result } = renderHook(() => usePostDetails());
+
+    // act
+    const postComments = result.current.postDetailsComments;
+
+    // Assert
+    expect(postComments).toEqual([{ id: 'c1', content: 'cool' }]);
   });
 });

@@ -35,8 +35,6 @@ type GetAllCommentsResponse = {
   getAllCommentsByPostId: CommentResponse[];
 };
 
-const EMPTY_COMMENTS: CommentResponse[] = [];
-
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
   const updatedCommentRef = useRef({} as HTMLTextAreaElement);
@@ -89,7 +87,7 @@ export function usePostDetails() {
   const postDetails = feedPostsList.find((post) => post.id === postId);
   const loggedUserId = useStore((state) => state.loggedUserId);
   const postDetailsComments = useStore(
-    (state) => state.commentsByPost[postId ?? ""] || EMPTY_COMMENTS,
+    (state) => state.commentsByPost[postId],
   );
   const setPostDetailsComments = useStore(
     (state) => state.setPostDetailsComments,
