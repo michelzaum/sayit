@@ -1,7 +1,9 @@
-import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { act, renderHook } from '@testing-library/react';
+import { useMutation } from '@apollo/client/react';
 import { usePostDetails } from './usePostDetails';
 import { useStore } from '../../store/store';
+import { CREATE_COMMENT } from './mutations/createComment';
 
 vi.mock('react-router', () => ({
   useSearchParams: () => [{ get: vi.fn().mockReturnValue('1') }],
@@ -81,5 +83,39 @@ describe('usePostDetails', () => {
 
     expect(result.current.isUpdateCommentModalOpen).toBe(true);
     expect(result.current.updatedCommentContent).toBe('Old comment content');
+  });
+
+  it('should update the apollo cache to increment commentsCount when createComment is called', () => {
+    renderHook(() => usePostDetails());
+
+    const createCommentCall = (useMutation as unknown as Mock).mock.calls.find(
+      (call) => call[0] === CREATE_COMMENT
+    );
+    expect(createCommentCall).toBeDefined();
+
+    const options = createCommentCall[1];
+    expect(options.update).toBeDefined();
+
+    const cacheMock = {
+      identify: vi.fn().mockReturnValue('Post:1'),
+      modify: vi.fn(),
+    };
+
+    options.update(cacheMock);
+
+    expect(cacheMock.identify).toHaveBeenCalledWith({ __typename: 'Post', id: '1' });
+    expect(cacheMock.modify).toHaveBeenCalledWith({
+      id: 'Post:1',
+      fields: {
+        commentsCount: expect.any(Function),
+      },
+    });
+
+    const modifyArgs = cacheMock.modify.mock.calls[0][0];
+    const newCount = modifyArgs.fields.commentsCount(5);
+    expect(newCount).toBe(6);
+
+    const newCountFallback = modifyArgs.fields.commentsCount(undefined);
+    expect(newCountFallback).toBe(1);
   });
 });
