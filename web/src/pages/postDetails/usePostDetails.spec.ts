@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import { usePostDetails } from './usePostDetails';
 import { useStore } from '../../store/store';
@@ -70,5 +70,16 @@ describe('usePostDetails', () => {
 
     // Assert
     expect(postComments).toEqual([{ id: 'c1', content: 'cool' }]);
+  });
+
+  it('should open update comment modal and set states correctly', () => {
+    const { result } = renderHook(() => usePostDetails());
+
+    act(() => {
+      result.current.openUpdateCommentModal('comment-123', 'Old comment content');
+    });
+
+    expect(result.current.isUpdateCommentModalOpen).toBe(true);
+    expect(result.current.updatedCommentContent).toBe('Old comment content');
   });
 });
