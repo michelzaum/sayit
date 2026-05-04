@@ -75,34 +75,38 @@ describe('usePostDetails', () => {
   });
 
   it('should open update comment modal and set states correctly', () => {
+    // Arrange
     const { result } = renderHook(() => usePostDetails());
 
+    // Act
     act(() => {
       result.current.openUpdateCommentModal('comment-123', 'Old comment content');
     });
 
+    // Assert
     expect(result.current.isUpdateCommentModalOpen).toBe(true);
     expect(result.current.updatedCommentContent).toBe('Old comment content');
   });
 
   it('should update the apollo cache to increment commentsCount when createComment is called', () => {
+    // Arrange
     renderHook(() => usePostDetails());
 
     const createCommentCall = (useMutation as unknown as Mock).mock.calls.find(
       (call) => call[0] === CREATE_COMMENT
     );
-    expect(createCommentCall).toBeDefined();
 
     const options = createCommentCall[1];
-    expect(options.update).toBeDefined();
 
     const cacheMock = {
       identify: vi.fn().mockReturnValue('Post:1'),
       modify: vi.fn(),
     };
 
+    // Act
     options.update(cacheMock);
 
+    // Assert
     expect(cacheMock.identify).toHaveBeenCalledWith({ __typename: 'Post', id: '1' });
     expect(cacheMock.modify).toHaveBeenCalledWith({
       id: 'Post:1',
