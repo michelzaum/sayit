@@ -122,4 +122,17 @@ describe('usePostDetails', () => {
     const newCountFallback = modifyArgs.fields.commentsCount(undefined);
     expect(newCountFallback).toBe(1);
   });
+
+  it('should open delete comment modal correctly', () => {
+    // Arrange
+    const { result } = renderHook(() => usePostDetails());
+
+    // Act
+    act(() => {
+      result.current.openDeleteCommentModal('comment-456');
+    });
+
+    // Assert
+    expect(result.current.isDeleteCommentModalOpen).toBe(true);
+  });
 });
