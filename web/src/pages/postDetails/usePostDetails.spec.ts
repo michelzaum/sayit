@@ -135,4 +135,17 @@ describe('usePostDetails', () => {
     // Assert
     expect(result.current.isDeleteCommentModalOpen).toBe(true);
   });
+
+  it('should close delete comment modal correctly', () => {
+    // Arrange
+    const { result } = renderHook(() => usePostDetails());
+
+    // Act
+    act(() => {
+      result.current.closeDeleteCommentModal();
+    });
+
+    // Assert
+    expect(result.current.isDeleteCommentModalOpen).toBe(false);
+  });
 });
