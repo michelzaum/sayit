@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { toast } from 'sonner';
 import { act, renderHook } from '@testing-library/react';
 import { useMutation } from '@apollo/client/react';
 import { usePostDetails } from './usePostDetails';
@@ -160,5 +161,49 @@ describe('usePostDetails', () => {
 
     // Assert
     expect(result.current.isUpdateCommentModalOpen).toBe(false);
+  });
+
+  it('should successfully delete a comment on handleDeleteComment', async () => {
+    // Arrange
+    const deleteCommentMock = vi.fn().mockResolvedValue({});
+    const removePostCommentMock = vi.fn();
+
+    (useMutation as unknown as Mock).mockImplementation(() => [deleteCommentMock, { loading: false }]);
+
+    (useStore as unknown as Mock).mockImplementation((selector) => {
+      const state = {
+        addPostComment: vi.fn(),
+        updatePostComment: vi.fn(),
+        removePostComment: removePostCommentMock,
+        feedPostsList: [{ id: '1', content: 'Test Post' }],
+        loggedUserId: 'user-1',
+        commentsByPost: { '1': [] },
+        setPostDetailsComments: vi.fn(),
+      };
+      return selector(state);
+    });
+
+    const { result } = renderHook(() => usePostDetails());
+
+    act(() => {
+      result.current.openDeleteCommentModal('comment-123');
+    });
+
+    expect(result.current.isDeleteCommentModalOpen).toBe(true);
+
+    // Act
+    await act(async () => {
+      await result.current.handleDeleteComment();
+    });
+
+    // Assert
+    expect(deleteCommentMock).toHaveBeenCalledWith({
+      variables: {
+        commentId: 'comment-123',
+      },
+    });
+    expect(removePostCommentMock).toHaveBeenCalledWith('comment-123', '1');
+    expect(toast.success).toHaveBeenCalledWith('Comentário excluído com sucesso!');
+    expect(result.current.isDeleteCommentModalOpen).toBe(false);
   });
 });
