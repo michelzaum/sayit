@@ -206,4 +206,71 @@ describe('usePostDetails', () => {
     expect(toast.success).toHaveBeenCalledWith('Comentário excluído com sucesso!');
     expect(result.current.isDeleteCommentModalOpen).toBe(false);
   });
+
+  it('should successfully add a comment on handleAddComment', async () => {
+    // Arrange
+    const createCommentMock = vi.fn().mockResolvedValue({
+      data: {
+        createComment: {
+          id: 'new-comment-id',
+          content: 'new comment content',
+          author: {
+            id: 'author-1',
+            name: 'Author Name',
+          },
+        },
+      },
+    });
+    const addPostCommentMock = vi.fn();
+
+    (useMutation as unknown as Mock).mockImplementation(() => [createCommentMock, { loading: false }]);
+
+    (useStore as unknown as Mock).mockImplementation((selector) => {
+      const state = {
+        addPostComment: addPostCommentMock,
+        updatePostComment: vi.fn(),
+        removePostComment: vi.fn(),
+        feedPostsList: [{ id: '1', content: 'Test Post' }],
+        loggedUserId: 'user-1',
+        commentsByPost: { '1': [] },
+        setPostDetailsComments: vi.fn(),
+      };
+      return selector(state);
+    });
+
+    const { result } = renderHook(() => usePostDetails());
+
+    if (result.current.newCommentRef.current) {
+      result.current.newCommentRef.current.value = 'new comment content';
+    } else {
+      result.current.newCommentRef.current = { value: 'new comment content' } as any;
+    }
+
+    const event = { preventDefault: vi.fn() } as any;
+
+    // Act
+    await act(async () => {
+      await result.current.handleAddComment(event);
+    });
+
+    // Assert
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(createCommentMock).toHaveBeenCalledWith({
+      variables: {
+        postId: '1',
+        content: 'new comment content',
+      },
+    });
+    expect(addPostCommentMock).toHaveBeenCalledWith({
+      id: 'new-comment-id',
+      content: 'new comment content',
+      postId: '1',
+      author: {
+        id: 'author-1',
+        name: 'Author Name',
+      },
+    });
+    expect(result.current.newCommentRef.current.value).toBe('');
+    expect(toast.success).toHaveBeenCalledWith('Comentário adicionado com sucesso!');
+  });
 });
