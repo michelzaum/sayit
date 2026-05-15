@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { CREATE_COMMENT } from "./mutations/createComment";
 import { UPDATE_COMMENT } from "./mutations/updateComment";
 import { DELETE_COMMENT } from "./mutations/deleteComment";
-import { useStore } from "@/store/store";
+import { useStore } from "../../store/store";
 import { GET_ALL_COMMENTS_BY_POST_ID } from "./queries/getAllCommentsByPostId";
 
 type CreateCommentResponse = {
@@ -34,8 +34,6 @@ type CommentResponse = {
 type GetAllCommentsResponse = {
   getAllCommentsByPostId: CommentResponse[];
 };
-
-const EMPTY_COMMENTS: CommentResponse[] = [];
 
 export function usePostDetails() {
   const newCommentRef = useRef({} as HTMLTextAreaElement);
@@ -89,7 +87,7 @@ export function usePostDetails() {
   const postDetails = feedPostsList.find((post) => post.id === postId);
   const loggedUserId = useStore((state) => state.loggedUserId);
   const postDetailsComments = useStore(
-    (state) => state.commentsByPost[postId ?? ""] || EMPTY_COMMENTS,
+    (state) => state.commentsByPost[postId],
   );
   const setPostDetailsComments = useStore(
     (state) => state.setPostDetailsComments,

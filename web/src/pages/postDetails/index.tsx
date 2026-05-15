@@ -55,8 +55,6 @@ export function PostDetails() {
   //   );
   // }
 
-  console.log(postDetailsComments);
-
   return (
     <>
       <Header />
@@ -241,7 +239,7 @@ export function PostDetails() {
                 className="hover:cursor-pointer"
                 variant="outline"
                 onClick={closeDeleteCommentModal}
-                // disabled={loading}
+              // disabled={loading}
               >
                 Cancelar
               </Button>
