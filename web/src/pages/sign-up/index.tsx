@@ -53,7 +53,7 @@ export function SignUp() {
               id="password"
               ref={passwordRef}
             />
-            <button className="w-fit my-2" onClick={toggleShowHidePassword}>
+            <button type="button" className="w-fit my-2" onClick={toggleShowHidePassword}>
               <span className="text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">
                 {isPasswordVisible ? 'Esconder senha' : 'Mostrar senha'}
               </span>
