@@ -50,7 +50,7 @@ export function SignIn() {
 
         <div className="flex items-center gap-2 justify-center">
           <span className="font-medium text-base">Não possui conta?</span>
-          <Link to="/sign-up" className="text-base text-blue-800">
+          <Link to="/sign-up" className="text-base text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">
             Cadastre-se
           </Link>
         </div>
