@@ -35,6 +35,9 @@ export function SignIn() {
               id="password"
               ref={passwordRef}
             />
+            <button className="w-fit my-2">
+              <span className="text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">Mostrar senha</span>
+            </button>
           </div>
 
           <button
