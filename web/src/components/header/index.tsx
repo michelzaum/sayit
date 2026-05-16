@@ -9,7 +9,7 @@ export function Header() {
       <Link to="/" className="text-gray-50 font-medium">
         Home
       </Link>
-      <button className="text-gray-50 font-medium" onClick={handleSignOut}>
+      <button className="text-gray-50 font-medium hover:cursor-pointer" onClick={handleSignOut}>
         Logout
       </button>
     </header>
