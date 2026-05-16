@@ -3,7 +3,13 @@ import { Link } from "react-router";
 import { useSign } from "./useSignIn";
 
 export function SignIn() {
-  const { emailRef, passwordRef, onSignInSubmit } = useSign();
+  const {
+    emailRef,
+    passwordRef,
+    isPasswordVisible,
+    onSignInSubmit,
+    toggleShowHidePassword,
+  } = useSign();
 
   return (
     <div className="flex justify-center p-6 mt-10">
@@ -30,11 +36,16 @@ export function SignIn() {
             <label htmlFor="password">Senha</label>
             <input
               className="border border-gray-300 rounded-lg h-14 p-3"
-              type="password"
+              type={isPasswordVisible ? 'text' : 'password'}
               name="password"
               id="password"
               ref={passwordRef}
             />
+            <button className="w-fit my-2" onClick={toggleShowHidePassword}>
+              <span className="text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">
+                {isPasswordVisible ? 'Esconder senha' : 'Mostrar senha'}
+              </span>
+            </button>
           </div>
 
           <button
@@ -47,7 +58,7 @@ export function SignIn() {
 
         <div className="flex items-center gap-2 justify-center">
           <span className="font-medium text-base">Não possui conta?</span>
-          <Link to="/sign-up" className="text-base text-blue-800">
+          <Link to="/sign-up" className="text-base text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">
             Cadastre-se
           </Link>
         </div>

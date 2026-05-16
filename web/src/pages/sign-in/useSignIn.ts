@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useMutation } from "@apollo/client/react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
@@ -21,6 +21,7 @@ const schema = z.object({
 export function useSign() {
   const emailRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [signIn, { loading }] = useMutation(SIGN_IN);
   const navigate = useNavigate();
 
@@ -28,6 +29,10 @@ export function useSign() {
     error.issues.forEach((issue) => {
       toast.error(issue.message);
     });
+  }
+
+  function toggleShowHidePassword(): void {
+    setIsPasswordVisible(prevState => !prevState);
   }
 
   async function onSignInSubmit(
@@ -73,6 +78,8 @@ export function useSign() {
     emailRef,
     passwordRef,
     loading,
+    isPasswordVisible,
+    toggleShowHidePassword,
     onSignInSubmit,
   };
 }
