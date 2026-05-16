@@ -4,8 +4,15 @@ import { Loader } from "lucide-react";
 import { useSignUp } from "./useSignUp";
 
 export function SignUp() {
-  const { nameRef, emailRef, passwordRef, loading, onRegisterSubmit } =
-    useSignUp();
+  const {
+    nameRef,
+    emailRef,
+    passwordRef,
+    loading,
+    isPasswordVisible,
+    onRegisterSubmit,
+    toggleShowHidePassword,
+  } = useSignUp();
 
   return (
     <div className="flex justify-center p-6 gap-10 mt-10">
@@ -41,11 +48,16 @@ export function SignUp() {
             <label htmlFor="password">Senha</label>
             <input
               className="border border-gray-300 rounded-lg h-14 p-3"
-              type="password"
+              type={isPasswordVisible ? 'text' : 'password'}
               name="password"
               id="password"
               ref={passwordRef}
             />
+            <button className="w-fit my-2" onClick={toggleShowHidePassword}>
+              <span className="text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">
+                {isPasswordVisible ? 'Esconder senha' : 'Mostrar senha'}
+              </span>
+            </button>
           </div>
 
           <button
@@ -63,7 +75,7 @@ export function SignUp() {
 
         <div className="flex items-center gap-2 justify-center">
           <span className="font-medium text-base">Já possui conta?</span>
-          <Link to="/sign-in" className="text-base text-blue-800">
+          <Link to="/sign-in" className="text-base text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">
             Faça login
           </Link>
         </div>
