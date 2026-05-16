@@ -42,7 +42,9 @@ export function SignIn() {
               ref={passwordRef}
             />
             <button className="w-fit my-2" onClick={toggleShowHidePassword}>
-              <span className="text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">Mostrar senha</span>
+              <span className="text-blue-600 hover:text-blue-500 hover:cursor-pointer transition-all">
+                {isPasswordVisible ? 'Esconder senha' : 'Mostrar senha'}
+              </span>
             </button>
           </div>
 
