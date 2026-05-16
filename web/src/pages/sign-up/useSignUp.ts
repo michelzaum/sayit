@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -27,6 +27,7 @@ export function useSignUp() {
   const nameRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const emailRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [createUser, { loading }] = useMutation(CREATE_USER);
   const navigate = useNavigate();
 
@@ -34,6 +35,10 @@ export function useSignUp() {
     error.issues.forEach((issue) => {
       toast.error(issue.message);
     });
+  }
+
+  function toggleShowHidePassword(): void {
+    setIsPasswordVisible(prevState => !prevState);
   }
 
   async function onRegisterSubmit(
@@ -90,6 +95,8 @@ export function useSignUp() {
     emailRef,
     passwordRef,
     loading,
+    isPasswordVisible,
     onRegisterSubmit,
+    toggleShowHidePassword,
   };
 }
