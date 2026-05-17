@@ -9,9 +9,15 @@ export function Header() {
       <Link to="/" className="text-gray-50 font-medium">
         Home
       </Link>
-      <button className="text-gray-50 font-medium hover:cursor-pointer" onClick={handleSignOut}>
-        Logout
-      </button>
+
+      <div className="flex items-center gap-6">
+        <Link to="/profile" className="text-gray-50 font-medium hover:cursor-pointer">
+          Perfil
+        </Link>
+        <button className="text-gray-50 font-medium hover:cursor-pointer" onClick={handleSignOut}>
+          Logout
+        </button>
+      </div>
     </header>
   );
 }
