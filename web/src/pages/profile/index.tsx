@@ -16,7 +16,7 @@ export function Profile() {
               <User />
             </div>
             <h1 className="text-3xl">{userInfo.name}</h1>
-            <span className="text-sm text-gray-400">Membro desde {userInfo.userCreatedAtMonth} {userInfo.userCreatedAtYear} </span>
+            <span className="text-sm text-gray-400">Membro desde {userInfo.createdAt}</span>
           </div>
           <button type="button" className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all">
             <span>

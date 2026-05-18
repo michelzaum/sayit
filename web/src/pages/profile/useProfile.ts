@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client/react";
 
 import { months } from "@/shared/constants/months";
 import { GET_LOGGED_USER } from "./query";
-import { LoggedUser, UserInfo } from "./types";
+import { UserInfo, LoggedUser } from "./types";
 
 export function useProfile() {
   const { data } = useQuery<LoggedUser>(GET_LOGGED_USER);
@@ -16,8 +16,7 @@ export function useProfile() {
 
       setUserInfo(() => ({
         name: data.getLoggedUser.name,
-        userCreatedAtMonth: months[userCreatedAtMonth],
-        userCreatedAtYear,
+        createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
       }));
     }
   }, [data]);
