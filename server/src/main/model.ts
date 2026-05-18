@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 
 import { SignInUseCase } from "@/modules/auth/sign-in/useCases/SignInUseCase";
 import { CreateUserUseCase } from "@/modules/user/useCases/createUser/CreateUserUseCase";
-import { GetUserUseCase } from "@/modules/user/useCases/getUser/GetUserUseCase";
+import { GetLoggedUserUseCase } from "@/modules/user/useCases/getLoggedUser/GetLoggedUserUseCase";
 
 import { CreatePostUseCase } from "@/modules/post/useCases/createPost/CreatePostUseCase";
 import { ListPostsUseCase } from "@/modules/post/useCases/listPosts/ListPostsUseCase";
@@ -27,7 +27,7 @@ interface IHttp {
 export interface IContainer {
   http: IHttp;
   createUserUseCase: CreateUserUseCase;
-  getUserUseCase: GetUserUseCase;
+  getUserUseCase: GetLoggedUserUseCase;
   signInUseCase: SignInUseCase;
   createPostUseCase: CreatePostUseCase;
   listPostsUseCase: ListPostsUseCase;

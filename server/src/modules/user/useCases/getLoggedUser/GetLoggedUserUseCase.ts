@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { IUserRepository } from "../../repositories/IUserRepository";
 import { env } from "@/config/env";
 
-export class GetUserUseCase {
+export class GetLoggedUserUseCase {
   constructor(private readonly userRepository: IUserRepository) { }
 
   async execute(request: IncomingMessage) {
