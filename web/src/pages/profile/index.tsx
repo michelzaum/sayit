@@ -1,9 +1,10 @@
-import { Header } from "@/components/header"
-import { User, UserPlus } from "lucide-react"
-import { useProfile } from "./useProfile"
+import { User, UserPlus } from "lucide-react";
+
+import { Header } from "@/components/header";
+import { useProfile } from "./useProfile";
 
 export function Profile() {
-  const { data } = useProfile();
+  const { userInfo } = useProfile();
 
   return (
     <div>
@@ -14,8 +15,8 @@ export function Profile() {
             <div className="border rounded-full w-24 h-24 flex items-center justify-center">
               <User />
             </div>
-            <h1 className="text-3xl">{data.getLoggedUser.name}</h1>
-            <span className="text-sm text-gray-400">Membro desde {data.getLoggedUser.createdAt}</span>
+            <h1 className="text-3xl">{userInfo.name}</h1>
+            <span className="text-sm text-gray-400">Membro desde {userInfo.userCreatedAtMonth} {userInfo.userCreatedAtYear} </span>
           </div>
           <button type="button" className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all">
             <span>
