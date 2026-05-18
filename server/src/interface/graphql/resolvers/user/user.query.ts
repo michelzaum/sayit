@@ -1,6 +1,8 @@
+import { IContainer } from "@/main/model";
+
 export const userQuery = {
-  getUser: async (_, args, { getUserUseCase }) => {
-    const userId = args.id;
-    return await getUserUseCase.execute(userId);
+  getUser: async (_, __, { http, getUserUseCase }: IContainer) => {
+    const { req } = http;
+    return await getUserUseCase.execute(req);
   },
 };
