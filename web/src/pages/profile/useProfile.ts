@@ -6,7 +6,7 @@ import { GET_LOGGED_USER } from "./query";
 import { UserInfo, LoggedUser } from "./types";
 
 export function useProfile() {
-  const { data } = useQuery<LoggedUser>(GET_LOGGED_USER);
+  const { data } = useQuery<LoggedUser>(GET_LOGGED_USER, { fetchPolicy: 'cache-and-network' });
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
 
   useEffect(() => {
