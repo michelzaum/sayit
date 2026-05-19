@@ -78,6 +78,29 @@ export class PostRepository implements IPostRepository {
   async getAllByAuthorId(authorId: string): Promise<Post[]> {
     return prismaClient.post.findMany({
       where: { authorId },
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        comments: {
+          select: {
+            id: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            content: true,
+          },
+        },
+        likes: {
+          select: {
+            authorId: true,
+            postId: true,
+          }
+        },
+      },
     });
   }
 
