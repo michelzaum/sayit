@@ -21,6 +21,7 @@ export const postTypeDefs = `#graphql
   type Query {
     getPosts: GetPostsResponse
     getPost(postId: String): Post
+    getAllPostsByAuthorId(authorId: String): [Post]
   }
 
   type Mutation {
