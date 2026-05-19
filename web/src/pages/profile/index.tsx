@@ -2,9 +2,14 @@ import { User, UserPlus } from "lucide-react";
 
 import { Header } from "@/components/header";
 import { useProfile } from "./useProfile";
+import { PostItem } from "@/components/postItem";
 
 export function Profile() {
-  const { userInfo } = useProfile();
+  const { userInfo, userPostsInfo } = useProfile();
+
+  if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
+    return;
+  }
 
   return (
     <div>
@@ -27,8 +32,20 @@ export function Profile() {
           <span>This is my bio, bro</span>
         </div>
         <div className="w-full flex justify-center p-6 mt-6 border-t">
-          <div className="w-full max-w-2xl">
+          <div className="w-full max-w-xl flex flex-col gap-4">
             <span>Posts</span>
+            {userPostsInfo?.getAllPostsByAuthorId.map((post) => (
+              <PostItem
+                key={post.content}
+                authorImage=""
+                authorName={userInfo.name}
+                commentsCount={0}
+                createdAt={new Date(post.createdAt)}
+                id={post.content}
+                likesCount={0}
+                postContent={post.content}
+              />
+            ))}
           </div>
         </div>
       </div>
