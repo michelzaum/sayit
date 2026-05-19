@@ -75,6 +75,12 @@ export class PostRepository implements IPostRepository {
     }));
   }
 
+  async getAllByAuthorId(authorId: string): Promise<Post[]> {
+    return prismaClient.post.findMany({
+      where: { authorId },
+    });
+  }
+
   async delete(postId: string): Promise<void> {
     await prismaClient.post.delete({
       where: { id: postId },
