@@ -18,6 +18,7 @@ import { GetAllCommentsByPostIdUseCase } from "@/modules/comments/useCases/getAl
 import { CreateLikeUseCase } from "@/modules/like/useCases/CreateLikeUseCase";
 import { DeleteLikeUseCase } from "@/modules/like/useCases/DeleteLikeUseCase";
 import { PostLikesByAuthorIdUseCase } from "@/modules/like/useCases/PostLikesByAuthorIdUseCase";
+import { GetAllPostsByAuthorIdUseCase } from "@/modules/post/useCases/getAllPostsByAuthorId/GetAllPostsByAuthorId";
 
 interface IHttp {
   req: IncomingMessage;
@@ -41,4 +42,5 @@ export interface IContainer {
   deleteLikeUseCase: DeleteLikeUseCase;
   getPostLikesByAuthorIdUseCase: PostLikesByAuthorIdUseCase;
   getAllCommentsByPostIdUseCase: GetAllCommentsByPostIdUseCase;
+  getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
 }
