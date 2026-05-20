@@ -29,39 +29,40 @@ type GetAllPostsByAuthorId = {
 }
 
 export function useProfile() {
-  const { data } = useQuery<LoggedUser>(GET_LOGGED_USER, { fetchPolicy: 'no-cache' });
+  const [getLoggedUser] = useLazyQuery<LoggedUser>(GET_LOGGED_USER, { fetchPolicy: 'no-cache' });
   const [getAllPostsByAuthorId] = useLazyQuery<GetAllPostsByAuthorId>(GET_ALL_POSTS_BY_AUTHOR_ID, { fetchPolicy: 'no-cache' });
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   const [userPostsInfo, setUserPostsInfo] = useState<GetAllPostsByAuthorId>({} as GetAllPostsByAuthorId);
   const LoggedUserId = useStore(state => state.loggedUserId);
 
   useEffect(() => {
-    async function handle() {
-      if (data && data.getLoggedUser) {
-        const userCreatedAtMonth = new Date(Number(data.getLoggedUser.createdAt)).getMonth();
-        const userCreatedAtYear = new Date(Number(data.getLoggedUser.createdAt)).getFullYear();
+    async function handleGetUserInfoAndPosts() {
+      const [
+        { data: loggedUser },
+        { data: allPostsByAuthorId }
+      ] = await Promise.all([getLoggedUser(), getAllPostsByAuthorId({
+        variables: {
+          authorId: LoggedUserId,
+        },
+      })]);
+
+      if (loggedUser.getLoggedUser) {
+        const userCreatedAtMonth = new Date(Number(loggedUser.getLoggedUser.createdAt)).getMonth();
+        const userCreatedAtYear = new Date(Number(loggedUser.getLoggedUser.createdAt)).getFullYear();
 
         setUserInfo(() => ({
-          name: data.getLoggedUser.name,
+          name: loggedUser.getLoggedUser.name,
           createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
         }));
       }
 
-      await handleGetAllPostsByAuthorId(LoggedUserId);
+      if (allPostsByAuthorId.getAllPostsByAuthorId) {
+        setUserPostsInfo(allPostsByAuthorId);
+      }
     }
 
-    handle();
-  }, [data]);
-
-  async function handleGetAllPostsByAuthorId(LoggedUserId: string): Promise<void> {
-    const { data } = await getAllPostsByAuthorId({
-      variables: {
-        authorId: LoggedUserId,
-      },
-    });
-
-    setUserPostsInfo(data);
-  }
+    handleGetUserInfoAndPosts();
+  }, []);
 
   return {
     userInfo,
