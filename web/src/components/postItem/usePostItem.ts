@@ -57,7 +57,7 @@ export function usePostItem() {
 
     const isPostLiked =
       post.likes.length > 0
-        ? post.likes.find((like) => like.authorId === loggedUserId).authorId
+        ? post.likes.find((like) => like.authorId === loggedUserId)?.authorId
         : false;
 
     if (isPostLiked) {
