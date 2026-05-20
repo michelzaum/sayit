@@ -41,7 +41,7 @@ export function Profile() {
                   authorImage=""
                   authorName={userInfo.name}
                   commentsCount={post.comments.length}
-                  createdAt={new Date(post.createdAt)}
+                  createdAt={post.createdAt}
                   id={post.id}
                   likesCount={post.likes.length}
                   postContent={post.content}

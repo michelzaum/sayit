@@ -1,32 +1,15 @@
 import { useEffect, useState } from "react";
-import { useLazyQuery, useQuery } from "@apollo/client/react";
+import { useLazyQuery } from "@apollo/client/react";
 
 import { months } from "@/shared/constants/months";
 import { GET_LOGGED_USER } from "./queries/getLoggedUser";
 import { UserInfo, LoggedUser } from "./types";
 import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
 import { useStore } from "@/store/store";
-
-type UserPostsInfo = {
-  id: string;
-  content: string;
-  createdAt: string;
-  comments: {
-    id: string
-    author: {
-      id: string
-      name: string;
-    };
-    content: string;
-  }[];
-  likes: {
-    postId: string
-    authorId: string
-  }[];
-}
+import { PostCard } from "@/entities/PostCard";
 
 type GetAllPostsByAuthorId = {
-  getAllPostsByAuthorId: UserPostsInfo[];
+  getAllPostsByAuthorId: PostCard[];
 }
 
 export function useProfile() {
