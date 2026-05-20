@@ -17,11 +17,11 @@ type UserPostsInfo = {
       name: string;
     };
     content: string;
-  };
+  }[];
   likes: {
     postId: string
     authorId: string
-  };
+  }[];
 }
 
 type GetAllPostsByAuthorId = {

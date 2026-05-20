@@ -39,10 +39,10 @@ export function Profile() {
                 key={post.content}
                 authorImage=""
                 authorName={userInfo.name}
-                commentsCount={0}
+                commentsCount={post.comments.length}
                 createdAt={new Date(post.createdAt)}
                 id={post.content}
-                likesCount={0}
+                likesCount={post.likes.length}
                 postContent={post.content}
               />
             ))}
