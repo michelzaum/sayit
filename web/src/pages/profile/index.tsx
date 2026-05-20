@@ -34,18 +34,24 @@ export function Profile() {
         <div className="w-full flex justify-center p-6 mt-6 border-t">
           <div className="w-full max-w-xl flex flex-col gap-4">
             <span>Posts</span>
-            {userPostsInfo?.getAllPostsByAuthorId.map((post) => (
-              <PostItem
-                key={post.id}
-                authorImage=""
-                authorName={userInfo.name}
-                commentsCount={post.comments.length}
-                createdAt={new Date(post.createdAt)}
-                id={post.id}
-                likesCount={post.likes.length}
-                postContent={post.content}
-              />
-            ))}
+            {userPostsInfo?.getAllPostsByAuthorId.length > 0 ? (
+              userPostsInfo?.getAllPostsByAuthorId.map((post) => (
+                <PostItem
+                  key={post.id}
+                  authorImage=""
+                  authorName={userInfo.name}
+                  commentsCount={post.comments.length}
+                  createdAt={new Date(post.createdAt)}
+                  id={post.id}
+                  likesCount={post.likes.length}
+                  postContent={post.content}
+                />
+              ))
+            ) : (
+              <div className="w-full flex items-center justify-center p-4">
+                <span>Nenhum post foi encontrado.</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
