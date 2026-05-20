@@ -36,12 +36,12 @@ export function Profile() {
             <span>Posts</span>
             {userPostsInfo?.getAllPostsByAuthorId.map((post) => (
               <PostItem
-                key={post.content}
+                key={post.id}
                 authorImage=""
                 authorName={userInfo.name}
                 commentsCount={post.comments.length}
                 createdAt={new Date(post.createdAt)}
-                id={post.content}
+                id={post.id}
                 likesCount={post.likes.length}
                 postContent={post.content}
               />

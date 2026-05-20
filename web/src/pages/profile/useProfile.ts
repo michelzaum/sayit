@@ -8,6 +8,7 @@ import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
 import { useStore } from "@/store/store";
 
 type UserPostsInfo = {
+  id: string;
   content: string;
   createdAt: string;
   comments: {
