@@ -33,7 +33,7 @@ export function Profile() {
         </div>
         <div className="w-full flex justify-center p-6 mt-6 border-t">
           <div className="w-full max-w-xl flex flex-col gap-4">
-            <span>Posts</span>
+            <span className="text-base font-medium">Posts</span>
             {userPostsInfo?.getAllPostsByAuthorId.length > 0 ? (
               userPostsInfo?.getAllPostsByAuthorId.map((post) => (
                 <PostItem
