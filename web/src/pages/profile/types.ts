@@ -3,6 +3,9 @@ export type UserInfo = {
   createdAt: string;
 }
 
-export type LoggedUser = {
-  getLoggedUser: UserInfo;
+export type UserProfileInfo = {
+  getUserProfileInfo: {
+    canEdit: boolean;
+    userInfo: UserInfo;
+  };
 }
