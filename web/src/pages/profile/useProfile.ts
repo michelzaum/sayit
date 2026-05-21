@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { useLazyQuery } from "@apollo/client/react";
 
 import { months } from "@/shared/constants/months";
 import { GET_LOGGED_USER } from "./queries/getLoggedUser";
 import { UserInfo, LoggedUser } from "./types";
 import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
-import { useStore } from "@/store/store";
 import { PostCard } from "@/entities/PostCard";
 
 type GetAllPostsByAuthorId = {
@@ -13,11 +13,11 @@ type GetAllPostsByAuthorId = {
 }
 
 export function useProfile() {
+  const { id } = useParams<{ id: string }>();
   const [getLoggedUser] = useLazyQuery<LoggedUser>(GET_LOGGED_USER, { fetchPolicy: 'no-cache' });
   const [getAllPostsByAuthorId] = useLazyQuery<GetAllPostsByAuthorId>(GET_ALL_POSTS_BY_AUTHOR_ID, { fetchPolicy: 'no-cache' });
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   const [userPostsInfo, setUserPostsInfo] = useState<GetAllPostsByAuthorId>({} as GetAllPostsByAuthorId);
-  const LoggedUserId = useStore(state => state.loggedUserId);
 
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
@@ -26,7 +26,7 @@ export function useProfile() {
         { data: allPostsByAuthorId }
       ] = await Promise.all([getLoggedUser(), getAllPostsByAuthorId({
         variables: {
-          authorId: LoggedUserId,
+          authorId: id,
         },
       })]);
 
