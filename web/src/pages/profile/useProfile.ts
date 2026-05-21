@@ -3,10 +3,10 @@ import { useParams } from "react-router";
 import { useLazyQuery } from "@apollo/client/react";
 
 import { months } from "@/shared/constants/months";
-import { GET_LOGGED_USER } from "./queries/getLoggedUser";
-import { UserInfo, LoggedUser } from "./types";
+import { UserInfo, UserProfileInfo } from "./types";
 import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
 import { PostCard } from "@/entities/PostCard";
+import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
 
 type GetAllPostsByAuthorId = {
   getAllPostsByAuthorId: PostCard[];
@@ -14,7 +14,7 @@ type GetAllPostsByAuthorId = {
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
-  const [getLoggedUser] = useLazyQuery<LoggedUser>(GET_LOGGED_USER, { fetchPolicy: 'no-cache' });
+  const [getUserProfileInfo] = useLazyQuery<UserProfileInfo>(GET_USER_PROFILE_INFO, { fetchPolicy: 'no-cache' });
   const [getAllPostsByAuthorId] = useLazyQuery<GetAllPostsByAuthorId>(GET_ALL_POSTS_BY_AUTHOR_ID, { fetchPolicy: 'no-cache' });
   const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
   const [userPostsInfo, setUserPostsInfo] = useState<GetAllPostsByAuthorId>({} as GetAllPostsByAuthorId);
@@ -22,20 +22,19 @@ export function useProfile() {
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
       const [
-        { data: loggedUser },
-        { data: allPostsByAuthorId }
-      ] = await Promise.all([getLoggedUser(), getAllPostsByAuthorId({
-        variables: {
-          authorId: id,
-        },
-      })]);
+        { data: userProfileInfo },
+        { data: allPostsByAuthorId },
+      ] = await Promise.all([
+        getUserProfileInfo({ variables: { userId: id } }),
+        getAllPostsByAuthorId({ variables: { authorId: id } }),
+      ]);
 
-      if (loggedUser.getLoggedUser) {
-        const userCreatedAtMonth = new Date(Number(loggedUser.getLoggedUser.createdAt)).getMonth();
-        const userCreatedAtYear = new Date(Number(loggedUser.getLoggedUser.createdAt)).getFullYear();
+      if (userProfileInfo.getUserProfileInfo) {
+        const userCreatedAtMonth = new Date(Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt)).getMonth();
+        const userCreatedAtYear = new Date(Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt)).getFullYear();
 
         setUserInfo(() => ({
-          name: loggedUser.getLoggedUser.name,
+          name: userProfileInfo.getUserProfileInfo.userInfo.name,
           createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
         }));
       }
