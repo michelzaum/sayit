@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useLazyQuery } from "@apollo/client/react";
 
 import { months } from "@/shared/constants/months";
-import { UserInfo, UserProfileInfo } from "./types";
+import { GetUserProfileInfo, UserProfileInfo } from "./types";
 import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
 import { PostCard } from "@/entities/PostCard";
 import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
@@ -14,9 +14,9 @@ type GetAllPostsByAuthorId = {
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
-  const [getUserProfileInfo] = useLazyQuery<UserProfileInfo>(GET_USER_PROFILE_INFO, { fetchPolicy: 'no-cache' });
+  const [getUserProfileInfo] = useLazyQuery<GetUserProfileInfo>(GET_USER_PROFILE_INFO, { fetchPolicy: 'no-cache' });
   const [getAllPostsByAuthorId] = useLazyQuery<GetAllPostsByAuthorId>(GET_ALL_POSTS_BY_AUTHOR_ID, { fetchPolicy: 'no-cache' });
-  const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo);
+  const [userInfo, setUserInfo] = useState<UserProfileInfo>({} as UserProfileInfo);
   const [userPostsInfo, setUserPostsInfo] = useState<GetAllPostsByAuthorId>({} as GetAllPostsByAuthorId);
 
   useEffect(() => {
@@ -34,8 +34,11 @@ export function useProfile() {
         const userCreatedAtYear = new Date(Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt)).getFullYear();
 
         setUserInfo(() => ({
-          name: userProfileInfo.getUserProfileInfo.userInfo.name,
-          createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
+          userInfo: {
+            name: userProfileInfo.getUserProfileInfo.userInfo.name,
+            createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
+          },
+          canEdit: userProfileInfo.getUserProfileInfo.canEdit,
         }));
       }
 

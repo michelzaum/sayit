@@ -1,11 +1,11 @@
-export type UserInfo = {
-  name: string;
-  createdAt: string;
+export type UserProfileInfo = {
+  userInfo: {
+    name: string;
+    createdAt: string;
+  };
+  canEdit: boolean;
 }
 
-export type UserProfileInfo = {
-  getUserProfileInfo: {
-    canEdit: boolean;
-    userInfo: UserInfo;
-  };
+export type GetUserProfileInfo = {
+  getUserProfileInfo: UserProfileInfo;
 }

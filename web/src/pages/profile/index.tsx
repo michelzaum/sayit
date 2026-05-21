@@ -20,15 +20,17 @@ export function Profile() {
             <div className="border rounded-full w-24 h-24 flex items-center justify-center">
               <User />
             </div>
-            <h1 className="text-3xl">{userInfo.name}</h1>
-            <span className="text-sm text-gray-400">Membro desde {userInfo.createdAt}</span>
+            <h1 className="text-3xl">{userInfo.userInfo.name}</h1>
+            <span className="text-sm text-gray-400">Membro desde {userInfo.userInfo.createdAt}</span>
           </div>
-          <button type="button" className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all">
-            <span>
-              Seguir
-            </span>
-            <UserPlus />
-          </button>
+          {!userInfo.canEdit && (
+            <button type="button" className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all">
+              <span>
+                Seguir
+              </span>
+              <UserPlus />
+            </button>
+          )}
           <span>This is my bio, bro</span>
         </div>
         <div className="w-full flex justify-center p-6 mt-6 border-t">
@@ -39,7 +41,7 @@ export function Profile() {
                 <PostItem
                   key={post.id}
                   authorImage=""
-                  authorName={userInfo.name}
+                  authorName={userInfo.userInfo.name}
                   commentsCount={post.comments.length}
                   createdAt={post.createdAt}
                   id={post.id}
