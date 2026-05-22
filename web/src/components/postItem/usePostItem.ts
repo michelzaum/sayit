@@ -11,7 +11,7 @@ import { DELETE_LIKE } from "./mutation/deleteLike";
 import { useStore } from "@/store/store";
 dayjs.extend(relativeTime);
 
-export function usePostItem() {
+export function usePostItem(authorId: string) {
   const [isDeletePostModalOpen, setIsDeletePostModalOpen] = useState(false);
   const [isUpdatePostModalOpen, setIsUpdatePostModalOpen] = useState(false);
   const [userLikedPost, setUserLikedPost] = useState(false);
@@ -28,6 +28,7 @@ export function usePostItem() {
   const updatePostInStore = useStore((state) => state.updatePost);
   const removePostFromStore = useStore((state) => state.removePost);
   const loggedUserId = useStore((state) => state.loggedUserId);
+  const isPostOwner = loggedUserId === authorId;
 
   function toggleLike(isPostLiked: boolean): void {
     setUserLikedPost(isPostLiked);
@@ -159,6 +160,7 @@ export function usePostItem() {
     userLikedPost,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
+    isPostOwner,
     loading,
     updatePostLoading,
     newPostContentRef,

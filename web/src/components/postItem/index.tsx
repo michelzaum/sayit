@@ -34,6 +34,7 @@ export function PostItem({
     userLikedPost,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
+    isPostOwner,
     loading,
     updatePostLoading,
     newPostContentRef,
@@ -45,9 +46,7 @@ export function PostItem({
     handleCreateLike,
     handleDeletePost,
     handleUpdatePost,
-  } = usePostItem();
-
-  const isPostOwner = true; // temporary
+  } = usePostItem(author.id);
 
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
