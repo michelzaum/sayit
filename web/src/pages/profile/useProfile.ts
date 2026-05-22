@@ -48,7 +48,7 @@ export function useProfile() {
     }
 
     handleGetUserInfoAndPosts();
-  }, []);
+  }, [id]);
 
   return {
     userInfo,
