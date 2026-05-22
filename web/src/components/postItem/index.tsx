@@ -49,8 +49,6 @@ export function PostItem({
 
   const isPostOwner = true; // temporary
 
-  console.log(author)
-
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
       <div className="flex items-center justify-between">
