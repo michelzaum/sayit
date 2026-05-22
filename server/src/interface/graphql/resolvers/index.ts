@@ -5,6 +5,7 @@ import { postResolver } from "./post/post.resolver";
 import { signInResolver } from "./signIn/sign-in.resolver";
 import { commentResolver } from "./comment/commentResolver";
 import { likeResolver } from "./like/likeResolver";
+import { signOutResolver } from "./signOut/sign-in.resolver";
 
 export const resolvers = mergeResolvers([
   userResolver,
@@ -12,4 +13,5 @@ export const resolvers = mergeResolvers([
   signInResolver,
   commentResolver,
   likeResolver,
+  signOutResolver,
 ]);

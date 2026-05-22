@@ -23,8 +23,7 @@ export function Feed() {
                 <PostItem
                   key={post.id}
                   id={post.id}
-                  authorImage={""}
-                  authorName={post.author.name}
+                  author={post.author}
                   createdAt={post.createdAt}
                   postContent={post.content}
                   likesCount={post.likes.length}

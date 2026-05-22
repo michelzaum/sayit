@@ -4,11 +4,12 @@ export const signInTypeDefs = `#graphql
     password: String
   }
 
-  type SignInResponse {
+  type AuthResponse {
     success: Boolean
   }
 
   type Mutation {
-    signIn(body: SignInInput!): SignInResponse
+    signIn(body: SignInInput!): AuthResponse
+    signOut: AuthResponse
   }
 `;

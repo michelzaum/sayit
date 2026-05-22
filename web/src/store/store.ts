@@ -1,6 +1,6 @@
 import { PostCard } from "@/entities/PostCard";
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 type CommentResponse = {
   id: string;
@@ -44,105 +44,111 @@ interface IActions {
 }
 
 export const useStore = create<IState & IActions>()(
-  devtools((set, get) => ({
-    loggedUserId: "",
-    setLoggedUserId: (loggedUserId: string) => set(() => ({ loggedUserId })),
-    feedPostsList: [],
-    setFeedPostsList: (feedPostsList: PostCard[]) =>
-      set(() => ({ feedPostsList })),
-    addPostLike: (postId: string) =>
-      set(({ feedPostsList }) => ({
-        feedPostsList: feedPostsList.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                likes: [
-                  ...post.likes,
+  devtools(
+    persist(
+      (set, get) => ({
+        loggedUserId: "",
+        setLoggedUserId: (loggedUserId: string) => set(() => ({ loggedUserId })),
+        feedPostsList: [],
+        setFeedPostsList: (feedPostsList: PostCard[]) =>
+          set(() => ({ feedPostsList })),
+        addPostLike: (postId: string) =>
+          set(({ feedPostsList }) => ({
+            feedPostsList: feedPostsList.map((post) =>
+              post.id === postId
+                ? {
+                  ...post,
+                  likes: [
+                    ...post.likes,
+                    {
+                      authorId: get().loggedUserId,
+                      postId,
+                    },
+                  ],
+                }
+                : post,
+            ),
+          })),
+        removePostLike: (postId: string) =>
+          set(({ feedPostsList }) => ({
+            feedPostsList: feedPostsList.map((post) =>
+              post.id === postId
+                ? {
+                  ...post,
+                  likes: post.likes.filter(
+                    (like) => like.authorId !== get().loggedUserId,
+                  ),
+                }
+                : post,
+            ),
+          })),
+        getPostById: (postId: string) =>
+          get().feedPostsList.find((post) => post.id === postId),
+        commentsByPost: {},
+        addPostComment: (postComment: PostComment) =>
+          set((state) => {
+            const currentComments = state.commentsByPost[postComment.postId] || [];
+            return {
+              feedPostsList: state.feedPostsList.map((post) =>
+                post.id === postComment.postId
+                  ? { ...post, commentsCount: post.commentsCount + 1 }
+                  : post,
+              ),
+              commentsByPost: {
+                ...state.commentsByPost,
+                [postComment.postId]: [
+                  ...currentComments,
                   {
-                    authorId: get().loggedUserId,
-                    postId,
+                    content: postComment.content,
+                    id: postComment.id,
+                    postId: postComment.postId,
+                    createdAt: new Date().toISOString(),
+                    author: postComment.author,
                   },
                 ],
-              }
-            : post,
-        ),
-      })),
-    removePostLike: (postId: string) =>
-      set(({ feedPostsList }) => ({
-        feedPostsList: feedPostsList.map((post) =>
-          post.id === postId
-            ? {
-                ...post,
-                likes: post.likes.filter(
-                   (like) => like.authorId !== get().loggedUserId,
-                ),
-              }
-            : post,
-        ),
-      })),
-    getPostById: (postId: string) =>
-      get().feedPostsList.find((post) => post.id === postId),
-    commentsByPost: {},
-    addPostComment: (postComment: PostComment) =>
-      set((state) => {
-        const currentComments = state.commentsByPost[postComment.postId] || [];
-        return {
-          feedPostsList: state.feedPostsList.map((post) =>
-            post.id === postComment.postId
-              ? { ...post, commentsCount: post.commentsCount + 1 }
-              : post,
-          ),
-          commentsByPost: {
-            ...state.commentsByPost,
-            [postComment.postId]: [
-              ...currentComments,
-              {
-                content: postComment.content,
-                id: postComment.id,
-                postId: postComment.postId,
-                createdAt: new Date().toISOString(),
-                author: postComment.author,
               },
-            ],
-          },
-        };
-      }),
-    updatePostComment: (commentId: string, content: string, postId: string) =>
-      set((state) => ({
-        commentsByPost: {
-          ...state.commentsByPost,
-          [postId]: (state.commentsByPost[postId] || []).map((comment) =>
-            comment.id === commentId ? { ...comment, content } : comment,
-          ),
-        },
-      })),
-    removePostComment: (commentId: string, postId: string) =>
-      set((state) => ({
-        feedPostsList: state.feedPostsList.map((post) =>
-          post.id === postId ? { ...post, commentsCount: post.commentsCount - 1 } : post,
-        ),
-        commentsByPost: {
-          ...state.commentsByPost,
-          [postId]: (state.commentsByPost[postId] || []).filter(
-            (comment) => comment.id !== commentId,
-          ),
-        },
-      })),
-    setPostDetailsComments: (postId: string, comments: CommentResponse[]) =>
-      set(() => ({
-        commentsByPost: {
-          [postId]: comments,
-        },
-      })),
-    updatePost: (postId: string, content: string) =>
-      set(({ feedPostsList }) => ({
-        feedPostsList: feedPostsList.map((post) =>
-          post.id === postId ? { ...post, content } : post,
-        ),
-      })),
-    removePost: (postId: string) =>
-      set(({ feedPostsList }) => ({
-        feedPostsList: feedPostsList.filter((post) => post.id !== postId),
-      })),
-  })),
+            };
+          }),
+        updatePostComment: (commentId: string, content: string, postId: string) =>
+          set((state) => ({
+            commentsByPost: {
+              ...state.commentsByPost,
+              [postId]: (state.commentsByPost[postId] || []).map((comment) =>
+                comment.id === commentId ? { ...comment, content } : comment,
+              ),
+            },
+          })),
+        removePostComment: (commentId: string, postId: string) =>
+          set((state) => ({
+            feedPostsList: state.feedPostsList.map((post) =>
+              post.id === postId ? { ...post, commentsCount: post.commentsCount - 1 } : post,
+            ),
+            commentsByPost: {
+              ...state.commentsByPost,
+              [postId]: (state.commentsByPost[postId] || []).filter(
+                (comment) => comment.id !== commentId,
+              ),
+            },
+          })),
+        setPostDetailsComments: (postId: string, comments: CommentResponse[]) =>
+          set(() => ({
+            commentsByPost: {
+              [postId]: comments,
+            },
+          })),
+        updatePost: (postId: string, content: string) =>
+          set(({ feedPostsList }) => ({
+            feedPostsList: feedPostsList.map((post) =>
+              post.id === postId ? { ...post, content } : post,
+            ),
+          })),
+        removePost: (postId: string) =>
+          set(({ feedPostsList }) => ({
+            feedPostsList: feedPostsList.filter((post) => post.id !== postId),
+          })),
+      }), {
+      name: "sayit-storage",
+      storage: createJSONStorage(() => sessionStorage),
+    }),
+  ),
 );

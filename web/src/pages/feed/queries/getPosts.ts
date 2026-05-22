@@ -8,6 +8,7 @@ export const GET_POSTS = gql`
         content
         createdAt
         author {
+          id
           name
         }
         likes {

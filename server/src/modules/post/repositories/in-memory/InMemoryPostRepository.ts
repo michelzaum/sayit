@@ -23,6 +23,10 @@ export class InMemoryPostRepository implements IPostRepository {
     return this.postList;
   }
 
+  async getAllByAuthorId(authorId: string): Promise<Post[]> {
+    return this.postList.filter((post) => post.authorId === authorId);
+  }
+
   async delete(postId: string): Promise<void> {
     const index = this.postList.findIndex((post) => post.id === postId);
     if (index !== -1) {

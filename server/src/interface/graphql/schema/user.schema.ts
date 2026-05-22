@@ -26,8 +26,14 @@ export const userTypeDefs = `#graphql
     user: User
   }
 
+  type UserProfileInfoResponse {
+    userInfo: User
+    canEdit: Boolean
+  }
+
   extend type Query {
-    getUser(id: String): User
+    getLoggedUser: User
+    getUserProfileInfo(id: String): UserProfileInfoResponse
   }
 
   extend type Mutation {

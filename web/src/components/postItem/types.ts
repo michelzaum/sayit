@@ -1,7 +1,9 @@
+import { User } from "@/entities/User";
+
 export type PostProps = {
   id: string;
-  authorName: string;
-  authorImage: string;
+  author: Partial<User>;
+  authorImage?: string;
   createdAt: Date;
   postContent: string;
   likesCount: number;

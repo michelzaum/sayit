@@ -23,7 +23,7 @@ import { formatRelativeDate } from "@/shared/formatRelativeDate";
 
 export function PostItem({
   id,
-  authorName,
+  author,
   authorImage,
   createdAt,
   commentsCount,
@@ -34,6 +34,7 @@ export function PostItem({
     userLikedPost,
     isDeletePostModalOpen,
     isUpdatePostModalOpen,
+    isPostOwner,
     loading,
     updatePostLoading,
     newPostContentRef,
@@ -45,9 +46,7 @@ export function PostItem({
     handleCreateLike,
     handleDeletePost,
     handleUpdatePost,
-  } = usePostItem();
-
-  const isPostOwner = true; // temporary
+  } = usePostItem(author.id);
 
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
@@ -55,12 +54,12 @@ export function PostItem({
         <div className="flex items-center gap-2">
           <div className="rounded-full p-1 border border-gray-400">
             {authorImage ? (
-              <img src={authorImage} alt="User profile image" />
+              <img src={``} alt="User profile image" />
             ) : (
               <User2 className="text-gray-400" height={18} width={18} />
             )}
           </div>
-          <span className="text-xs font-medium">{authorName}</span>
+          <Link to={`/profile/${author.id}`} className="text-xs font-medium">{author.name}</Link>
         </div>
         <div className="flex items-center gap-4">
           <button

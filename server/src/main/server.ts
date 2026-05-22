@@ -78,7 +78,11 @@ app.use(
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
-      if (req.body.operationName !== 'SignIn' && req.body.operationName !== 'CreateUser') {
+      if (
+        req.body.operationName !== 'SignIn' &&
+        req.body.operationName !== 'CreateUser' &&
+        req.body.operationName !== 'IntrospectionQuery'
+      ) {
         const token = getAccessToken(req);
 
         if (!token) {
@@ -112,6 +116,8 @@ app.use(
         deleteLikeUseCase: container.deleteLikeUseCase,
         getPostLikesByAuthorIdUseCase: container.getPostLikesByAuthorIdUseCase,
         getAllCommentsByPostIdUseCase: container.getAllCommentsByPostIdUseCase,
+        getAllPostsByAuthorIdUseCase: container.getAllPostsByAuthorIdUseCase,
+        getUserProfileInfoUseCase: container.getUserProfileInfoUseCase,
       };
     },
   }),
