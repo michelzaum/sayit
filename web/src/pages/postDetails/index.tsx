@@ -70,8 +70,8 @@ export function PostDetails() {
             </span>
             <PostItem
               id={postDetails.id}
+              author={postDetails.author}
               authorImage={""}
-              authorName={postDetails.author.name}
               createdAt={postDetails.createdAt}
               postContent={postDetails.content}
               likesCount={postDetails.likes.length}
