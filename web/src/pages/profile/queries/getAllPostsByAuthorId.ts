@@ -6,6 +6,10 @@ export const GET_ALL_POSTS_BY_AUTHOR_ID = gql`
       id
       content
       createdAt
+      author {
+        id
+        name
+      }
       comments {
         id
         author {
