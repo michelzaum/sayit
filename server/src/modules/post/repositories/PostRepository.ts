@@ -82,6 +82,7 @@ export class PostRepository implements IPostRepository {
         id: true,
         content: true,
         createdAt: true,
+        author: true,
         comments: {
           select: {
             id: true,
