@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 
 import { SignInUseCase } from "@/modules/auth/sign-in/useCases/SignInUseCase";
 import { CreateUserUseCase } from "@/modules/user/useCases/createUser/CreateUserUseCase";
-import { GetUserUseCase } from "@/modules/user/useCases/getUser/GetUserUseCase";
+import { GetLoggedUserUseCase } from "@/modules/user/useCases/getLoggedUser/GetLoggedUserUseCase";
 
 import { CreatePostUseCase } from "@/modules/post/useCases/createPost/CreatePostUseCase";
 import { ListPostsUseCase } from "@/modules/post/useCases/listPosts/ListPostsUseCase";
@@ -18,6 +18,8 @@ import { GetAllCommentsByPostIdUseCase } from "@/modules/comments/useCases/getAl
 import { CreateLikeUseCase } from "@/modules/like/useCases/CreateLikeUseCase";
 import { DeleteLikeUseCase } from "@/modules/like/useCases/DeleteLikeUseCase";
 import { PostLikesByAuthorIdUseCase } from "@/modules/like/useCases/PostLikesByAuthorIdUseCase";
+import { GetAllPostsByAuthorIdUseCase } from "@/modules/post/useCases/getAllPostsByAuthorId/GetAllPostsByAuthorId";
+import { GetUserProfileInfoUseCase } from "@/modules/user/useCases/getUserProfileInfo/GetUserProfileInfoUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -27,7 +29,7 @@ interface IHttp {
 export interface IContainer {
   http: IHttp;
   createUserUseCase: CreateUserUseCase;
-  getUserUseCase: GetUserUseCase;
+  getUserUseCase: GetLoggedUserUseCase;
   signInUseCase: SignInUseCase;
   createPostUseCase: CreatePostUseCase;
   listPostsUseCase: ListPostsUseCase;
@@ -41,4 +43,6 @@ export interface IContainer {
   deleteLikeUseCase: DeleteLikeUseCase;
   getPostLikesByAuthorIdUseCase: PostLikesByAuthorIdUseCase;
   getAllCommentsByPostIdUseCase: GetAllCommentsByPostIdUseCase;
+  getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
+  getUserProfileInfoUseCase: GetUserProfileInfoUseCase;
 }

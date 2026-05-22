@@ -46,15 +46,6 @@ export function PostDetails() {
     return;
   }
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex flex-col gap-4 items-center justify-center p-10">
-  //       <Loader size={24} className="animate-spin" />
-  //       <span>Carregando post...</span>
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       <Header />
@@ -70,8 +61,8 @@ export function PostDetails() {
             </span>
             <PostItem
               id={postDetails.id}
+              author={postDetails.author}
               authorImage={""}
-              authorName={postDetails.author.name}
               createdAt={postDetails.createdAt}
               postContent={postDetails.content}
               likesCount={postDetails.likes.length}
@@ -126,9 +117,9 @@ export function PostDetails() {
                               width={18}
                             />
                           </div>
-                          <span className="text-xs font-medium">
+                          <Link to={`/profile/${comment.author.id}`} className="text-xs font-medium">
                             {comment.author?.name || "Usuário"}
-                          </span>
+                          </Link>
                         </div>
                         {comment.author?.id === loggedUserId && (
                           <div className="self-end items-start">

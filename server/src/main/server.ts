@@ -116,6 +116,8 @@ app.use(
         deleteLikeUseCase: container.deleteLikeUseCase,
         getPostLikesByAuthorIdUseCase: container.getPostLikesByAuthorIdUseCase,
         getAllCommentsByPostIdUseCase: container.getAllCommentsByPostIdUseCase,
+        getAllPostsByAuthorIdUseCase: container.getAllPostsByAuthorIdUseCase,
+        getUserProfileInfoUseCase: container.getUserProfileInfoUseCase,
       };
     },
   }),

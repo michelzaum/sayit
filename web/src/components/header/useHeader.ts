@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router';
 import { toast } from "sonner";
 import { useMutation } from "@apollo/client/react";
 import { SIGN_OUT } from "./mutation";
+import { useStore } from '@/store/store';
 
 export function useHeader() {
   const [signOut] = useMutation(SIGN_OUT);
   const navigate = useNavigate();
+  const loggedUserId = useStore(state => state.loggedUserId);
 
   async function handleSignOut() {
     try {
@@ -19,6 +21,7 @@ export function useHeader() {
   }
 
   return {
+    loggedUserId,
     handleSignOut,
   }
 }
