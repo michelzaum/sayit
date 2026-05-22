@@ -117,9 +117,9 @@ export function PostDetails() {
                               width={18}
                             />
                           </div>
-                          <span className="text-xs font-medium">
+                          <Link to={`/profile/${comment.author.id}`} className="text-xs font-medium">
                             {comment.author?.name || "Usuário"}
-                          </span>
+                          </Link>
                         </div>
                         {comment.author?.id === loggedUserId && (
                           <div className="self-end items-start">
