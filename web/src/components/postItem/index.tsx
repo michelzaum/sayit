@@ -23,7 +23,7 @@ import { formatRelativeDate } from "@/shared/formatRelativeDate";
 
 export function PostItem({
   id,
-  authorName,
+  author,
   authorImage,
   createdAt,
   commentsCount,
@@ -49,18 +49,20 @@ export function PostItem({
 
   const isPostOwner = true; // temporary
 
+  console.log(author)
+
   return (
     <div className="p-4 border border-gray-300 rounded-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="rounded-full p-1 border border-gray-400">
             {authorImage ? (
-              <img src={authorImage} alt="User profile image" />
+              <img src={``} alt="User profile image" />
             ) : (
               <User2 className="text-gray-400" height={18} width={18} />
             )}
           </div>
-          <span className="text-xs font-medium">{authorName}</span>
+          <Link to={`/profile/${author.id}`} className="text-xs font-medium">{author.name}</Link>
         </div>
         <div className="flex items-center gap-4">
           <button

@@ -40,8 +40,7 @@ export function Profile() {
               userPostsInfo?.getAllPostsByAuthorId.map((post) => (
                 <PostItem
                   key={post.id}
-                  authorImage=""
-                  authorName={userInfo.userInfo.name}
+                  author={post.author}
                   commentsCount={post.comments.length}
                   createdAt={post.createdAt}
                   id={post.id}
