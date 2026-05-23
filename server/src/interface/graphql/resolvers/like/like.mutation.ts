@@ -18,10 +18,9 @@ export const likeMutation = {
   deleteLike: async (
     _,
     args: LikeArgs,
-    { deleteLikeUseCase, http }: IContainer,
+    { deleteLikeUseCase, authenticatedUser }: IContainer,
   ) => {
-    const { req } = http;
     const { postId } = args;
-    return deleteLikeUseCase.execute(postId, req);
+    return deleteLikeUseCase.execute(postId, authenticatedUser.id);
   },
 };
