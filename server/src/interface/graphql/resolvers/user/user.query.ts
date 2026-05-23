@@ -5,9 +5,8 @@ type GetUserProfileInfoArgs = {
 }
 
 export const userQuery = {
-  getLoggedUser: async (_, __, { http, getUserUseCase }: IContainer) => {
-    const { req } = http;
-    return await getUserUseCase.execute(req);
+  getLoggedUser: async (_, __, { authenticatedUser, getUserUseCase }: IContainer) => {
+    return await getUserUseCase.execute(authenticatedUser.id);
   },
   getUserProfileInfo: async (_, args: GetUserProfileInfoArgs, { http, getUserProfileInfoUseCase }: IContainer) => {
     const { id } = args;
