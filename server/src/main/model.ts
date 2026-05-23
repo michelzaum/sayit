@@ -27,6 +27,9 @@ interface IHttp {
 }
 
 export interface IContainer {
+  authenticatedUser: {
+    id: string;
+  };
   http: IHttp;
   createUserUseCase: CreateUserUseCase;
   getUserUseCase: GetLoggedUserUseCase;
