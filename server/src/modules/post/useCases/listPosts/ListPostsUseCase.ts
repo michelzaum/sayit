@@ -1,8 +1,4 @@
-import { IncomingMessage } from "http";
-import jwt from "jsonwebtoken";
-
 import { IPostRepository } from "../../repositories/IPostRepository";
-import { env } from "@/config/env";
 import { IUserRepository } from "@/modules/user/repositories/IUserRepository";
 
 interface ListPostsRequest {
