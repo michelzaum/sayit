@@ -13,6 +13,7 @@ import { typeDefs } from "../interface/graphql/schema";
 import { resolvers } from "../interface/graphql/resolvers";
 import { container } from "./container";
 import { IContainer } from "./model";
+import { authenticate } from "@/auth/authenticate";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -78,22 +79,16 @@ app.use(
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
-      if (
-        req.body.operationName !== 'SignIn' &&
-        req.body.operationName !== 'CreateUser' &&
-        req.body.operationName !== 'IntrospectionQuery'
-      ) {
-        const token = getAccessToken(req);
+      const publicOperations = [
+        "SignIn",
+        "CreateUser",
+        "IntrospectionQuery",
+      ];
 
-        if (!token) {
-          throw new GraphQLError('User is not authenticated', {
-            extensions: {
-              code: 'UNAUTHENTICATED',
-              http: { status: 401 },
-              status: 401,
-            }
-          });
-        }
+      let authenticatedUser = null;
+
+      if (!publicOperations.includes(req.body.operationName)) {
+        authenticatedUser = authenticate(req);
       }
 
       return {
@@ -101,6 +96,7 @@ app.use(
           req,
           res,
         },
+        authenticatedUser,
         createUserUseCase: container.createUserUseCase,
         getUserUseCase: container.getUserUseCase,
         signInUseCase: container.signInUseCase,

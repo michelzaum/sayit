@@ -55,5 +55,8 @@ export const container: IContainer = {
     commentRepository,
   ),
   getAllPostsByAuthorIdUseCase: new GetAllPostsByAuthorIdUseCase(postRepository),
-  getUserProfileInfoUseCase: new GetUserProfileInfoUseCase(userRepository)
+  getUserProfileInfoUseCase: new GetUserProfileInfoUseCase(userRepository),
+  authenticatedUser: {
+    id: '',
+  },
 };
