@@ -7,14 +7,14 @@ import { useFeed } from "./useFeed";
 import { Header } from "@/components/header";
 
 export function Feed() {
-  const { loading, feedPostsList } = useFeed();
+  const { loading, feedPostsList, loggedUserName } = useFeed();
 
   return (
     <>
       <Header />
       <div className="flex justify-center mt-10 px-6">
         <div className="w-full sm:max-w-xl flex flex-col gap-12">
-          <CreatePost authorName="Michel" />
+          <CreatePost authorName={loggedUserName} />
 
           <div className="flex flex-col gap-4 py-3">
             <span className="text-base font-medium">Posts recentes</span>
