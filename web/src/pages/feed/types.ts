@@ -5,6 +5,7 @@ export type GetPosts = {
     posts: PostCard[];
     loggedUser: {
       id: string;
+      name: string;
     };
   };
 };

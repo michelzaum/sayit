@@ -18,6 +18,7 @@ export const GET_POSTS = gql`
       }
       loggedUser {
         id
+        name
       }
     }
   }
