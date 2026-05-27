@@ -7,9 +7,15 @@ export const userTypeDefs = `#graphql
     createdAt: String
   }
 
-  input UserInput {
+  input CreateUserInput {
     name: String
     email: String
+    password: String
+  }
+
+  input UpdateUserInput {
+    name: String
+    bio: String
     password: String
   }
 
@@ -37,7 +43,7 @@ export const userTypeDefs = `#graphql
   }
 
   extend type Mutation {
-    createUser(body: UserInput!): MutationResponse
-    updateUser(id: String, body: UserInput): MutationResponse
+    createUser(body: CreateUserInput!): MutationResponse
+    updateUser(id: String, body: UpdateUserInput): MutationResponse
   }
 `;
