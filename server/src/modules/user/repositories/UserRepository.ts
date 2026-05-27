@@ -21,4 +21,13 @@ export class UserRepository implements IUserRepository {
       where: { email },
     });
   }
+
+  update(id: string, body: Partial<Pick<User, "name" | "bio">>): Promise<User> {
+    const { name, bio } = body;
+
+    return prismaClient.user.update({
+      where: { id },
+      data: { name, bio },
+    });
+  }
 }
