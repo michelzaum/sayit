@@ -21,14 +21,11 @@ export class InMemoryUserReposiory implements IUserRepository {
   }
 
   async update(id: string, body: IUpdateUserDTO): Promise<User> {
-    const { name, bio } = body;
-
     const index = this.users.findIndex((user) => user.id === id);
 
     const updatedUser = {
       ...this.users[index],
-      name,
-      bio,
+      ...body,
     }
 
     this.users[index] = updatedUser;
