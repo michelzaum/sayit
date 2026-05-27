@@ -3,6 +3,7 @@ export const userTypeDefs = `#graphql
     id: String
     name: String
     email: String
+    bio: String
     password: String
     createdAt: String
   }
