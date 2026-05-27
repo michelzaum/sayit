@@ -1,4 +1,5 @@
 import { User } from "../../entities/User";
+import { IUpdateUserDTO } from "../../dtos/IUpdateUserDTO";
 import { IUserRepository } from "../IUserRepository";
 
 export class InMemoryUserReposiory implements IUserRepository {
@@ -17,5 +18,21 @@ export class InMemoryUserReposiory implements IUserRepository {
   async getByEmail(email: string): Promise<User> {
     const userByEmail = this.users.find((user) => user.email == email);
     return userByEmail;
+  }
+
+  async update(id: string, body: IUpdateUserDTO): Promise<User> {
+    const { name, bio } = body;
+
+    const index = this.users.findIndex((user) => user.id === id);
+
+    const updatedUser = {
+      ...this.users[index],
+      name,
+      bio,
+    }
+
+    this.users[index] = updatedUser;
+
+    return updatedUser;
   }
 }

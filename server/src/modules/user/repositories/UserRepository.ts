@@ -2,6 +2,7 @@ import { prismaClient } from "@/database/prisma/client";
 
 import { IUserRepository } from "./IUserRepository";
 import { User } from "../entities/User";
+import { IUpdateUserDTO } from "../dtos/IUpdateUserDTO";
 
 export class UserRepository implements IUserRepository {
   async create(data: Omit<User, 'id'>): Promise<User> {
@@ -22,7 +23,7 @@ export class UserRepository implements IUserRepository {
     });
   }
 
-  update(id: string, body: Partial<Pick<User, "name" | "bio">>): Promise<User> {
+  update(id: string, body: IUpdateUserDTO): Promise<User> {
     const { name, bio } = body;
 
     return prismaClient.user.update({
