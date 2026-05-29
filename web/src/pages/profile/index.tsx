@@ -1,4 +1,4 @@
-import { User, UserPlus } from "lucide-react";
+import { Edit2, User, UserPlus } from "lucide-react";
 
 import { Header } from "@/components/header";
 import { useProfile } from "./useProfile";
@@ -20,7 +20,12 @@ export function Profile() {
             <div className="border rounded-full w-24 h-24 flex items-center justify-center">
               <User />
             </div>
-            <h1 className="text-3xl">{userInfo.userInfo.name}</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl">{userInfo.userInfo.name}</h1>
+              <button type="button" className="hover:cursor-pointer">
+                <Edit2 />
+              </button>
+            </div>
             <span className="text-sm text-gray-400">Membro desde {userInfo.userInfo.createdAt}</span>
           </div>
           {!userInfo.canEdit && (
