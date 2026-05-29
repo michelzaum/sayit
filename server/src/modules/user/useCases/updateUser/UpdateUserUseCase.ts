@@ -1,3 +1,5 @@
+import { hash } from "bcryptjs";
+
 import { IUpdateUserDTO } from "../../dtos/IUpdateUserDTO";
 import { IUserRepository } from "../../repositories/IUserRepository";
 
@@ -5,6 +7,10 @@ export class UpdateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) { }
 
   async execute(id: string, body: IUpdateUserDTO) {
-    return this.userRepository.update(id, body);
+    const { password } = body;
+
+    const encryptedPassword = await hash(password, 8);
+
+    return this.userRepository.update(id, { ...body, password: encryptedPassword });
   }
 }
