@@ -35,6 +35,7 @@ export function useProfile() {
 
         setUserInfo(() => ({
           userInfo: {
+            bio: userProfileInfo.getUserProfileInfo.userInfo.bio,
             name: userProfileInfo.getUserProfileInfo.userInfo.name,
             createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
           },

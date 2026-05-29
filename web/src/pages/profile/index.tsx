@@ -37,7 +37,7 @@ export function Profile() {
               <UserPlus />
             </button>
           )}
-          <span>This is my bio, bro</span>
+          <span>{userInfo.userInfo.bio}</span>
         </div>
         <div className="w-full flex justify-center p-6 mt-6 border-t">
           <div className="w-full max-w-xl flex flex-col gap-4">
