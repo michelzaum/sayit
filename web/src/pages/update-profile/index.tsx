@@ -7,6 +7,7 @@ export function UpdateProfile() {
     bioRef,
     passwordRef,
     isPasswordVisible,
+    loading,
     onUpdateProfileSubmit,
     toggleShowHidePassword,
   } = useUpdateProfile();
@@ -57,17 +58,17 @@ export function UpdateProfile() {
             </button>
           </div>
 
-          {/* <button
+          <button
             type="submit"
             className="h-14 rounded-lg w-full bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center gap-4 hover:bg-blue-900 transition-colors cursor-pointer"
             disabled={loading}
           >
             {!loading ? (
-              <span>Cadastrar</span>
+              <span>Salvar</span>
             ) : (
               <Loader size={24} className="animate-spin" />
             )}
-          </button> */}
+          </button>
         </form>
       </div>
     </div>
