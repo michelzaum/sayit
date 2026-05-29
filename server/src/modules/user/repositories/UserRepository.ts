@@ -24,11 +24,9 @@ export class UserRepository implements IUserRepository {
   }
 
   update(id: string, body: IUpdateUserDTO): Promise<User> {
-    const { name, bio } = body;
-
     return prismaClient.user.update({
       where: { id },
-      data: { name, bio },
+      data: body,
     });
   }
 }
