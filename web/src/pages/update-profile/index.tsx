@@ -8,9 +8,14 @@ export function UpdateProfile() {
     passwordRef,
     isPasswordVisible,
     loading,
+    loadingUserInfo,
     onUpdateProfileSubmit,
     toggleShowHidePassword,
   } = useUpdateProfile();
+
+  if (loadingUserInfo) {
+    return;
+  }
 
   return (
     <div className="flex justify-center p-6 gap-10 mt-10">
@@ -36,9 +41,8 @@ export function UpdateProfile() {
             <label htmlFor="email">Bio</label>
             <input
               className="border border-gray-300 rounded-lg h-14 p-3"
-              type="email"
-              name="email"
-              id="email"
+              name="bio"
+              id="bio"
               ref={bioRef}
             />
           </div>

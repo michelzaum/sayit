@@ -1,27 +1,38 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import { CombinedGraphQLErrors } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
 
 import { UPDATE_PROFILE } from "./mutation";
+import { GET_LOGGED_USER } from "@/graphql/queries/getLoggedUser";
 
 const schema = z.object({
   name: z
     .string()
     .min(1)
     .refine((name) => !/\d/.test(name), { error: "Nome invalido" }),
-  email: z.email({ error: "E-mail invalido" }),
-  password: z
-    .string()
-    .min(8, {
-      error: "Senha invalida. Minimo 8 caracteres e maximo 16",
-    })
-    .max(16, {
-      error: "Senha invalida. Minimo 8 caracteres e maximo 16",
-    }),
+  bio: z.string(),
+  // Check a way to handle password scenario:
+  // This field is not required, but if provided, should follow password rules.
+  // password: z
+  //   .string()
+  //   .min(8, {
+  //     error: "Senha invalida. Minimo 8 caracteres e maximo 16",
+  //   })
+  //   .max(16, {
+  //     error: "Senha invalida. Minimo 8 caracteres e maximo 16",
+  //   }),
 });
+
+type UserInfo = {
+  getLoggedUser: {
+    bio: string;
+    name: string;
+    password: string;
+  }
+}
 
 export function useUpdateProfile() {
   const { id } = useParams<{ id: string }>();
@@ -30,7 +41,15 @@ export function useUpdateProfile() {
   const passwordRef = useRef<HTMLInputElement>({} as HTMLInputElement);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [updateProfile, { loading }] = useMutation(UPDATE_PROFILE);
+  const { data, loading: loadingUserInfo } = useQuery<UserInfo>(GET_LOGGED_USER, { fetchPolicy: 'network-only' });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data) {
+      nameRef.current.value = data.getLoggedUser.name;
+      bioRef.current.value = data.getLoggedUser.bio;
+    }
+  }, [data]);
 
   function toggleShowHidePassword(): void {
     setIsPasswordVisible(prevState => !prevState);
@@ -50,10 +69,6 @@ export function useUpdateProfile() {
     const nameValue = nameRef.current.value;
     const bioValue = bioRef.current.value;
     const passwordValue = passwordRef.current.value;
-
-    if (!nameValue || !bioValue || !passwordValue) {
-      return;
-    }
 
     const { error } = schema.safeParse({
       bio: bioValue,
@@ -98,6 +113,8 @@ export function useUpdateProfile() {
     passwordRef,
     isPasswordVisible,
     loading,
+    loadingUserInfo,
+    data,
     onUpdateProfileSubmit,
     toggleShowHidePassword,
   }
