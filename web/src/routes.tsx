@@ -5,6 +5,7 @@ import { PostDetails } from "./pages/postDetails";
 import { SignIn } from "./pages/sign-in";
 import { SignUp } from "./pages/sign-up";
 import { Profile } from "./pages/profile";
+import { UpdateProfile } from "./pages/update-profile";
 
 export function RoutesComponent() {
   return (
@@ -14,6 +15,7 @@ export function RoutesComponent() {
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/profile/:id" element={<Profile />} />
+      <Route path="/update-profile/:id" element={<UpdateProfile />} />
     </Routes>
   );
 }

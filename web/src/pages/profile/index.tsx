@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { Edit2, User, UserPlus } from "lucide-react";
 
 import { Header } from "@/components/header";
@@ -5,7 +6,7 @@ import { useProfile } from "./useProfile";
 import { PostItem } from "@/components/postItem";
 
 export function Profile() {
-  const { userInfo, userPostsInfo } = useProfile();
+  const { id, userInfo, userPostsInfo } = useProfile();
 
   if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
     return;
@@ -22,9 +23,9 @@ export function Profile() {
             </div>
             <div className="flex items-center gap-3">
               <h1 className="text-3xl">{userInfo.userInfo.name}</h1>
-              <button type="button" className="hover:cursor-pointer">
+              <Link to={`/update-profile/${id}`} type="button" className="hover:cursor-pointer">
                 <Edit2 />
-              </button>
+              </Link>
             </div>
             <span className="text-sm text-gray-400">Membro desde {userInfo.userInfo.createdAt}</span>
           </div>

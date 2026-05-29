@@ -51,6 +51,7 @@ export function useProfile() {
   }, [id]);
 
   return {
+    id,
     userInfo,
     userPostsInfo,
   }
