@@ -8,14 +8,7 @@ import { useMutation, useQuery } from "@apollo/client/react";
 import { GET_LOGGED_USER } from "@/graphql/queries/getLoggedUser";
 import { UPDATE_PROFILE } from "./mutation";
 import { schema } from "./schema";
-
-type UserInfo = {
-  getLoggedUser: {
-    bio: string;
-    name: string;
-    password: string;
-  }
-}
+import { UserInfo } from "./types";
 
 export function useUpdateProfile() {
   const { id } = useParams<{ id: string }>();
