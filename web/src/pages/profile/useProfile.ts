@@ -3,14 +3,9 @@ import { useParams } from "react-router";
 import { useLazyQuery } from "@apollo/client/react";
 
 import { months } from "@/shared/constants/months";
-import { GetUserProfileInfo, UserProfileInfo } from "./types";
+import { GetAllPostsByAuthorId, GetUserProfileInfo, UserProfileInfo } from "./types";
 import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
-import { PostCard } from "@/entities/PostCard";
 import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
-
-type GetAllPostsByAuthorId = {
-  getAllPostsByAuthorId: PostCard[];
-}
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
@@ -35,6 +30,7 @@ export function useProfile() {
 
         setUserInfo(() => ({
           userInfo: {
+            bio: userProfileInfo.getUserProfileInfo.userInfo.bio,
             name: userProfileInfo.getUserProfileInfo.userInfo.name,
             createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
           },
@@ -51,6 +47,7 @@ export function useProfile() {
   }, [id]);
 
   return {
+    id,
     userInfo,
     userPostsInfo,
   }

@@ -9,14 +9,16 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid()) @db.Uuid
+  id        String   @id @default(uuid()) @db.Uuid
   name      String
-  email     String    @unique
+  email     String   @unique
   password  String
-  createdAt DateTime  @default(now()) @map("created_at")
-  posts     Post[]
-  likes     Like[]
-  comments  Comment[]
+  createdAt DateTime @default(now()) @map("created_at")
+  bio       String?
+
+  posts    Post[]
+  likes    Like[]
+  comments Comment[]
 
   @@map("users")
 }

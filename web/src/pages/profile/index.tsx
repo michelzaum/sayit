@@ -1,11 +1,12 @@
-import { User, UserPlus } from "lucide-react";
+import { Link } from "react-router";
+import { Edit2, User, UserPlus } from "lucide-react";
 
 import { Header } from "@/components/header";
 import { useProfile } from "./useProfile";
 import { PostItem } from "@/components/postItem";
 
 export function Profile() {
-  const { userInfo, userPostsInfo } = useProfile();
+  const { id, userInfo, userPostsInfo } = useProfile();
 
   if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
     return;
@@ -20,7 +21,14 @@ export function Profile() {
             <div className="border rounded-full w-24 h-24 flex items-center justify-center">
               <User />
             </div>
-            <h1 className="text-3xl">{userInfo.userInfo.name}</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl">{userInfo.userInfo.name}</h1>
+              {userInfo.canEdit && (
+                <Link to={`/update-profile/${id}`} type="button" className="hover:cursor-pointer">
+                  <Edit2 />
+                </Link>
+              )}
+            </div>
             <span className="text-sm text-gray-400">Membro desde {userInfo.userInfo.createdAt}</span>
           </div>
           {!userInfo.canEdit && (
@@ -31,7 +39,7 @@ export function Profile() {
               <UserPlus />
             </button>
           )}
-          <span>This is my bio, bro</span>
+          <span>{userInfo.userInfo.bio}</span>
         </div>
         <div className="w-full flex justify-center p-6 mt-6 border-t">
           <div className="w-full max-w-xl flex flex-col gap-4">

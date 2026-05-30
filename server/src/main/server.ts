@@ -114,6 +114,7 @@ app.use(
         getAllCommentsByPostIdUseCase: container.getAllCommentsByPostIdUseCase,
         getAllPostsByAuthorIdUseCase: container.getAllPostsByAuthorIdUseCase,
         getUserProfileInfoUseCase: container.getUserProfileInfoUseCase,
+        updateUserUseCase: container.updateUserUseCase,
       };
     },
   }),

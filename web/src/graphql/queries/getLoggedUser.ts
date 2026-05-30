@@ -4,6 +4,7 @@ export const GET_LOGGED_USER = gql`
   query GetLoggedUser {
     getLoggedUser {
       name
+      bio
       createdAt
     }
   }
