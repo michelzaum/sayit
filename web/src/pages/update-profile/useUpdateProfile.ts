@@ -14,16 +14,11 @@ const schema = z.object({
     .min(1)
     .refine((name) => !/\d/.test(name), { error: "Nome invalido" }),
   bio: z.string(),
-  // Check a way to handle password scenario:
-  // This field is not required, but if provided, should follow password rules.
-  // password: z
-  //   .string()
-  //   .min(8, {
-  //     error: "Senha invalida. Minimo 8 caracteres e maximo 16",
-  //   })
-  //   .max(16, {
-  //     error: "Senha invalida. Minimo 8 caracteres e maximo 16",
-  //   }),
+  password: z
+    .string()
+    .refine((val) => val === "" || (val.length >= 8 && val.length <= 16), {
+      message: "Senha invalida. Minimo 8 caracteres e maximo 16",
+    }),
 });
 
 type UserInfo = {
