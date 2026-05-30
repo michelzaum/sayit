@@ -27,6 +27,10 @@ export function useUpdateProfile() {
     }
   }, [data]);
 
+  function goBack(): void {
+    navigate(-1);
+  }
+
   function toggleShowHidePassword(): void {
     setIsPasswordVisible(prevState => !prevState);
   }
@@ -91,6 +95,8 @@ export function useUpdateProfile() {
     loading,
     loadingUserInfo,
     data,
+    id,
+    goBack,
     onUpdateProfileSubmit,
     toggleShowHidePassword,
   }

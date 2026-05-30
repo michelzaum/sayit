@@ -1,4 +1,4 @@
-import { Loader } from "lucide-react";
+import { ArrowLeftIcon, Loader } from "lucide-react";
 import { useUpdateProfile } from "./useUpdateProfile"
 
 export function UpdateProfile() {
@@ -9,6 +9,7 @@ export function UpdateProfile() {
     isPasswordVisible,
     loading,
     loadingUserInfo,
+    goBack,
     onUpdateProfileSubmit,
     toggleShowHidePassword,
   } = useUpdateProfile();
@@ -20,6 +21,10 @@ export function UpdateProfile() {
   return (
     <div className="flex justify-center p-6 gap-10 mt-10">
       <div className="w-full sm:max-w-xl flex flex-col gap-10 mt-10">
+        <button onClick={goBack} className="flex items-center gap-2 hover:cursor-pointer">
+          <ArrowLeftIcon />
+          <span>voltar</span>
+        </button>
         <div className="flex flex-col gap-2">
           <span className="text-2xl font-medium">Editar perfil</span>
           <span className="text-base text-gray-500">
