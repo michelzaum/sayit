@@ -26,6 +26,7 @@ import { LikeRepository } from "@/modules/like/repositories/LikeRepository";
 import { PostLikesByAuthorIdUseCase } from "@/modules/like/useCases/PostLikesByAuthorIdUseCase";
 import { GetAllPostsByAuthorIdUseCase } from "@/modules/post/useCases/getAllPostsByAuthorId/GetAllPostsByAuthorId";
 import { GetUserProfileInfoUseCase } from "@/modules/user/useCases/getUserProfileInfo/GetUserProfileInfoUseCase";
+import { UpdateUserUseCase } from "@/modules/user/useCases/updateUser/UpdateUserUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -55,5 +56,9 @@ export const container: IContainer = {
     commentRepository,
   ),
   getAllPostsByAuthorIdUseCase: new GetAllPostsByAuthorIdUseCase(postRepository),
-  getUserProfileInfoUseCase: new GetUserProfileInfoUseCase(userRepository)
+  getUserProfileInfoUseCase: new GetUserProfileInfoUseCase(userRepository),
+  authenticatedUser: {
+    id: '',
+  },
+  updateUserUseCase: new UpdateUserUseCase(userRepository),
 };

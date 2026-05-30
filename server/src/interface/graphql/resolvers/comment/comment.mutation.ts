@@ -18,12 +18,11 @@ export const commentMutation = {
   createComment: async (
     _,
     args: CreateCommentBody,
-    { createCommentUseCase, http }: IContainer,
+    { createCommentUseCase, authenticatedUser }: IContainer,
   ) => {
     const { postId, content } = args;
-    const { req } = http;
 
-    return await createCommentUseCase.execute(postId, content, req);
+    return await createCommentUseCase.execute(postId, content, authenticatedUser.id);
   },
   updateComment: async (
     _,

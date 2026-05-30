@@ -9,20 +9,18 @@ export const likeMutation = {
   createLike: async (
     _,
     args: LikeArgs,
-    { createLikeUseCase, http }: IContainer,
+    { createLikeUseCase, authenticatedUser }: IContainer,
   ) => {
-    const { req } = http;
     const { postId } = args;
 
-    return createLikeUseCase.execute(postId, req);
+    return createLikeUseCase.execute(postId, authenticatedUser.id);
   },
   deleteLike: async (
     _,
     args: LikeArgs,
-    { deleteLikeUseCase, http }: IContainer,
+    { deleteLikeUseCase, authenticatedUser }: IContainer,
   ) => {
-    const { req } = http;
     const { postId } = args;
-    return deleteLikeUseCase.execute(postId, req);
+    return deleteLikeUseCase.execute(postId, authenticatedUser.id);
   },
 };

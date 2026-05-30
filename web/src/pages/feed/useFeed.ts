@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client/react";
 import { toast } from "sonner";
 
@@ -16,6 +16,7 @@ export function useFeed() {
   const setFeedPostsList = useStore((state) => state.setFeedPostsList);
   const feedPostsList = useStore((state) => state.feedPostsList);
   const loggedUserId = useStore((state) => state.loggedUserId);
+  const [loggedUserName, setLoggedUserName] = useState('');
 
   if (error) {
     toast.error("Erro ao carregar posts. Tente novamente");
@@ -24,6 +25,7 @@ export function useFeed() {
   useEffect(() => {
     if (data && data.getPosts.posts) {
       setLoggedUserId(data.getPosts.loggedUser.id);
+      setLoggedUserName(data.getPosts.loggedUser.name);
       setFeedPostsList(data.getPosts.posts);
 
       const unsubscribe = subscribeToMore<PostCreatedSubscription>({
@@ -65,6 +67,7 @@ export function useFeed() {
   return {
     loading,
     feedPostsList,
+    loggedUserName,
     hasUserLikedPost,
   };
 }

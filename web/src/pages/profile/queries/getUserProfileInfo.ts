@@ -5,6 +5,7 @@ export const GET_USER_PROFILE_INFO = gql`
     getUserProfileInfo(id: $userId) {
       canEdit
       userInfo {
+        bio
         name
         createdAt
       }

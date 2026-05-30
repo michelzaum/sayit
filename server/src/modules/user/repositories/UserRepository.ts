@@ -2,6 +2,7 @@ import { prismaClient } from "@/database/prisma/client";
 
 import { IUserRepository } from "./IUserRepository";
 import { User } from "../entities/User";
+import { IUpdateUserDTO } from "../dtos/IUpdateUserDTO";
 
 export class UserRepository implements IUserRepository {
   async create(data: Omit<User, 'id'>): Promise<User> {
@@ -19,6 +20,13 @@ export class UserRepository implements IUserRepository {
   async getByEmail(email: string): Promise<User> {
     return await prismaClient.user.findUnique({
       where: { email },
+    });
+  }
+
+  update(id: string, body: IUpdateUserDTO): Promise<User> {
+    return prismaClient.user.update({
+      where: { id },
+      data: body,
     });
   }
 }
