@@ -6,7 +6,11 @@ import { IUserRepository } from "../../repositories/IUserRepository";
 export class UpdateUserUseCase {
   constructor(private readonly userRepository: IUserRepository) { }
 
-  async execute(id: string, body: IUpdateUserDTO) {
+  async execute(id: string, body: IUpdateUserDTO, authenticatedUserId: string) {
+    if (id !== authenticatedUserId) {
+      throw new Error('Unauthorized');
+    }
+
     const { password } = body;
 
     if (password) {

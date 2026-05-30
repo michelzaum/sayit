@@ -21,8 +21,10 @@ export const userMutation = {
   createUser: async (_, args: CreateUserArgs, { createUserUseCase }: IContainer) => {
     return await createUserUseCase.execute(args.body);
   },
-  updateUser: async (_, args: UpdateUserArgs, { updateUserUseCase }: IContainer) => {
+  updateUser: async (_, args: UpdateUserArgs, { updateUserUseCase, authenticatedUser }: IContainer) => {
     const { id, body } = args;
-    return updateUserUseCase.execute(id, body);
+    const { id: authenticatedUserId } = authenticatedUser;
+
+    return updateUserUseCase.execute(id, body, authenticatedUserId);
   },
 };
