@@ -5,21 +5,9 @@ import { z } from "zod";
 import { CombinedGraphQLErrors } from "@apollo/client";
 import { useMutation, useQuery } from "@apollo/client/react";
 
-import { UPDATE_PROFILE } from "./mutation";
 import { GET_LOGGED_USER } from "@/graphql/queries/getLoggedUser";
-
-const schema = z.object({
-  name: z
-    .string()
-    .min(1)
-    .refine((name) => !/\d/.test(name), { error: "Nome invalido" }),
-  bio: z.string(),
-  password: z
-    .string()
-    .refine((val) => val === "" || (val.length >= 8 && val.length <= 16), {
-      message: "Senha invalida. Minimo 8 caracteres e maximo 16",
-    }),
-});
+import { UPDATE_PROFILE } from "./mutation";
+import { schema } from "./schema";
 
 type UserInfo = {
   getLoggedUser: {
