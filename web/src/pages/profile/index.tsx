@@ -23,9 +23,11 @@ export function Profile() {
             </div>
             <div className="flex items-center gap-3">
               <h1 className="text-3xl">{userInfo.userInfo.name}</h1>
-              <Link to={`/update-profile/${id}`} type="button" className="hover:cursor-pointer">
-                <Edit2 />
-              </Link>
+              {userInfo.canEdit && (
+                <Link to={`/update-profile/${id}`} type="button" className="hover:cursor-pointer">
+                  <Edit2 />
+                </Link>
+              )}
             </div>
             <span className="text-sm text-gray-400">Membro desde {userInfo.userInfo.createdAt}</span>
           </div>
