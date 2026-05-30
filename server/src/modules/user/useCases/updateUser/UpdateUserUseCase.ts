@@ -9,7 +9,10 @@ export class UpdateUserUseCase {
   async execute(id: string, body: IUpdateUserDTO) {
     const { password } = body;
 
-    const encryptedPassword = await hash(password, 8);
+    let encryptedPassword = '';
+    if (password) {
+      encryptedPassword = await hash(password, 8);
+    }
 
     return this.userRepository.update(id, { ...body, password: encryptedPassword });
   }
