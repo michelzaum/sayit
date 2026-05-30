@@ -13,11 +13,9 @@ export class UpdateUserUseCase {
 
     const { password } = body;
 
-    if (password) {
-      body.password = await hash(password, 8);
-    } else {
-      delete body.password;
-    }
+    body.password = password
+      ? await hash(password, 8)
+      : undefined;
 
     return this.userRepository.update(id, body);
   }
