@@ -13,6 +13,7 @@ export function useProfile() {
   const [getAllPostsByAuthorId] = useLazyQuery<GetAllPostsByAuthorId>(GET_ALL_POSTS_BY_AUTHOR_ID, { fetchPolicy: 'no-cache' });
   const [userInfo, setUserInfo] = useState<UserProfileInfo>({} as UserProfileInfo);
   const [userPostsInfo, setUserPostsInfo] = useState<GetAllPostsByAuthorId>({} as GetAllPostsByAuthorId);
+  const [isLoggedUserFollowing, setIsLoggedUserFollowing] = useState(false);
 
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
@@ -48,10 +49,12 @@ export function useProfile() {
 
   function handleFollowUser() {
     console.log('followed!');
+    setIsLoggedUserFollowing(true);
   }
 
   return {
     id,
+    isLoggedUserFollowing,
     userInfo,
     userPostsInfo,
     handleFollowUser,

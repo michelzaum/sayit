@@ -1,12 +1,12 @@
 import { Link } from "react-router";
-import { Edit2, User, UserPlus } from "lucide-react";
+import { CheckCheck, Edit2, User, UserPlus } from "lucide-react";
 
 import { Header } from "@/components/header";
 import { useProfile } from "./useProfile";
 import { PostItem } from "@/components/postItem";
 
 export function Profile() {
-  const { id, userInfo, userPostsInfo, handleFollowUser } = useProfile();
+  const { id, isLoggedUserFollowing, userInfo, userPostsInfo, handleFollowUser } = useProfile();
 
   if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
     return;
@@ -37,10 +37,21 @@ export function Profile() {
               className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all"
               onClick={handleFollowUser}
             >
-              <span>
-                Seguir
-              </span>
-              <UserPlus />
+              {isLoggedUserFollowing ? (
+                <>
+                  <span>
+                    Seguindo
+                  </span>
+                  <CheckCheck />
+                </>
+              ) : (
+                <>
+                  <span>
+                    Seguir
+                  </span>
+                  <UserPlus />
+                </>
+              )}
             </button>
           )}
           <span>{userInfo.userInfo.bio}</span>
