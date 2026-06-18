@@ -14,6 +14,7 @@ export function useProfile() {
   const [userInfo, setUserInfo] = useState<UserProfileInfo>({} as UserProfileInfo);
   const [userPostsInfo, setUserPostsInfo] = useState<GetAllPostsByAuthorId>({} as GetAllPostsByAuthorId);
   const [isLoggedUserFollowing, setIsLoggedUserFollowing] = useState(false);
+  const [isUnFollowUserModalOpen, setIsUnFollowUserModalOpen] = useState(false);
 
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
@@ -55,14 +56,26 @@ export function useProfile() {
   function handleUnFollowUser() {
     console.log('not following anymore...');
     setIsLoggedUserFollowing(false);
+    closeUnFollowUserModal();
+  }
+
+  function openUnFollowUserModal() {
+    setIsUnFollowUserModalOpen(true);
+  }
+
+  function closeUnFollowUserModal() {
+    setIsUnFollowUserModalOpen(false);
   }
 
   return {
     id,
     isLoggedUserFollowing,
+    isUnFollowUserModalOpen,
     userInfo,
     userPostsInfo,
+    closeUnFollowUserModal,
     handleUnFollowUser,
     handleFollowUser,
+    openUnFollowUserModal,
   }
 }

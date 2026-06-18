@@ -8,7 +8,17 @@ import { Follow } from "./components/FollowUser";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export function Profile() {
-  const { id, isLoggedUserFollowing, userInfo, userPostsInfo, handleUnFollowUser, handleFollowUser } = useProfile();
+  const {
+    id,
+    isLoggedUserFollowing,
+    isUnFollowUserModalOpen,
+    userInfo,
+    userPostsInfo,
+    closeUnFollowUserModal,
+    handleUnFollowUser,
+    handleFollowUser,
+    openUnFollowUserModal,
+  } = useProfile();
 
   if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
     return;
@@ -36,7 +46,7 @@ export function Profile() {
           {!userInfo.canEdit && (
             <Follow
               isLoggedUserFollowing={isLoggedUserFollowing}
-              handleUnFollowUser={handleUnFollowUser}
+              handleUnFollowUser={openUnFollowUserModal}
               handleFollowUser={handleFollowUser}
             />
           )}
@@ -65,7 +75,7 @@ export function Profile() {
           </div>
         </div>
       </div>
-      <Dialog open={true}>
+      <Dialog open={isUnFollowUserModalOpen}>
         <DialogContent className="sm:max-w-sm" showCloseButton={false}>
           <DialogHeader>
             <DialogTitle className="text-lg">
@@ -79,13 +89,14 @@ export function Profile() {
           <button
             type="submit"
             className="bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center font-medium py-4 rounded-lg hover:bg-blue-900 transition-colors cursor-pointer"
+            onClick={handleUnFollowUser}
           >
             Confirmar
           </button>
           <button
             type="button"
             className="hover:cursor-pointer"
-            onClick={() => { }}
+            onClick={closeUnFollowUserModal}
           >
             <span className="text-gray-950">Cancelar</span>
           </button>
