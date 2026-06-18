@@ -59,9 +59,10 @@ model Comment {
 }
 
 model Follower {
-  id               String @id @default(uuid()) @db.Uuid
-  userFollowedId   String @map("user_followed_id") @db.Uuid
-  followedByUserId String @map("followed_by_user_id") @db.Uuid
+  id               String   @id @default(uuid()) @db.Uuid
+  userFollowedId   String   @map("user_followed_id") @db.Uuid
+  followedByUserId String   @map("followed_by_user_id") @db.Uuid
+  followedDate     DateTime @default(now())
 
   userFollowed User @relation("UserFollowers", fields: [userFollowedId], references: [id])
   followedBy   User @relation("UserFollowing", fields: [followedByUserId], references: [id])

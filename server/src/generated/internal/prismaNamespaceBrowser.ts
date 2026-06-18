@@ -117,7 +117,8 @@ export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeo
 export const FollowerScalarFieldEnum = {
   id: 'id',
   userFollowedId: 'userFollowedId',
-  followedByUserId: 'followedByUserId'
+  followedByUserId: 'followedByUserId',
+  followedDate: 'followedDate'
 } as const
 
 export type FollowerScalarFieldEnum = (typeof FollowerScalarFieldEnum)[keyof typeof FollowerScalarFieldEnum]

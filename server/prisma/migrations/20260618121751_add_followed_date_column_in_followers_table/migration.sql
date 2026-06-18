@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Follower" ADD COLUMN     "followedDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
