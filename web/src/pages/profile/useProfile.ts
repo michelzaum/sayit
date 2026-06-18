@@ -46,9 +46,14 @@ export function useProfile() {
     handleGetUserInfoAndPosts();
   }, [id]);
 
+  function handleFollowUser() {
+    console.log('followed!');
+  }
+
   return {
     id,
     userInfo,
     userPostsInfo,
+    handleFollowUser,
   }
 }

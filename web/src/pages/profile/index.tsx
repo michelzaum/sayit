@@ -6,7 +6,7 @@ import { useProfile } from "./useProfile";
 import { PostItem } from "@/components/postItem";
 
 export function Profile() {
-  const { id, userInfo, userPostsInfo } = useProfile();
+  const { id, userInfo, userPostsInfo, handleFollowUser } = useProfile();
 
   if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
     return;
@@ -32,7 +32,11 @@ export function Profile() {
             <span className="text-sm text-gray-400">Membro desde {userInfo.userInfo.createdAt}</span>
           </div>
           {!userInfo.canEdit && (
-            <button type="button" className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all">
+            <button
+              type="button"
+              className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all"
+              onClick={handleFollowUser}
+            >
               <span>
                 Seguir
               </span>
