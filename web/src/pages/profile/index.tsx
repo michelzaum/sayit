@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { useProfile } from "./useProfile";
 import { PostItem } from "@/components/postItem";
 import { Follow } from "./components/FollowUser";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export function Profile() {
   const { id, isLoggedUserFollowing, userInfo, userPostsInfo, handleUnFollowUser, handleFollowUser } = useProfile();
@@ -64,6 +65,32 @@ export function Profile() {
           </div>
         </div>
       </div>
+      <Dialog open={true}>
+        <DialogContent className="sm:max-w-sm" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle className="text-lg">
+              Deixar de seguir
+              <strong> {userInfo.userInfo.name}?</strong>
+            </DialogTitle>
+          </DialogHeader>
+          <DialogDescription>
+            Tem certeza que deseja deixar de seguir <strong>{userInfo.userInfo.name}?</strong>
+          </DialogDescription>
+          <button
+            type="submit"
+            className="bg-blue-950 disabled:bg-gray-400 text-gray-50 flex items-center justify-center font-medium py-4 rounded-lg hover:bg-blue-900 transition-colors cursor-pointer"
+          >
+            Confirmar
+          </button>
+          <button
+            type="button"
+            className="hover:cursor-pointer"
+            onClick={() => { }}
+          >
+            <span className="text-gray-950">Cancelar</span>
+          </button>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
