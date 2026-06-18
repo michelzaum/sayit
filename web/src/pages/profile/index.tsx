@@ -1,12 +1,13 @@
 import { Link } from "react-router";
-import { CheckCheck, Edit2, User, UserPlus } from "lucide-react";
+import { Edit2, User } from "lucide-react";
 
 import { Header } from "@/components/header";
 import { useProfile } from "./useProfile";
 import { PostItem } from "@/components/postItem";
+import { Follow } from "./components/FollowUser";
 
 export function Profile() {
-  const { id, isLoggedUserFollowing, userInfo, userPostsInfo, handleFollowUser } = useProfile();
+  const { id, isLoggedUserFollowing, userInfo, userPostsInfo, handleUnFollowUser, handleFollowUser } = useProfile();
 
   if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
     return;
@@ -32,27 +33,11 @@ export function Profile() {
             <span className="text-sm text-gray-400">Membro desde {userInfo.userInfo.createdAt}</span>
           </div>
           {!userInfo.canEdit && (
-            <button
-              type="button"
-              className="flex items-center gap-4 py-4 px-6 border rounded-md hover:cursor-pointer hover:bg-gray-50 transition-all"
-              onClick={handleFollowUser}
-            >
-              {isLoggedUserFollowing ? (
-                <>
-                  <span>
-                    Seguindo
-                  </span>
-                  <CheckCheck />
-                </>
-              ) : (
-                <>
-                  <span>
-                    Seguir
-                  </span>
-                  <UserPlus />
-                </>
-              )}
-            </button>
+            <Follow
+              isLoggedUserFollowing={isLoggedUserFollowing}
+              handleUnFollowUser={handleUnFollowUser}
+              handleFollowUser={handleFollowUser}
+            />
           )}
           <span>{userInfo.userInfo.bio}</span>
         </div>
