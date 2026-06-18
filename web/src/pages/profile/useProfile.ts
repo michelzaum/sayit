@@ -52,11 +52,17 @@ export function useProfile() {
     setIsLoggedUserFollowing(true);
   }
 
+  function handleUnFollowUser() {
+    console.log('not following anymore...');
+    setIsLoggedUserFollowing(false);
+  }
+
   return {
     id,
     isLoggedUserFollowing,
     userInfo,
     userPostsInfo,
+    handleUnFollowUser,
     handleFollowUser,
   }
 }
