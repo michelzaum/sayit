@@ -7,7 +7,7 @@ export const followTypeDefs = `#graphql
   }
 
   type Mutation {
-    startFollowing(userFollowedId: String, followedByUserId: String): Follow
-    stopFollowing(userFollowedId: String, followedByUserId: String): Boolean
+    startFollowing(userFollowedId: String): Follow
+    stopFollowing(userFollowedId: String): Boolean
   }
 `;
