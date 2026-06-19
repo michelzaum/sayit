@@ -21,6 +21,8 @@ import { PostLikesByAuthorIdUseCase } from "@/modules/like/useCases/PostLikesByA
 import { GetAllPostsByAuthorIdUseCase } from "@/modules/post/useCases/getAllPostsByAuthorId/GetAllPostsByAuthorId";
 import { GetUserProfileInfoUseCase } from "@/modules/user/useCases/getUserProfileInfo/GetUserProfileInfoUseCase";
 import { UpdateUserUseCase } from "@/modules/user/useCases/updateUser/UpdateUserUseCase";
+import { StartFollowingUseCase } from "@/modules/follower/useCases/startFollowingUseCase";
+import { StopFollowingUseCase } from "@/modules/follower/useCases/stopFollowingUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -50,4 +52,6 @@ export interface IContainer {
   getAllPostsByAuthorIdUseCase: GetAllPostsByAuthorIdUseCase;
   getUserProfileInfoUseCase: GetUserProfileInfoUseCase;
   updateUserUseCase: UpdateUserUseCase;
+  startFollowingUseCase: StartFollowingUseCase;
+  stopFollowingUseCase: StopFollowingUseCase;
 }
