@@ -4,6 +4,6 @@ export interface IFollowerRepository {
   startFollow(
     userFollowedId: string,
     followedByUserId: string,
-  ): Promise<Follower>;
+  ): Promise<Partial<Follower>>;
   stopFollow(userFollowedId: string, followedByUserId: string): Promise<void>;
 }

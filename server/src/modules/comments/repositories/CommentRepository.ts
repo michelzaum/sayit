@@ -1,5 +1,4 @@
 import { prismaClient } from "@/database/prisma/client";
-import { User } from "@/modules/user/entities/User";
 
 import { Comment } from "../entities/Comment";
 import { ICommentRepository } from "./ICommentRepository";
@@ -43,10 +42,7 @@ export class CommentRepository implements ICommentRepository {
     }) as unknown as Promise<Comment[]>;
   }
 
-  async update(
-    commentId: string,
-    newContent: string,
-  ): Promise<Comment> {
+  async update(commentId: string, newContent: string): Promise<Comment> {
     return prismaClient.comment.update({
       where: {
         id: commentId,
