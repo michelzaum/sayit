@@ -20,7 +20,15 @@ export class FollowerRepository implements IFollowerRepository {
     });
   }
 
-  stopFollow(userFollowedId: string, followedByUserId: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  async stopFollow(
+    userFollowedId: string,
+    followedByUserId: string,
+  ): Promise<void> {
+    await prismaClient.follower.deleteMany({
+      where: {
+        followedByUserId,
+        userFollowedId,
+      },
+    });
   }
 }
