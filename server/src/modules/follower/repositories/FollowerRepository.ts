@@ -24,10 +24,12 @@ export class FollowerRepository implements IFollowerRepository {
     userFollowedId: string,
     followedByUserId: string,
   ): Promise<void> {
-    await prismaClient.follower.deleteMany({
+    await prismaClient.follower.delete({
       where: {
-        followedByUserId,
-        userFollowedId,
+        userFollowedId_followedByUserId: {
+          followedByUserId,
+          userFollowedId,
+        },
       },
     });
   }
