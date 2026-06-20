@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useLazyQuery } from "@apollo/client/react";
+import { toast } from "sonner";
+import { useLazyQuery, useMutation } from "@apollo/client/react";
 
 import { months } from "@/shared/constants/months";
 import {
@@ -10,6 +11,7 @@ import {
 } from "./types";
 import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
 import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
+import { START_FOLLOWING } from "./mutations/startFollowing";
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
@@ -21,6 +23,7 @@ export function useProfile() {
     GET_ALL_POSTS_BY_AUTHOR_ID,
     { fetchPolicy: "no-cache" },
   );
+  const [startFollowing] = useMutation(START_FOLLOWING);
   const [userInfo, setUserInfo] = useState<UserProfileInfo>(
     {} as UserProfileInfo,
   );
@@ -64,9 +67,18 @@ export function useProfile() {
     handleGetUserInfoAndPosts();
   }, [getAllPostsByAuthorId, getUserProfileInfo, id]);
 
-  function handleFollowUser() {
-    console.log("followed!");
-    setIsLoggedUserFollowing(true);
+  async function handleFollowUser() {
+    try {
+      await startFollowing({
+        variables: {
+          userFollowedId: id,
+        },
+      });
+
+      setIsLoggedUserFollowing(true);
+    } catch {
+      toast.error("Ocorreu um erro ao seguir usuario. Tente novamente");
+    }
   }
 
   function handleUnFollowUser() {
