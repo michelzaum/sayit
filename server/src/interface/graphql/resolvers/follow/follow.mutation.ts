@@ -1,18 +1,28 @@
 import { IContainer } from "@/main/model";
 
-type StartFollowingArgs = {
+type FollowingArgs = {
   userFollowedId: string;
 };
 
 export const followMutation = {
   startFollowing: async (
     _,
-    args: StartFollowingArgs,
+    args: FollowingArgs,
     { startFollowingUseCase, authenticatedUser }: IContainer,
   ) => {
     const { id } = authenticatedUser;
     const { userFollowedId } = args;
 
     return startFollowingUseCase.execute(userFollowedId, id);
+  },
+  stopFollowing: async (
+    _,
+    args: FollowingArgs,
+    { stopFollowingUseCase, authenticatedUser }: IContainer,
+  ) => {
+    const { id } = authenticatedUser;
+    const { userFollowedId } = args;
+
+    return stopFollowingUseCase.execute(userFollowedId, id);
   },
 };
