@@ -12,6 +12,7 @@ import {
 import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
 import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
 import { START_FOLLOWING } from "./mutations/startFollowing";
+import { STOP_FOLLOWING } from "./mutations/stopFollowing";
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +25,7 @@ export function useProfile() {
     { fetchPolicy: "no-cache" },
   );
   const [startFollowing] = useMutation(START_FOLLOWING);
+  const [stopFollowing] = useMutation(STOP_FOLLOWING);
   const [userInfo, setUserInfo] = useState<UserProfileInfo>(
     {} as UserProfileInfo,
   );
@@ -81,9 +83,21 @@ export function useProfile() {
     }
   }
 
-  function handleUnFollowUser() {
-    console.log("not following anymore...");
-    setIsLoggedUserFollowing(false);
+  async function handleUnFollowUser() {
+    try {
+      await stopFollowing({
+        variables: {
+          userFollowedId: id,
+        },
+      });
+
+      setIsLoggedUserFollowing(false);
+    } catch {
+      toast.error(
+        "Ocorreu um erro ao deixar de seguir usuario. Tente novamente",
+      );
+    }
+
     closeUnFollowUserModal();
   }
 
