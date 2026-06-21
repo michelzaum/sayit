@@ -13,7 +13,7 @@ export const followMutation = {
     const { id } = authenticatedUser;
     const { userFollowedId } = args;
 
-    return startFollowingUseCase.execute(userFollowedId, id);
+    return await startFollowingUseCase.execute(userFollowedId, id);
   },
   stopFollowing: async (
     _,
@@ -23,6 +23,6 @@ export const followMutation = {
     const { id } = authenticatedUser;
     const { userFollowedId } = args;
 
-    return stopFollowingUseCase.execute(userFollowedId, id);
+    return await stopFollowingUseCase.execute(userFollowedId, id);
   },
 };
