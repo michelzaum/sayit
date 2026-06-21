@@ -2,6 +2,7 @@ import { prismaClient } from "@/database/prisma/client";
 
 import { Follower } from "../entities/Follower";
 import { IFollowerRepository } from "./IFollowerRepository";
+import { log } from "node:console";
 
 export class FollowerRepository implements IFollowerRepository {
   async startFollow(
@@ -30,6 +31,24 @@ export class FollowerRepository implements IFollowerRepository {
           followedByUserId,
           userFollowedId,
         },
+      },
+    });
+  }
+
+  async checkLoggedUserFollowUserProfileId(
+    userProfileId: string,
+    loggedUserId: string,
+  ): Promise<Partial<Follower>> {
+    return await prismaClient.follower.findUnique({
+      where: {
+        userFollowedId_followedByUserId: {
+          userFollowedId: userProfileId,
+          followedByUserId: loggedUserId,
+        },
+      },
+      select: {
+        followedByUserId: true,
+        userFollowedId: true,
       },
     });
   }
