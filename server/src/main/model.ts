@@ -23,6 +23,7 @@ import { GetUserProfileInfoUseCase } from "@/modules/user/useCases/getUserProfil
 import { UpdateUserUseCase } from "@/modules/user/useCases/updateUser/UpdateUserUseCase";
 import { StartFollowingUseCase } from "@/modules/follower/useCases/startFollowingUseCase";
 import { StopFollowingUseCase } from "@/modules/follower/useCases/stopFollowingUseCase";
+import { IsLoggedUserFollowingUserProfileIdUseCase } from "@/modules/follower/useCases/isLoggedUserFollowingUserProdileIdUseCase";
 
 interface IHttp {
   req: IncomingMessage;
@@ -54,4 +55,5 @@ export interface IContainer {
   updateUserUseCase: UpdateUserUseCase;
   startFollowingUseCase: StartFollowingUseCase;
   stopFollowingUseCase: StopFollowingUseCase;
+  isLoggedUserFollowingUserProfileIdUseCase: IsLoggedUserFollowingUserProfileIdUseCase;
 }

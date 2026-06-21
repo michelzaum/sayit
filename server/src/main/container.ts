@@ -30,6 +30,7 @@ import { UpdateUserUseCase } from "@/modules/user/useCases/updateUser/UpdateUser
 import { StartFollowingUseCase } from "@/modules/follower/useCases/startFollowingUseCase";
 import { StopFollowingUseCase } from "@/modules/follower/useCases/stopFollowingUseCase";
 import { FollowerRepository } from "@/modules/follower/repositories/FollowerRepository";
+import { IsLoggedUserFollowingUserProfileIdUseCase } from "@/modules/follower/useCases/isLoggedUserFollowingUserProdileIdUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -69,4 +70,6 @@ export const container: IContainer = {
   updateUserUseCase: new UpdateUserUseCase(userRepository),
   startFollowingUseCase: new StartFollowingUseCase(followerRepository),
   stopFollowingUseCase: new StopFollowingUseCase(followerRepository),
+  isLoggedUserFollowingUserProfileIdUseCase:
+    new IsLoggedUserFollowingUserProfileIdUseCase(followerRepository),
 };
