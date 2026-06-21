@@ -13,6 +13,7 @@ import { GET_ALL_POSTS_BY_AUTHOR_ID } from "./queries/getAllPostsByAuthorId";
 import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
 import { START_FOLLOWING } from "./mutations/startFollowing";
 import { STOP_FOLLOWING } from "./mutations/stopFollowing";
+import { IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID } from "./queries/isLoggedUserFollowingUserProfileId";
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +25,9 @@ export function useProfile() {
     GET_ALL_POSTS_BY_AUTHOR_ID,
     { fetchPolicy: "no-cache" },
   );
+  const [handleIsLoggedUserFollowing] = useLazyQuery<{
+    isLoggedUserFollowingUserProfileId: boolean;
+  }>(IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID);
   const [startFollowing] = useMutation(START_FOLLOWING);
   const [stopFollowing] = useMutation(STOP_FOLLOWING);
   const [userInfo, setUserInfo] = useState<UserProfileInfo>(
@@ -68,6 +72,29 @@ export function useProfile() {
 
     handleGetUserInfoAndPosts();
   }, [getAllPostsByAuthorId, getUserProfileInfo, id]);
+
+  useEffect(() => {
+    async function checkisLoggedUserFollowing() {
+      try {
+        const { data: isLoggedUserFollowing } =
+          await handleIsLoggedUserFollowing({
+            variables: {
+              userProfileId: id,
+            },
+          });
+
+        if (isLoggedUserFollowing.isLoggedUserFollowingUserProfileId) {
+          setIsLoggedUserFollowing(
+            isLoggedUserFollowing.isLoggedUserFollowingUserProfileId,
+          );
+        }
+      } catch {
+        toast.error("Erro ao carregar dados do perfil. Tente novamente");
+      }
+    }
+
+    checkisLoggedUserFollowing();
+  }, [handleIsLoggedUserFollowing, id]);
 
   async function handleFollowUser() {
     try {
