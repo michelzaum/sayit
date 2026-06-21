@@ -3,6 +3,7 @@ import { postTypeDefs } from "./post.schema";
 import { likeTypeDefs } from "./like.schema";
 import { commentTypeDefs } from "./comment.schema";
 import { signInTypeDefs } from "./sign-in.schema";
+import { followTypeDefs } from "./follow.schema";
 
 export const typeDefs = [
   userTypeDefs,
@@ -10,4 +11,5 @@ export const typeDefs = [
   likeTypeDefs,
   commentTypeDefs,
   signInTypeDefs,
+  followTypeDefs,
 ];

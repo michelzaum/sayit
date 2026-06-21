@@ -27,11 +27,16 @@ import { PostLikesByAuthorIdUseCase } from "@/modules/like/useCases/PostLikesByA
 import { GetAllPostsByAuthorIdUseCase } from "@/modules/post/useCases/getAllPostsByAuthorId/GetAllPostsByAuthorId";
 import { GetUserProfileInfoUseCase } from "@/modules/user/useCases/getUserProfileInfo/GetUserProfileInfoUseCase";
 import { UpdateUserUseCase } from "@/modules/user/useCases/updateUser/UpdateUserUseCase";
+import { StartFollowingUseCase } from "@/modules/follower/useCases/startFollowingUseCase";
+import { StopFollowingUseCase } from "@/modules/follower/useCases/stopFollowingUseCase";
+import { FollowerRepository } from "@/modules/follower/repositories/FollowerRepository";
+import { IsLoggedUserFollowingUserProfileIdUseCase } from "@/modules/follower/useCases/isLoggedUserFollowingUserProdileIdUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
 const commentRepository = new CommentRepository();
 const likeRepository = new LikeRepository();
+const followerRepository = new FollowerRepository();
 
 export const container: IContainer = {
   http: {
@@ -55,10 +60,16 @@ export const container: IContainer = {
   getAllCommentsByPostIdUseCase: new GetAllCommentsByPostIdUseCase(
     commentRepository,
   ),
-  getAllPostsByAuthorIdUseCase: new GetAllPostsByAuthorIdUseCase(postRepository),
+  getAllPostsByAuthorIdUseCase: new GetAllPostsByAuthorIdUseCase(
+    postRepository,
+  ),
   getUserProfileInfoUseCase: new GetUserProfileInfoUseCase(userRepository),
   authenticatedUser: {
-    id: '',
+    id: "",
   },
   updateUserUseCase: new UpdateUserUseCase(userRepository),
+  startFollowingUseCase: new StartFollowingUseCase(followerRepository),
+  stopFollowingUseCase: new StopFollowingUseCase(followerRepository),
+  isLoggedUserFollowingUserProfileIdUseCase:
+    new IsLoggedUserFollowingUserProfileIdUseCase(followerRepository),
 };
