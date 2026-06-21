@@ -72,6 +72,22 @@ export function Profile() {
                   Membro desde {userInfo.userInfo.createdAt}
                 </span>
               </div>
+              <div className="flex items-center gap-14 py-4">
+                <button
+                  type="button"
+                  className="flex flex-col items-center gap-2 hover:cursor-pointer"
+                >
+                  <span className="font-bold">10</span>
+                  <span>Seguidores</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex flex-col items-center gap-2 hover:cursor-pointer"
+                >
+                  <span className="font-bold">20</span>
+                  <span>Seguindo</span>
+                </button>
+              </div>
               {!userInfo.canEdit && (
                 <Follow
                   isLoggedUserFollowing={isLoggedUserFollowing}
