@@ -12,6 +12,6 @@ export const followTypeDefs = `#graphql
   }
 
   type Query {
-    isLoggedUserFollowingUserProfileIdUseCase(userProfileId: String): Boolean
+    isLoggedUserFollowingUserProfileId(userProfileId: String): Boolean
   }
 `;
