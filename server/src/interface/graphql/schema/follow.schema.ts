@@ -10,4 +10,8 @@ export const followTypeDefs = `#graphql
     startFollowing(userFollowedId: String): Follow
     stopFollowing(userFollowedId: String): Boolean
   }
+
+  type Query {
+    isLoggedUserFollowingUserProfileIdUseCase(userProfileId: String): Boolean
+  }
 `;
