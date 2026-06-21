@@ -45,45 +45,13 @@ const server = new ApolloServer<IContainer>({
 
 await server.start();
 
-function getAccessToken(req: IncomingMessage) {
-  const cookie = req.headers.cookie || '';
-
-  if (!cookie) {
-    throw new GraphQLError('User is not authenticated', {
-      extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 },
-        status: 401,
-      }
-    });
-  }
-
-  const [_, accessToken] = cookie.split("=");
-
-  if (!accessToken) {
-    throw new GraphQLError('User is not authenticated', {
-      extensions: {
-        code: 'UNAUTHENTICATED',
-        http: { status: 401 },
-        status: 401,
-      }
-    });
-  }
-
-  return accessToken;
-}
-
 app.use(
   "/",
   cors<cors.CorsRequest>(),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
-      const publicOperations = [
-        "SignIn",
-        "CreateUser",
-        "IntrospectionQuery",
-      ];
+      const publicOperations = ["SignIn", "CreateUser", "IntrospectionQuery"];
 
       let authenticatedUser = null;
 
@@ -115,6 +83,10 @@ app.use(
         getAllPostsByAuthorIdUseCase: container.getAllPostsByAuthorIdUseCase,
         getUserProfileInfoUseCase: container.getUserProfileInfoUseCase,
         updateUserUseCase: container.updateUserUseCase,
+        startFollowingUseCase: container.startFollowingUseCase,
+        stopFollowingUseCase: container.stopFollowingUseCase,
+        isLoggedUserFollowingUserProfileIdUseCase:
+          container.isLoggedUserFollowingUserProfileIdUseCase,
       };
     },
   }),

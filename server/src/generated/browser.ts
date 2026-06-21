@@ -37,3 +37,8 @@ export type Like = Prisma.LikeModel
  * 
  */
 export type Comment = Prisma.CommentModel
+/**
+ * Model Follower
+ * 
+ */
+export type Follower = Prisma.FollowerModel

@@ -52,7 +52,8 @@ export const ModelName = {
   User: 'User',
   Post: 'Post',
   Like: 'Like',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  Follower: 'Follower'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -111,6 +112,15 @@ export const CommentScalarFieldEnum = {
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const FollowerScalarFieldEnum = {
+  userFollowedId: 'userFollowedId',
+  followedByUserId: 'followedByUserId',
+  followedDate: 'followedDate'
+} as const
+
+export type FollowerScalarFieldEnum = (typeof FollowerScalarFieldEnum)[keyof typeof FollowerScalarFieldEnum]
 
 
 export const SortOrder = {

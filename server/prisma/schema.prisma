@@ -16,9 +16,11 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   bio       String?
 
-  posts    Post[]
-  likes    Like[]
-  comments Comment[]
+  posts     Post[]
+  likes     Like[]
+  comments  Comment[]
+  followers Follower[] @relation("UserFollowers")
+  following Follower[] @relation("UserFollowing")
 
   @@map("users")
 }
@@ -54,4 +56,15 @@ model Comment {
 
   post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model Follower {
+  userFollowedId   String   @map("user_followed_id") @db.Uuid
+  followedByUserId String   @map("followed_by_user_id") @db.Uuid
+  followedDate     DateTime @default(now())
+
+  userFollowed User @relation("UserFollowers", fields: [userFollowedId], references: [id])
+  followedBy   User @relation("UserFollowing", fields: [followedByUserId], references: [id])
+
+  @@id([userFollowedId, followedByUserId])
 }
