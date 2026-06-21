@@ -17,15 +17,18 @@ import { IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID } from "./queries/isLoggedUser
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
-  const [getUserProfileInfo] = useLazyQuery<GetUserProfileInfo>(
-    GET_USER_PROFILE_INFO,
-    { fetchPolicy: "no-cache" },
-  );
-  const [getAllPostsByAuthorId] = useLazyQuery<GetAllPostsByAuthorId>(
-    GET_ALL_POSTS_BY_AUTHOR_ID,
-    { fetchPolicy: "no-cache" },
-  );
-  const [handleIsLoggedUserFollowing] = useLazyQuery<{
+  const [getUserProfileInfo, { loading: getUserProfileInfoLoading }] =
+    useLazyQuery<GetUserProfileInfo>(GET_USER_PROFILE_INFO, {
+      fetchPolicy: "no-cache",
+    });
+  const [getAllPostsByAuthorId, { loading: getAllPostsByAuthorIdLoading }] =
+    useLazyQuery<GetAllPostsByAuthorId>(GET_ALL_POSTS_BY_AUTHOR_ID, {
+      fetchPolicy: "no-cache",
+    });
+  const [
+    handleIsLoggedUserFollowing,
+    { loading: handleIsLoggedUserFollowingLoading },
+  ] = useLazyQuery<{
     isLoggedUserFollowingUserProfileId: boolean;
   }>(IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID);
   const [startFollowing] = useMutation(START_FOLLOWING);
@@ -142,6 +145,9 @@ export function useProfile() {
     isUnFollowUserModalOpen,
     userInfo,
     userPostsInfo,
+    getUserProfileInfoLoading,
+    getAllPostsByAuthorIdLoading,
+    handleIsLoggedUserFollowingLoading,
     closeUnFollowUserModal,
     handleUnFollowUser,
     handleFollowUser,
