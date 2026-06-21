@@ -30,7 +30,12 @@ export function Profile() {
   } = useProfile();
 
   if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
-    return;
+    return (
+      <div className="flex flex-col gap-4 items-center justify-center p-10">
+        <Loader size={24} className="animate-spin" />
+        <span>Carregando informações do perfil...</span>
+      </div>
+    );
   }
 
   return (
@@ -40,6 +45,7 @@ export function Profile() {
       handleIsLoggedUserFollowingLoading ? (
         <div className="flex flex-col gap-4 items-center justify-center p-10">
           <Loader size={24} className="animate-spin" />
+          <span>Carregando informações do perfil...</span>
         </div>
       ) : (
         <>
