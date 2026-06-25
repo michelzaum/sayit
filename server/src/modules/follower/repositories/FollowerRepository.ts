@@ -2,7 +2,6 @@ import { prismaClient } from "@/database/prisma/client";
 
 import { Follower } from "../entities/Follower";
 import { IFollowerRepository } from "./IFollowerRepository";
-import { log } from "node:console";
 
 export class FollowerRepository implements IFollowerRepository {
   async startFollow(

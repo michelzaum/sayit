@@ -30,7 +30,9 @@ export function useProfile() {
     { loading: handleIsLoggedUserFollowingLoading },
   ] = useLazyQuery<{
     isLoggedUserFollowingUserProfileId: boolean;
-  }>(IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID);
+  }>(IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID, {
+    fetchPolicy: "no-cache",
+  });
   const [startFollowing] = useMutation(START_FOLLOWING);
   const [stopFollowing] = useMutation(STOP_FOLLOWING);
   const [userInfo, setUserInfo] = useState<UserProfileInfo>(
