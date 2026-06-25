@@ -14,6 +14,18 @@ import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
 import { START_FOLLOWING } from "./mutations/startFollowing";
 import { STOP_FOLLOWING } from "./mutations/stopFollowing";
 import { IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID } from "./queries/isLoggedUserFollowingUserProfileId";
+import { GET_USER_RELATIONS } from "./queries/getUserRelations";
+
+type GetUserRelations = {
+  getUserRelations: {
+    following: {
+      userFollowedId: string;
+    };
+    followers: {
+      followedByUserId: string;
+    };
+  };
+};
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
@@ -33,6 +45,10 @@ export function useProfile() {
   }>(IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID, {
     fetchPolicy: "no-cache",
   });
+  const [getUserRelations, { loading: getUserRelationsLoading }] =
+    useLazyQuery<GetUserRelations>(GET_USER_RELATIONS, {
+      fetchPolicy: "no-cache",
+    });
   const [startFollowing] = useMutation(START_FOLLOWING);
   const [stopFollowing] = useMutation(STOP_FOLLOWING);
   const [userInfo, setUserInfo] = useState<UserProfileInfo>(
@@ -100,6 +116,26 @@ export function useProfile() {
 
     checkisLoggedUserFollowing();
   }, [handleIsLoggedUserFollowing, id]);
+
+  useEffect(() => {
+    async function handleGetUserRelations() {
+      try {
+        const { data } = await getUserRelations({
+          variables: {
+            userId: id,
+          },
+        });
+
+        console.log(data.getUserRelations);
+      } catch {
+        toast.error(
+          "Ocorreu um erro ao carregar dados de seguidores. Tente novamente",
+        );
+      }
+    }
+
+    handleGetUserRelations();
+  }, [getUserRelations, id]);
 
   async function handleFollowUser() {
     try {
