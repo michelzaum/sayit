@@ -16,15 +16,17 @@ import { STOP_FOLLOWING } from "./mutations/stopFollowing";
 import { IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID } from "./queries/isLoggedUserFollowingUserProfileId";
 import { GET_USER_RELATIONS } from "./queries/getUserRelations";
 
+type UserRelationInfo = {
+  following: {
+    userFollowedId: string;
+  }[];
+  followers: {
+    followedByUserId: string;
+  }[];
+};
+
 type GetUserRelations = {
-  getUserRelations: {
-    following: {
-      userFollowedId: string;
-    };
-    followers: {
-      followedByUserId: string;
-    };
-  };
+  getUserRelations: UserRelationInfo;
 };
 
 export function useProfile() {
@@ -59,6 +61,7 @@ export function useProfile() {
   );
   const [isLoggedUserFollowing, setIsLoggedUserFollowing] = useState(false);
   const [isUnFollowUserModalOpen, setIsUnFollowUserModalOpen] = useState(false);
+  const [userRelationInfo, setUserRelationInfo] = useState<UserRelationInfo>();
 
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
@@ -126,7 +129,7 @@ export function useProfile() {
           },
         });
 
-        console.log(data.getUserRelations);
+        setUserRelationInfo(data.getUserRelations);
       } catch {
         toast.error(
           "Ocorreu um erro ao carregar dados de seguidores. Tente novamente",
@@ -183,8 +186,10 @@ export function useProfile() {
     isUnFollowUserModalOpen,
     userInfo,
     userPostsInfo,
+    userRelationInfo,
     getUserProfileInfoLoading,
     getAllPostsByAuthorIdLoading,
+    getUserRelationsLoading,
     handleIsLoggedUserFollowingLoading,
     closeUnFollowUserModal,
     handleUnFollowUser,
