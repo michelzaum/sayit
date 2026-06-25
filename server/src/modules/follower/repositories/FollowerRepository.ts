@@ -51,4 +51,21 @@ export class FollowerRepository implements IFollowerRepository {
       },
     });
   }
+
+  async getUserRelations(userId: string): Promise<any> {
+    const following = await prismaClient.follower.findMany({
+      where: { followedByUserId: userId },
+      select: { userFollowedId: true },
+    });
+
+    const followers = await prismaClient.follower.findMany({
+      where: { userFollowedId: userId },
+      select: { followedByUserId: true },
+    });
+
+    return {
+      following,
+      followers,
+    };
+  }
 }
