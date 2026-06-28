@@ -96,8 +96,8 @@ export function useProfile() {
         if (allPostsByAuthorId.getAllPostsByAuthorId) {
           setUserPostsInfo(allPostsByAuthorId);
         }
-      } catch (error) {
-        console.log(error);
+      } catch {
+        toast.error("Erro ao carregar dados do perfil. Tente novamente");
       }
     }
 
