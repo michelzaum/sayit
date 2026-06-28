@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { toast } from "sonner";
 import { useLazyQuery, useMutation } from "@apollo/client/react";
 
+import { useStore } from "@/store/store";
 import { months } from "@/shared/constants/months";
 import {
   GetAllPostsByAuthorId,
@@ -14,6 +15,20 @@ import { GET_USER_PROFILE_INFO } from "./queries/getUserProfileInfo";
 import { START_FOLLOWING } from "./mutations/startFollowing";
 import { STOP_FOLLOWING } from "./mutations/stopFollowing";
 import { IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID } from "./queries/isLoggedUserFollowingUserProfileId";
+import { GET_USER_RELATIONS } from "./queries/getUserRelations";
+
+type UserRelationInfo = {
+  following: {
+    userFollowedId: string;
+  }[];
+  followers: {
+    followedByUserId: string;
+  }[];
+};
+
+type GetUserRelations = {
+  getUserRelations: UserRelationInfo;
+};
 
 export function useProfile() {
   const { id } = useParams<{ id: string }>();
@@ -30,7 +45,13 @@ export function useProfile() {
     { loading: handleIsLoggedUserFollowingLoading },
   ] = useLazyQuery<{
     isLoggedUserFollowingUserProfileId: boolean;
-  }>(IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID);
+  }>(IS_LOGGED_USER_FOLLOWING_USER_PROFILE_ID, {
+    fetchPolicy: "no-cache",
+  });
+  const [getUserRelations, { loading: getUserRelationsLoading }] =
+    useLazyQuery<GetUserRelations>(GET_USER_RELATIONS, {
+      fetchPolicy: "no-cache",
+    });
   const [startFollowing] = useMutation(START_FOLLOWING);
   const [stopFollowing] = useMutation(STOP_FOLLOWING);
   const [userInfo, setUserInfo] = useState<UserProfileInfo>(
@@ -41,35 +62,42 @@ export function useProfile() {
   );
   const [isLoggedUserFollowing, setIsLoggedUserFollowing] = useState(false);
   const [isUnFollowUserModalOpen, setIsUnFollowUserModalOpen] = useState(false);
+  const [userRelationInfo, setUserRelationInfo] = useState<UserRelationInfo>();
+  const [followersCount, setFollowersCount] = useState(0);
+  const loggedUserId = useStore((state) => state.loggedUserId);
 
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
-      const [{ data: userProfileInfo }, { data: allPostsByAuthorId }] =
-        await Promise.all([
-          getUserProfileInfo({ variables: { userId: id } }),
-          getAllPostsByAuthorId({ variables: { authorId: id } }),
-        ]);
+      try {
+        const [{ data: userProfileInfo }, { data: allPostsByAuthorId }] =
+          await Promise.all([
+            getUserProfileInfo({ variables: { userId: id } }),
+            getAllPostsByAuthorId({ variables: { authorId: id } }),
+          ]);
 
-      if (userProfileInfo.getUserProfileInfo) {
-        const userCreatedAtMonth = new Date(
-          Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
-        ).getMonth();
-        const userCreatedAtYear = new Date(
-          Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
-        ).getFullYear();
+        if (userProfileInfo.getUserProfileInfo) {
+          const userCreatedAtMonth = new Date(
+            Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
+          ).getMonth();
+          const userCreatedAtYear = new Date(
+            Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
+          ).getFullYear();
 
-        setUserInfo(() => ({
-          userInfo: {
-            bio: userProfileInfo.getUserProfileInfo.userInfo.bio,
-            name: userProfileInfo.getUserProfileInfo.userInfo.name,
-            createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
-          },
-          canEdit: userProfileInfo.getUserProfileInfo.canEdit,
-        }));
-      }
+          setUserInfo(() => ({
+            userInfo: {
+              bio: userProfileInfo.getUserProfileInfo.userInfo.bio,
+              name: userProfileInfo.getUserProfileInfo.userInfo.name,
+              createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
+            },
+            canEdit: userProfileInfo.getUserProfileInfo.canEdit,
+          }));
+        }
 
-      if (allPostsByAuthorId.getAllPostsByAuthorId) {
-        setUserPostsInfo(allPostsByAuthorId);
+        if (allPostsByAuthorId.getAllPostsByAuthorId) {
+          setUserPostsInfo(allPostsByAuthorId);
+        }
+      } catch {
+        toast.error("Erro ao carregar dados do perfil. Tente novamente");
       }
     }
 
@@ -79,6 +107,10 @@ export function useProfile() {
   useEffect(() => {
     async function checkisLoggedUserFollowing() {
       try {
+        if (id === loggedUserId) {
+          return;
+        }
+
         const { data: isLoggedUserFollowing } =
           await handleIsLoggedUserFollowing({
             variables: {
@@ -97,7 +129,28 @@ export function useProfile() {
     }
 
     checkisLoggedUserFollowing();
-  }, [handleIsLoggedUserFollowing, id]);
+  }, [handleIsLoggedUserFollowing, id, loggedUserId]);
+
+  useEffect(() => {
+    async function handleGetUserRelations() {
+      try {
+        const { data } = await getUserRelations({
+          variables: {
+            userId: id,
+          },
+        });
+
+        setUserRelationInfo(data.getUserRelations);
+        setFollowersCount(data.getUserRelations.followers.length);
+      } catch {
+        toast.error(
+          "Ocorreu um erro ao carregar dados de seguidores. Tente novamente",
+        );
+      }
+    }
+
+    handleGetUserRelations();
+  }, [getUserRelations, id]);
 
   async function handleFollowUser() {
     try {
@@ -108,6 +161,7 @@ export function useProfile() {
       });
 
       setIsLoggedUserFollowing(true);
+      setFollowersCount((prevState) => prevState + 1);
     } catch {
       toast.error("Ocorreu um erro ao seguir usuario. Tente novamente");
     }
@@ -122,6 +176,7 @@ export function useProfile() {
       });
 
       setIsLoggedUserFollowing(false);
+      setFollowersCount((prevState) => prevState - 1);
     } catch {
       toast.error(
         "Ocorreu um erro ao deixar de seguir usuario. Tente novamente",
@@ -145,8 +200,11 @@ export function useProfile() {
     isUnFollowUserModalOpen,
     userInfo,
     userPostsInfo,
+    userRelationInfo,
+    followersCount,
     getUserProfileInfoLoading,
     getAllPostsByAuthorIdLoading,
+    getUserRelationsLoading,
     handleIsLoggedUserFollowingLoading,
     closeUnFollowUserModal,
     handleUnFollowUser,

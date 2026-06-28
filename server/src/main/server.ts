@@ -87,6 +87,7 @@ app.use(
         stopFollowingUseCase: container.stopFollowingUseCase,
         isLoggedUserFollowingUserProfileIdUseCase:
           container.isLoggedUserFollowingUserProfileIdUseCase,
+        getUserRelationsUseCase: container.getUserRelationsUseCase,
       };
     },
   }),

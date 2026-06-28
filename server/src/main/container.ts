@@ -31,6 +31,7 @@ import { StartFollowingUseCase } from "@/modules/follower/useCases/startFollowin
 import { StopFollowingUseCase } from "@/modules/follower/useCases/stopFollowingUseCase";
 import { FollowerRepository } from "@/modules/follower/repositories/FollowerRepository";
 import { IsLoggedUserFollowingUserProfileIdUseCase } from "@/modules/follower/useCases/isLoggedUserFollowingUserProdileIdUseCase";
+import { GetUserRelationsUseCase } from "@/modules/follower/useCases/getUserRelationsUseCase";
 
 const userRepository = new UserRepository();
 const postRepository = new PostRepository();
@@ -72,4 +73,5 @@ export const container: IContainer = {
   stopFollowingUseCase: new StopFollowingUseCase(followerRepository),
   isLoggedUserFollowingUserProfileIdUseCase:
     new IsLoggedUserFollowingUserProfileIdUseCase(followerRepository),
+  getUserRelationsUseCase: new GetUserRelationsUseCase(followerRepository),
 };
