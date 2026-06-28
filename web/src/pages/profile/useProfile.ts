@@ -151,7 +151,7 @@ export function useProfile() {
       });
 
       setIsLoggedUserFollowing(true);
-      setFollowersCount(userRelationInfo.followers.length + 1);
+      setFollowersCount((prevState) => prevState + 1);
     } catch {
       toast.error("Ocorreu um erro ao seguir usuario. Tente novamente");
     }
@@ -166,6 +166,7 @@ export function useProfile() {
       });
 
       setIsLoggedUserFollowing(false);
+      setFollowersCount((prevState) => prevState - 1);
     } catch {
       toast.error(
         "Ocorreu um erro ao deixar de seguir usuario. Tente novamente",
