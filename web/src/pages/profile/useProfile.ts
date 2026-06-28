@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { toast } from "sonner";
 import { useLazyQuery, useMutation } from "@apollo/client/react";
 
+import { useStore } from "@/store/store";
 import { months } from "@/shared/constants/months";
 import {
   GetAllPostsByAuthorId,
@@ -63,35 +64,40 @@ export function useProfile() {
   const [isUnFollowUserModalOpen, setIsUnFollowUserModalOpen] = useState(false);
   const [userRelationInfo, setUserRelationInfo] = useState<UserRelationInfo>();
   const [followersCount, setFollowersCount] = useState(0);
+  const loggedUserId = useStore((state) => state.loggedUserId);
 
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
-      const [{ data: userProfileInfo }, { data: allPostsByAuthorId }] =
-        await Promise.all([
-          getUserProfileInfo({ variables: { userId: id } }),
-          getAllPostsByAuthorId({ variables: { authorId: id } }),
-        ]);
+      try {
+        const [{ data: userProfileInfo }, { data: allPostsByAuthorId }] =
+          await Promise.all([
+            getUserProfileInfo({ variables: { userId: id } }),
+            getAllPostsByAuthorId({ variables: { authorId: id } }),
+          ]);
 
-      if (userProfileInfo.getUserProfileInfo) {
-        const userCreatedAtMonth = new Date(
-          Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
-        ).getMonth();
-        const userCreatedAtYear = new Date(
-          Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
-        ).getFullYear();
+        if (userProfileInfo.getUserProfileInfo) {
+          const userCreatedAtMonth = new Date(
+            Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
+          ).getMonth();
+          const userCreatedAtYear = new Date(
+            Number(userProfileInfo.getUserProfileInfo.userInfo.createdAt),
+          ).getFullYear();
 
-        setUserInfo(() => ({
-          userInfo: {
-            bio: userProfileInfo.getUserProfileInfo.userInfo.bio,
-            name: userProfileInfo.getUserProfileInfo.userInfo.name,
-            createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
-          },
-          canEdit: userProfileInfo.getUserProfileInfo.canEdit,
-        }));
-      }
+          setUserInfo(() => ({
+            userInfo: {
+              bio: userProfileInfo.getUserProfileInfo.userInfo.bio,
+              name: userProfileInfo.getUserProfileInfo.userInfo.name,
+              createdAt: `${months[userCreatedAtMonth]} ${userCreatedAtYear}`,
+            },
+            canEdit: userProfileInfo.getUserProfileInfo.canEdit,
+          }));
+        }
 
-      if (allPostsByAuthorId.getAllPostsByAuthorId) {
-        setUserPostsInfo(allPostsByAuthorId);
+        if (allPostsByAuthorId.getAllPostsByAuthorId) {
+          setUserPostsInfo(allPostsByAuthorId);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 
@@ -101,6 +107,10 @@ export function useProfile() {
   useEffect(() => {
     async function checkisLoggedUserFollowing() {
       try {
+        if (id === loggedUserId) {
+          return;
+        }
+
         const { data: isLoggedUserFollowing } =
           await handleIsLoggedUserFollowing({
             variables: {
@@ -119,7 +129,7 @@ export function useProfile() {
     }
 
     checkisLoggedUserFollowing();
-  }, [handleIsLoggedUserFollowing, id]);
+  }, [handleIsLoggedUserFollowing, id, loggedUserId]);
 
   useEffect(() => {
     async function handleGetUserRelations() {
