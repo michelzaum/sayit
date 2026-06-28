@@ -62,6 +62,7 @@ export function useProfile() {
   const [isLoggedUserFollowing, setIsLoggedUserFollowing] = useState(false);
   const [isUnFollowUserModalOpen, setIsUnFollowUserModalOpen] = useState(false);
   const [userRelationInfo, setUserRelationInfo] = useState<UserRelationInfo>();
+  const [followersCount, setFollowersCount] = useState(0);
 
   useEffect(() => {
     async function handleGetUserInfoAndPosts() {
@@ -130,6 +131,7 @@ export function useProfile() {
         });
 
         setUserRelationInfo(data.getUserRelations);
+        setFollowersCount(data.getUserRelations.followers.length);
       } catch {
         toast.error(
           "Ocorreu um erro ao carregar dados de seguidores. Tente novamente",
@@ -149,6 +151,7 @@ export function useProfile() {
       });
 
       setIsLoggedUserFollowing(true);
+      setFollowersCount(userRelationInfo.followers.length + 1);
     } catch {
       toast.error("Ocorreu um erro ao seguir usuario. Tente novamente");
     }
@@ -187,6 +190,7 @@ export function useProfile() {
     userInfo,
     userPostsInfo,
     userRelationInfo,
+    followersCount,
     getUserProfileInfoLoading,
     getAllPostsByAuthorIdLoading,
     getUserRelationsLoading,

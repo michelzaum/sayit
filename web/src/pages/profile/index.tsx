@@ -21,6 +21,7 @@ export function Profile() {
     userInfo,
     userPostsInfo,
     userRelationInfo,
+    followersCount,
     getUserProfileInfoLoading,
     getAllPostsByAuthorIdLoading,
     getUserRelationsLoading,
@@ -85,9 +86,7 @@ export function Profile() {
                   type="button"
                   className="flex flex-col items-center gap-2 hover:cursor-pointer"
                 >
-                  <span className="font-bold">
-                    {userRelationInfo.followers.length}
-                  </span>
+                  <span className="font-bold">{followersCount}</span>
                   <span>Seguidores</span>
                 </button>
                 <button
