@@ -47,7 +47,10 @@ await server.start();
 
 app.use(
   "/",
-  cors<cors.CorsRequest>(),
+  cors<cors.CorsRequest>({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
