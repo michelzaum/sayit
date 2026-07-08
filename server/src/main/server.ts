@@ -48,7 +48,7 @@ await server.start();
 app.use(
   "/",
   cors<cors.CorsRequest>({
-    origin: "http://localhost:5173",
+    origin: "https://sayit-production-58e6.up.railway.app/",
     credentials: true,
   }),
   express.json(),
