@@ -2,7 +2,6 @@ import { prismaClient } from "@/database/prisma/client";
 
 import { Follower } from "../entities/Follower";
 import { IFollowerRepository } from "./IFollowerRepository";
-import { log } from "node:console";
 
 export class FollowerRepository implements IFollowerRepository {
   async startFollow(
@@ -51,5 +50,22 @@ export class FollowerRepository implements IFollowerRepository {
         userFollowedId: true,
       },
     });
+  }
+
+  async getUserRelations(userId: string): Promise<any> {
+    const following = await prismaClient.follower.findMany({
+      where: { followedByUserId: userId },
+      select: { userFollowedId: true },
+    });
+
+    const followers = await prismaClient.follower.findMany({
+      where: { userFollowedId: userId },
+      select: { followedByUserId: true },
+    });
+
+    return {
+      following,
+      followers,
+    };
   }
 }

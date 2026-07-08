@@ -6,21 +6,18 @@ import {
   InMemoryCache,
   ApolloLink,
 } from "@apollo/client";
-import {
-  CombinedGraphQLErrors,
-  ServerError,
-} from "@apollo/client/errors";
+import { CombinedGraphQLErrors, ServerError } from "@apollo/client/errors";
 import { ErrorLink } from "@apollo/client/link/error";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000/",
+  uri: "https://sayit-production-4398.up.railway.app/",
   credentials: "include",
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://localhost:4000/",
+    url: "ws://sayit-production-4398.up.railway.app/",
     webSocketImpl: WebSocket,
   }),
 );
@@ -36,8 +33,8 @@ const splitLink = ApolloLink.split(
 const errorLink = new ErrorLink(({ error }) => {
   if (CombinedGraphQLErrors.is(error)) {
     error.errors.forEach(({ extensions }) => {
-      if (extensions?.code === 'UNAUTHENTICATED') {
-        window.location.href = '/sign-in';
+      if (extensions?.code === "UNAUTHENTICATED") {
+        window.location.href = "/sign-in";
       }
     });
   } else if (ServerError.is(error)) {

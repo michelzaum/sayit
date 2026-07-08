@@ -4,6 +4,10 @@ type IsLoggedUserFollowingUserProfileIdArgs = {
   userProfileId: string;
 };
 
+type GetUserRelationsArgs = {
+  userId: string;
+};
+
 export const followQuery = {
   isLoggedUserFollowingUserProfileId: async (
     _,
@@ -20,5 +24,14 @@ export const followQuery = {
       userProfileId,
       id,
     );
+  },
+  getUserRelations: async (
+    _,
+    args: GetUserRelationsArgs,
+    { getUserRelationsUseCase }: IContainer,
+  ) => {
+    const { userId } = args;
+
+    return await getUserRelationsUseCase.execute(userId);
   },
 };

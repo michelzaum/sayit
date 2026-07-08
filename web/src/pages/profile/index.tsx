@@ -20,8 +20,11 @@ export function Profile() {
     isUnFollowUserModalOpen,
     userInfo,
     userPostsInfo,
+    userRelationInfo,
+    followersCount,
     getUserProfileInfoLoading,
     getAllPostsByAuthorIdLoading,
+    getUserRelationsLoading,
     handleIsLoggedUserFollowingLoading,
     closeUnFollowUserModal,
     handleUnFollowUser,
@@ -29,7 +32,12 @@ export function Profile() {
     openUnFollowUserModal,
   } = useProfile();
 
-  if (!userInfo || !userPostsInfo || !userPostsInfo.getAllPostsByAuthorId) {
+  if (
+    !userInfo ||
+    !userPostsInfo ||
+    !userPostsInfo.getAllPostsByAuthorId ||
+    !userRelationInfo
+  ) {
     return (
       <div className="flex flex-col gap-4 items-center justify-center p-10">
         <Loader size={24} className="animate-spin" />
@@ -42,6 +50,7 @@ export function Profile() {
     <>
       {getUserProfileInfoLoading ||
       getAllPostsByAuthorIdLoading ||
+      getUserRelationsLoading ||
       handleIsLoggedUserFollowingLoading ? (
         <div className="flex flex-col gap-4 items-center justify-center p-10">
           <Loader size={24} className="animate-spin" />
@@ -71,6 +80,24 @@ export function Profile() {
                 <span className="text-sm text-gray-400">
                   Membro desde {userInfo.userInfo.createdAt}
                 </span>
+              </div>
+              <div className="flex items-center gap-14 py-4">
+                <button
+                  type="button"
+                  className="flex flex-col items-center gap-2 hover:cursor-pointer"
+                >
+                  <span className="font-bold">{followersCount}</span>
+                  <span>Seguidores</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex flex-col items-center gap-2 hover:cursor-pointer"
+                >
+                  <span className="font-bold">
+                    {userRelationInfo.following.length}
+                  </span>
+                  <span>Seguindo</span>
+                </button>
               </div>
               {!userInfo.canEdit && (
                 <Follow

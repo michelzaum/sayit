@@ -47,7 +47,10 @@ await server.start();
 
 app.use(
   "/",
-  cors<cors.CorsRequest>(),
+  cors<cors.CorsRequest>({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
@@ -87,13 +90,14 @@ app.use(
         stopFollowingUseCase: container.stopFollowingUseCase,
         isLoggedUserFollowingUserProfileIdUseCase:
           container.isLoggedUserFollowingUserProfileIdUseCase,
+        getUserRelationsUseCase: container.getUserRelationsUseCase,
       };
     },
   }),
 );
 
 await new Promise<void>((resolve) =>
-  httpServer.listen({ port: 4000 }, resolve),
+  httpServer.listen({ port: process.env.PORT || 4000 }, resolve),
 );
 
-console.log("Server ready at http://localhost:4000");
+console.log(`Server ready at http://localhost:${process.env.PORT || 4000}`);
