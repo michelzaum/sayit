@@ -45,12 +45,14 @@ const server = new ApolloServer<IContainer>({
 
 await server.start();
 
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  credentials: true,
+};
+
 app.use(
   "/",
-  cors<cors.CorsRequest>({
-    origin: "https://sayit-production-58e6.up.railway.app/",
-    credentials: true,
-  }),
+  cors<cors.CorsRequest>(corsOptions),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
