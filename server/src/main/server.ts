@@ -51,7 +51,7 @@ const corsOptions = {
 };
 
 app.use(
-  "/",
+  "/graphql",
   cors<cors.CorsRequest>(corsOptions),
   express.json(),
   expressMiddleware(server, {

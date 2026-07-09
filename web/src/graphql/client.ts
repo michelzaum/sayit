@@ -11,13 +11,13 @@ import { ErrorLink } from "@apollo/client/link/error";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 
 const httpLink = new HttpLink({
-  uri: "https://sayit-production-4398.up.railway.app/",
+  uri: "https://sayit-production-4398.up.railway.app/graphql",
   credentials: "include",
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: "ws://sayit-production-4398.up.railway.app/",
+    url: "wss://sayit-production-4398.up.railway.app/graphql",
     webSocketImpl: WebSocket,
   }),
 );
