@@ -43,6 +43,8 @@ const server = new ApolloServer<IContainer>({
   ],
 });
 
+await server.start();
+
 const corsOptions = {
   origin: process.env.FRONTEND_URL || "http://localhost:5173",
   credentials: true,
@@ -95,8 +97,6 @@ app.use(
     },
   }),
 );
-
-await server.start();
 
 await new Promise<void>((resolve) =>
   httpServer.listen({ port: process.env.PORT || 4000 }, resolve),
