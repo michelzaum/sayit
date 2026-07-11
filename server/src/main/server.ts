@@ -22,7 +22,7 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const wsServer = new WebSocketServer({
   server: httpServer,
-  path: "",
+  path: "/graphql",
 });
 
 const serverCleanup = useServer({ schema }, wsServer);
@@ -50,22 +50,9 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use((req, _, next) => {
-  console.log("Origin:", req.headers.origin);
-  next();
-});
-
 app.use(
   "/graphql",
-  // cors<cors.CorsRequest>(corsOptions),
-  cors({
-    origin(origin, callback) {
-      console.log("CORS origin:", origin);
-
-      callback(null, true);
-    },
-    credentials: true,
-  }),
+  cors<cors.CorsRequest>(corsOptions),
   express.json(),
   expressMiddleware(server, {
     context: async ({ req, res }) => {
